@@ -14,6 +14,8 @@ export const Container = styled.div<Props>`
       height: ${height};
 
       visibility: ${isShow ? 'visible' : 'hidden'};
+
+      cursor: pointer;
     `;
   }}
 `;
