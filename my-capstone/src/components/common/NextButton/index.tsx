@@ -15,9 +15,10 @@ export function NextButton({ width, height, onClick, isShow = true }: NextButton
           <path
             d="M17 36L29 24L17 12"
             stroke="#002C5F"
-            strokeOpacity="0.6"
+            strokeOpacity="1"
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth="2"
           />
         </g>
         <defs>

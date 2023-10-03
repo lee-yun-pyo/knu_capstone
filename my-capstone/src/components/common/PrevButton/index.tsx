@@ -15,9 +15,10 @@ export function PrevButton({ width, height, onClick, isShow = true }: PrevProps)
           <path
             d="M31 36L19 24L31 12"
             stroke="#002C5F"
-            strokeOpacity="0.6"
+            strokeOpacity="1"
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth="2"
           />
         </g>
         <defs>

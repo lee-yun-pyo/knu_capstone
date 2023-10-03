@@ -12,10 +12,20 @@ export const Container = styled.div<Props>`
     return css`
       width: ${width};
       height: ${height};
+      right: 0;
+
+      position: absolute;
 
       visibility: ${isShow ? 'visible' : 'hidden'};
+      z-index: 1;
 
+      border-radius: 50%;
+
+      transition: all 0.1s ease-in-out;
       cursor: pointer;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.4);
+      }
     `;
   }}
 `;
