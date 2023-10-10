@@ -22,7 +22,9 @@ export const Title = styled.span`
   font-size: 17px;
 `;
 
-export const SortButton = styled.div``;
+export const SortButton = styled.button`
+  font-size: 15px;
+`;
 
 export const UserWrapper = styled.div`
   height: 200px;
