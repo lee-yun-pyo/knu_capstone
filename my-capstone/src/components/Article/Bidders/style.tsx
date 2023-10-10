@@ -1,4 +1,9 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+interface SortButtonProps {
+  isSelect: boolean;
+}
 
 export const Container = styled.div`
   width: 550px;
@@ -14,6 +19,7 @@ export const TitleWrapper = styled.div`
   margin-bottom: 25px;
 
   display: flex;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -22,8 +28,25 @@ export const Title = styled.span`
   font-size: 17px;
 `;
 
-export const SortButton = styled.button`
-  font-size: 15px;
+export const ButtonBox = styled.div`
+  gap: 10px;
+
+  display: flex;
+  align-items: center;
+`;
+
+export const SortButton = styled.button<SortButtonProps>`
+  ${({ isSelect }) => {
+    return css`
+      padding: 6px 8px;
+
+      font-size: 15px;
+      color: ${isSelect ? '#fff' : '#000'};
+
+      border-radius: 999px;
+      background-color: ${isSelect ? '#27AE60' : '#e5e5e5'};
+    `;
+  }}
 `;
 
 export const UserWrapper = styled.div`
