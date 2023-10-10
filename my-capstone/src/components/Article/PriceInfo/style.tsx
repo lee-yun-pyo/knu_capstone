@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -6,12 +7,19 @@ export const Container = styled.div`
   gap: 10px;
 
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 
   border-radius: 15px;
 `;
 
-export const RangePriceBox = styled.div`
+export const Wrapper = styled.div`
+  width: 100%;
+  gap: 10px;
+
+  display: flex;
+`;
+
+export const Box = styled.div`
   width: 100%;
   padding: 15px;
   gap: 10px;
@@ -19,22 +27,30 @@ export const RangePriceBox = styled.div`
   display: flex;
   flex-direction: column;
 
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #f2f4f6;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
 `;
 
 export const TitleText = styled.span`
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
   color: #868e96;
 `;
 
 export const InfoText = styled.span`
-  font-size: 12px;
+  font-size: 13px;
 `;
 
-export const Price = styled.span`
-  font-size: 18px;
-  font-weight: 600;
+interface PriceProps {
+  type: string;
+}
+
+export const Price = styled.span<PriceProps>`
+  ${({ type }) => {
+    return css`
+      font-size: 22px;
+      font-weight: 600;
+      color: ${type === 'low' ? '#3983F6' : type === 'upper' ? '#ee4638' : '#000'};
+    `;
+  }}
 `;
