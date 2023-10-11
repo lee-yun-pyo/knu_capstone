@@ -6,10 +6,10 @@ interface Props {
   low: number;
   upper: number;
   current: number;
-  uploadDate: string;
+  deadLineTime: string;
 }
 
-export function PriceInfo({ low, upper, current, uploadDate }: Props) {
+export function PriceInfo({ low, upper, current, deadLineTime }: Props) {
   return (
     <S.Container>
       <S.Wrapper>
@@ -35,7 +35,7 @@ export function PriceInfo({ low, upper, current, uploadDate }: Props) {
         </S.Box>
         <S.Box>
           <S.TitleText>남은 시간</S.TitleText>
-          <Timer uploadDate={uploadDate} />
+          <Timer deadLineTime={deadLineTime} />
         </S.Box>
       </S.Wrapper>
     </S.Container>

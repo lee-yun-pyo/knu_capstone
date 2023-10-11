@@ -1,29 +1,30 @@
 import { useState, useEffect } from 'react';
 
-import { convertToTwoDigits, getLeftTime } from '@/utils';
-
-import * as S from './style';
 import { ClockIcon } from '@/components/common/ClockIcon';
 
+import { getLeftTimeByUnit, getTimeToNumber } from '@/utils';
+
+import * as S from './style';
+
 interface Props {
-  uploadDate: string;
+  deadLineTime: string;
 }
 
-export function Timer({ uploadDate }: Props) {
-  const [seconds, setSeconds] = useState('');
+export function Timer({ deadLineTime }: Props) {
+  const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('');
+  const [seconds, setSeconds] = useState('');
 
   useEffect(() => {
-    const targetTime = getLeftTime(uploadDate);
-    const timerInterval = setInterval(function () {
+    const targetTime = getTimeToNumber(deadLineTime);
+    const timerInterval = setInterval(() => {
       const now = new Date().getTime();
       const timeDiff = targetTime - now;
 
-      const leftMinutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const leftSeconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+      setHours(getLeftTimeByUnit('hours', timeDiff));
+      setMinutes(getLeftTimeByUnit('minutes', timeDiff));
+      setSeconds(getLeftTimeByUnit('seconds', timeDiff));
 
-      setMinutes(convertToTwoDigits(leftMinutes - 1));
-      setSeconds(convertToTwoDigits(leftSeconds));
       if (timeDiff < 0) {
         clearInterval(timerInterval);
       }
@@ -32,7 +33,7 @@ export function Timer({ uploadDate }: Props) {
     return () => {
       clearInterval(timerInterval);
     };
-  }, [uploadDate]);
+  }, [deadLineTime]);
 
   return (
     <S.Container>
@@ -40,9 +41,11 @@ export function Timer({ uploadDate }: Props) {
       {parseInt(minutes) < 0 ? (
         <S.Text>마감</S.Text>
       ) : (
-        <S.Time>
-          {minutes}:{seconds}
-        </S.Time>
+        hours !== '' && (
+          <S.Time>
+            {hours}:{minutes}:{seconds}
+          </S.Time>
+        )
       )}
     </S.Container>
   );

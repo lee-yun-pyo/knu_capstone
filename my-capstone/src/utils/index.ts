@@ -21,11 +21,25 @@ export function formatDate(inputDate: string) {
     return `${year}년 ${month}월 ${day}일`;
 }
 
-export function getLeftTime(inputDate: string) {
-    const LEFT_TIME = 30;
-    const targetTime = new Date(inputDate).getTime() + LEFT_TIME * 60 * 1000;
-    
-    return targetTime;
+export function getTimeToNumber(inputDate: string) {
+    return new Date(inputDate).getTime();
+}
+
+type Unit = "hours" | "minutes" | "seconds";
+export function getLeftTimeByUnit(unit: Unit, diff: number) {
+    let result = -1;
+    switch (unit) {
+    case "hours":
+        result +=  Math.floor((diff % (1000 * 60 * 60 * 60)) / (1000 * 60 * 60));
+        break;
+    case "minutes":
+        result +=  Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        break;
+    case "seconds":
+        result += Math.floor((diff % (1000 * 60)) / 1000);
+        break;
+    }
+    return convertToTwoDigits(result);
 }
 
 export function convertToTwoDigits(index: number) {
