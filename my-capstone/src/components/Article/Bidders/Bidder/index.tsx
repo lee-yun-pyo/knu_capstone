@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function Bidder({ profileImage, name, bidDate, bidPrice }: Props) {
-  const daysAgo = calculateDaysAgo(bidDate);
+  const timeAgo = calculateDaysAgo(bidDate);
 
   return (
     <S.Container>
@@ -18,7 +18,7 @@ export function Bidder({ profileImage, name, bidDate, bidPrice }: Props) {
         <S.ProfileImage src={profileImage} />
         <S.InfoTextBox>
           <S.UserName>{name}</S.UserName>
-          <S.BidDate>{daysAgo}</S.BidDate>
+          <S.BidDate>{timeAgo}</S.BidDate>
         </S.InfoTextBox>
       </S.InfoWrapper>
       <S.InfoText>

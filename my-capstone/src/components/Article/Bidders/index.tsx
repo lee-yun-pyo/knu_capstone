@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { sortType } from '@/constants';
+import { SORT_TYPE } from '@/constants';
 
 import { Bidder } from './Bidder';
 
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export function Bidders({ bidders }: Props) {
-  const [sorted, setSorted] = useState(sortType[0]);
+  const [sorted, setSorted] = useState(SORT_TYPE[0]);
   const [sortedBidders, setSortedBidders] = useState([...bidders]);
 
   const changeSorted = (sortType: string) => {
@@ -26,9 +26,9 @@ export function Bidders({ bidders }: Props) {
   };
 
   useEffect(() => {
-    if (sorted === sortType[0]) {
+    if (sorted === SORT_TYPE[0]) {
       setSortedBidders([...bidders].sort((a, b) => new Date(b.bidDate).getTime() - new Date(a.bidDate).getTime()));
-    } else if (sorted === sortType[1]) {
+    } else if (sorted === SORT_TYPE[1]) {
       setSortedBidders([...bidders].sort((a, b) => b.bidPrice - a.bidPrice));
     }
   }, [sorted]);
@@ -38,7 +38,7 @@ export function Bidders({ bidders }: Props) {
       <S.TitleWrapper>
         <S.Title>입찰 목록</S.Title>
         <S.ButtonBox>
-          {sortType.map((type, index) => (
+          {SORT_TYPE.map((type, index) => (
             <S.SortButton key={index} isSelect={sorted === type} onClick={() => changeSorted(type)}>
               {type}
             </S.SortButton>
