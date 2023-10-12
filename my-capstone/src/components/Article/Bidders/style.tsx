@@ -44,7 +44,7 @@ export const SortButton = styled.button<SortButtonProps>`
       color: ${isSelect ? '#fff' : '#000'};
 
       border-radius: 999px;
-      background-color: ${isSelect ? '#27AE60' : '#e5e5e5'};
+      background-color: ${isSelect ? '#17B75E' : '#e5e5e5'};
     `;
   }}
 `;
