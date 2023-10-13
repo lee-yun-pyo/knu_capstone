@@ -2,7 +2,7 @@ const connection = require('../dbConfig');
 
 const broccoliCtrl = {
     getBroccoli : async(req, res)=>{
-        connection.query('SELECT * FROM broccoli.board', (error, rows)=>{
+        connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
             if(error) throw error;
             res.send(rows);
         })
@@ -48,7 +48,6 @@ const broccoliCtrl = {
                 ${product_image}
             );`
         }
-        
 
         connection.query(
             sql, (error, rows)=>{
@@ -56,7 +55,14 @@ const broccoliCtrl = {
                 res.send(rows)
             }
         )
-    }
+    },
+    getlog : async(req, res)=>{
+        const {board_id} = req.body;
+        connection.query(`SELECT * FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
+            if(error) throw error;
+            res.send(rows);
+        })
+    },
 }
 
 module.exports = broccoliCtrl;
