@@ -6,6 +6,56 @@ const broccoliCtrl = {
             if(error) throw error;
             res.send(rows);
         })
+    },
+
+    insertBroccoli : async(req, res) => {
+        const {store_name, store_location, product_name, product_description,
+        current_price, upper_limit, lower_limit, like_count, start_time, end_time, product_image}
+        = req.body;
+
+        let sql=``;
+        if(start_time == null){
+            sql = `INSERT INTO broccoli.board
+            VALUES(
+                default,
+                '${store_name}', 
+                '${store_location}',
+                '${product_name}',
+                '${product_description}',
+                ${current_price},
+                ${upper_limit},
+                ${lower_limit},
+                ${like_count},
+                default,
+                '${end_time}',
+                ${product_image}
+            );`
+        }
+        else{
+            sql = `INSERT INTO broccoli.board
+            VALUES(
+                default,
+                '${store_name}', 
+                '${store_location}',
+                '${product_name}',
+                '${product_description}',
+                ${current_price},
+                ${upper_limit},
+                ${lower_limit},
+                ${like_count},
+                '${start_time}',
+                '${end_time}',
+                ${product_image}
+            );`
+        }
+        
+
+        connection.query(
+            sql, (error, rows)=>{
+                if(error) throw error;
+                res.send(rows)
+            }
+        )
     }
 }
 

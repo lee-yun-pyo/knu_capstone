@@ -15,4 +15,4 @@ app.listen(port, ()=>{
     console.log("server", port)
 })
 
-app.use('/api/broccoli', require('./routes/broccoliRouter'))
+app.use('/api/broccoli', require('./routes/broccoliRouter'));
