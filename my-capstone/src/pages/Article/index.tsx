@@ -1,7 +1,11 @@
+import { useState } from 'react';
+
 import { Bidders } from '@/components/Article/Bidders';
 import { Description } from '@/components/Article/Description';
 import { ItemImage } from '@/components/Article/ItemImage';
 import { PriceInfo } from '@/components/Article/PriceInfo';
+import { BidButton } from '@/components/Article/BidButton';
+import { ModalPortal } from '@/components/common/ModalPortal';
 
 import * as S from './style';
 
@@ -18,7 +22,7 @@ export function Article() {
     location: '서울 노원구',
     registerDate: '2023-10-09 16:44:0',
     description: '브레드 팜',
-    deadLineTime: '2023-10-11 17:50:00',
+    deadLineTime: '2023-10-13 21:00:00',
   };
 
   const priceObj = {
@@ -55,6 +59,10 @@ export function Article() {
     },
   ];
 
+  const [showModal, setShowModal] = useState(false);
+  const handleClick = () => setShowModal(true);
+  const removeModal = () => setShowModal(false);
+
   return (
     <S.Container>
       <ItemImage images={imageArray} />
@@ -66,6 +74,10 @@ export function Article() {
         deadLineTime={titleObj.deadLineTime}
       />
       <Bidders bidders={bidders} />
+      <BidButton deadLineTime={titleObj.deadLineTime} onClick={handleClick} />
+      {showModal && (
+        <ModalPortal props={{ onClick: removeModal, lowPrice: priceObj.lowPrice, upperPrice: priceObj.upperPrice }} />
+      )}
     </S.Container>
   );
 }
