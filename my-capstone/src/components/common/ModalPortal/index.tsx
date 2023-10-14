@@ -10,6 +10,7 @@ interface Props {
     onClick: () => void;
     lowPrice: number;
     upperPrice: number;
+    itemImage: string;
   };
 }
 

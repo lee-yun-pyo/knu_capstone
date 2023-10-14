@@ -22,7 +22,7 @@ export function Article() {
     location: '서울 노원구',
     registerDate: '2023-10-09 16:44:0',
     description: '브레드 팜',
-    deadLineTime: '2023-10-13 21:00:00',
+    deadLineTime: '2023-10-14 24:00:00',
   };
 
   const priceObj = {
@@ -76,7 +76,14 @@ export function Article() {
       <Bidders bidders={bidders} />
       <BidButton deadLineTime={titleObj.deadLineTime} onClick={handleClick} />
       {showModal && (
-        <ModalPortal props={{ onClick: removeModal, lowPrice: priceObj.lowPrice, upperPrice: priceObj.upperPrice }} />
+        <ModalPortal
+          props={{
+            onClick: removeModal,
+            itemImage: imageArray[0],
+            lowPrice: priceObj.lowPrice,
+            upperPrice: priceObj.upperPrice,
+          }}
+        />
       )}
     </S.Container>
   );

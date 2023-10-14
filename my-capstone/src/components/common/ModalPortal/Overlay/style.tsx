@@ -6,9 +6,7 @@ export const Container = styled.div`
   bottom: 0;
   right: 0;
 
-  height: 100%;
+  position: fixed;
 
-  position: absolute;
-
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(50, 50, 50, 0.88);
 `;
