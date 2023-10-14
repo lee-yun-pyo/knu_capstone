@@ -8,4 +8,5 @@ router.route('/')
 
 router.route('/log')
     .get(broccoliCtrl.getlog)
+    .post(broccoliCtrl.insertlog)
 module.exports=router;

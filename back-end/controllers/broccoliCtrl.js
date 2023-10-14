@@ -52,7 +52,7 @@ const broccoliCtrl = {
         connection.query(
             sql, (error, rows)=>{
                 if(error) throw error;
-                res.send(rows)
+                res.send(rows);
             }
         )
     },
@@ -63,6 +63,26 @@ const broccoliCtrl = {
             res.send(rows);
         })
     },
+
+    insertlog : async(req, res)=>{
+        const {user, profile, price, board_id} = req.body;
+        const sql = `INSERT INTO broccoli.auction_log
+        VALUES(
+            default,
+            '${user}',
+            ${profile},
+            default,
+            ${price},
+            ${board_id}
+        );`
+
+        connection.query(
+            sql, (error, rows) =>{
+                if(error) throw error;
+                res.send(rows);
+            }
+        )
+    }
 }
 
 module.exports = broccoliCtrl;
