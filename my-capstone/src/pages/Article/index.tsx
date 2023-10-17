@@ -49,7 +49,7 @@ export function Article() {
       name: '사용자3',
       profileImage: 'https://cdn-icons-png.flaticon.com/512/3177/3177440.png',
       bidDate: '2023-10-10 18:46:0',
-      bidPrice: 5000,
+      bidPrice: 7000,
     },
     {
       name: '사용자4',
