@@ -183,3 +183,9 @@ export const BidButton = styled.button`
     background-color: rgba(0, 119, 237, 0.3);
   }
 `;
+
+export const ModalInfoText = styled.p`
+  font-size: 13px;
+  font-weight: 600;
+  color: #868e96;
+`;

@@ -89,6 +89,7 @@ export function Modal({ props }: Props) {
           </S.PriceInfo>
         </S.PriceInfoBox>
       </S.ItemInfoWrapper>
+      <S.ModalInfoText>입찰가의 최소 단위는 100원입니다</S.ModalInfoText>
       <S.Form>
         <S.InputBox>
           <S.InputText
