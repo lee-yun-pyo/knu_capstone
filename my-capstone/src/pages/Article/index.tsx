@@ -22,7 +22,7 @@ export function Article() {
     location: '서울 노원구',
     registerDate: '2023-10-09 16:44:0',
     description: '브레드 팜',
-    deadLineTime: '2023-10-14 24:00:00',
+    deadLineTime: '2023-10-17 24:00:00',
   };
 
   const priceObj = {
