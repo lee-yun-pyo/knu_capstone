@@ -1,6 +1,5 @@
-import { FlatList, Image, Pressable, Text, View } from "react-native";
-
-import { Item } from "../../components/HomeItem";
+import { FlatList, View } from "react-native";
+import { HomeItem } from "components/HomeItem";
 
 import { styles } from "./style";
 
@@ -40,7 +39,7 @@ export function Home() {
     <View style={styles.container}>
       <FlatList
         data={Data}
-        renderItem={({ item }) => <Item props={item} />}
+        renderItem={({ item }) => <HomeItem props={item} />}
       ></FlatList>
     </View>
   );

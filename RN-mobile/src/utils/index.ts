@@ -1,4 +1,4 @@
-import { TIME_UNITS } from "../constants";
+import { TIME_UNITS } from "constants";
 
 export function calculateDaysAgo(inputDate: string) {
     const now = new Date().getTime();

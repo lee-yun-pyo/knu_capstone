@@ -3,7 +3,7 @@ import { View, Image, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-import { calculateDaysAgo } from "../../utils";
+import { calculateDaysAgo } from "utils";
 
 import { styles } from "./style";
 
@@ -24,7 +24,7 @@ interface Props {
   };
 }
 
-export function Item({ props }: Props) {
+export function HomeItem({ props }: Props) {
   const {
     product_name,
     store_location,

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-import { Home } from "./src/screens/Home";
+import { Home } from "screens/Home";
 
 export default function App() {
   return (
