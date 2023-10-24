@@ -1,11 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  press: {
+    borderRadius: 8,
+  },
   container: {
     flex: 1,
     flexDirection: "row",
     gap: 10,
     paddingVertical: 10,
+    paddingHorizontal: 5,
     borderStyle: "solid",
     borderColor: "#E2E2E2",
     borderBottomWidth: 1,
