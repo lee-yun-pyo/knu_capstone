@@ -5,6 +5,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
+    paddingVertical: 13,
+    borderStyle: "solid",
+    borderColor: "#E2E2E2",
+    borderBottomWidth: 1,
   },
   profileImage: {
     width: 50,
