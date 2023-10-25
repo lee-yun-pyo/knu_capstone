@@ -1,8 +1,11 @@
 import { View, Image, Text, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
+import { RootStackParamList } from "types";
 import { calculateDaysAgo } from "utils";
 
 import { styles } from "./style";
@@ -24,7 +27,10 @@ interface Props {
   };
 }
 
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
+
 export function HomeItem({ props }: Props) {
+  const navigation = useNavigation<HomeScreenProps["navigation"]>();
   const {
     product_name,
     store_location,
@@ -34,14 +40,18 @@ export function HomeItem({ props }: Props) {
   } = props;
 
   const daysAgo = calculateDaysAgo(start_time);
+
+  const handleItemPress = () => {
+    navigation.navigate("Detail");
+  };
   return (
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? "#f0f5f0" : "white",
+          backgroundColor: pressed ? "#F2F4F6" : "white",
         },
-        styles.press,
       ]}
+      onPress={handleItemPress}
     >
       <View style={styles.container}>
         <Image
