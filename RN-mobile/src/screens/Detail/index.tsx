@@ -41,7 +41,7 @@ export function Detail() {
         <Profile storeName={store_name} location={store_location} />
         <Description
           title={product_name}
-          date={start_time}
+          registerDate={start_time}
           description={product_description}
         />
         <Price
