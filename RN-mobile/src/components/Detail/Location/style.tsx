@@ -19,8 +19,9 @@ export const styles = StyleSheet.create({
     fontSize: 15,
   },
   location: {
-    backgroundColor: "skyblue",
     height: "100%",
+    borderRadius: 8,
+    overflow: "hidden",
   },
   mapImage: {
     width: "100%",

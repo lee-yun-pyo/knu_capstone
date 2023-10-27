@@ -5,3 +5,5 @@ export const TIME_UNITS = {
     seconds: 60,
     millisecond: 1000
 };
+
+export const REGION_DELTA = 0.01;

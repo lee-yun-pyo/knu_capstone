@@ -1,24 +1,28 @@
 import MapView, { Marker } from "react-native-maps";
+import { useRoute } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { RootStackParamList } from "types";
+import { REGION_DELTA } from "constants";
 
 import { styles } from "./style";
 
-interface Props {
-  latitude: number;
-  longitude: number;
-}
+type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 
-export function Map({ latitude, longitude }: Props) {
+export function Map() {
+  const route = useRoute<MapScreenProps["route"]>();
+  const { latitude, longitude, storeName } = route.params;
   const region = {
     latitude,
     longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitudeDelta: REGION_DELTA,
+    longitudeDelta: REGION_DELTA,
   };
 
   return (
     <MapView initialRegion={region} style={styles.container}>
       <Marker
-        title="가게이름"
+        title={storeName}
         coordinate={{ latitude: region.latitude, longitude: region.longitude }}
       />
     </MapView>

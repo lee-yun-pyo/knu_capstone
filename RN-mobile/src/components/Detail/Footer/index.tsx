@@ -7,7 +7,11 @@ import { Etc } from "constants/color";
 
 import { styles } from "./style";
 
-export function Footer() {
+interface Props {
+  currentPrice: number;
+}
+
+export function Footer({ currentPrice }: Props) {
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
   const handleClickLike = () => {
     Haptics.selectionAsync();
@@ -24,7 +28,7 @@ export function Footer() {
         </Pressable>
         <View style={styles.textView}>
           <Text style={styles.title}>현재가</Text>
-          <Text style={styles.price}>3600원</Text>
+          <Text style={styles.price}>{currentPrice.toLocaleString()}원</Text>
         </View>
       </View>
       <View style={styles.bidButton}>

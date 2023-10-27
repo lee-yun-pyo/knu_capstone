@@ -24,6 +24,8 @@ interface Props {
     start_time: string;
     end_time: string;
     product_image: string[];
+    latitude: number;
+    longitude: number;
   };
 }
 
@@ -42,7 +44,7 @@ export function HomeItem({ props }: Props) {
   const daysAgo = calculateDaysAgo(start_time);
 
   const handleItemPress = () => {
-    navigation.navigate("Detail");
+    navigation.navigate("Detail", { info: props });
   };
   return (
     <Pressable
