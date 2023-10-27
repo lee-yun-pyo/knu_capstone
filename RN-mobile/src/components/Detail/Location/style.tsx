@@ -22,4 +22,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "skyblue",
     height: "100%",
   },
+  mapImage: {
+    width: "100%",
+    height: "100%",
+  },
 });
