@@ -47,7 +47,7 @@ export function Detail() {
         <Price
           startPrice={lower_limit}
           upperPrice={upper_limit}
-          limitTime={end_time}
+          deadLineTime={end_time}
         />
         <Location
           latitude={latitude}

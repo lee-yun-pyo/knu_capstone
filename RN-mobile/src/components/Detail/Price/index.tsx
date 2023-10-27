@@ -1,14 +1,15 @@
 import { View, Text } from "react-native";
 
 import { styles } from "./style";
+import { Timer } from "../Timer";
 
 interface Props {
   startPrice: number;
   upperPrice: number;
-  limitTime: string;
+  deadLineTime: string;
 }
 
-export function Price({ startPrice, upperPrice, limitTime }: Props) {
+export function Price({ startPrice, upperPrice, deadLineTime }: Props) {
   return (
     <View style={styles.container}>
       <View style={[styles.wrapper, { flex: 2 }]}>
@@ -18,10 +19,7 @@ export function Price({ startPrice, upperPrice, limitTime }: Props) {
           {startPrice.toLocaleString()} - {upperPrice.toLocaleString()}
         </Text>
       </View>
-      <View style={[styles.wrapper, { flex: 1 }]}>
-        <Text style={styles.subTitle}>남은 시간</Text>
-        <Text style={styles.leftTime}>20:23:12</Text>
-      </View>
+      <Timer deadLineTime={deadLineTime} />
     </View>
   );
 }

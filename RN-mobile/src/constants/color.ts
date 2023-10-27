@@ -15,3 +15,7 @@ export const Border = {
 export const Etc = {
     LIKE: "#F14B58",
 }
+
+export const Skeleton = {
+    BG_GRAY: "#f1f3f5",
+}
