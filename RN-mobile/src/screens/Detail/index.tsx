@@ -2,6 +2,7 @@ import { ScrollView, View, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { ItemImages } from "components/Detail/ItemImages";
 import { Profile } from "components/Detail/Profile";
 import { Price } from "components/Detail/Price";
 import { Description } from "components/Detail/Description";
@@ -33,11 +34,8 @@ export function Detail() {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView style={styles.container}>
-        <Image
-          source={require("../../../assets/user2.png")}
-          style={styles.itemImage}
-        />
+      <ScrollView contentContainerStyle={styles.container} bounces={false}>
+        <ItemImages imageArray={product_image} />
         <Profile storeName={store_name} location={store_location} />
         <Description
           title={product_name}

@@ -1,13 +1,10 @@
 import { StyleSheet } from "react-native";
+import { THEME_PADDING } from "constants";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    flex: 1,
-  },
-  itemImage: {
-    width: "100%",
-    borderRadius: 8,
+    paddingTop: THEME_PADDING,
+    paddingBottom: THEME_PADDING + 10,
+    paddingHorizontal: THEME_PADDING,
   },
 });
