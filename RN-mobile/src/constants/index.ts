@@ -13,3 +13,5 @@ export const REGION_DELTA = 0.01;
 export const THEME_PADDING = 15;
 
 export const { width: WINDOW_WIDTH } = Dimensions.get('window');
+
+export const WON_SYMBOL = '\u20a9';

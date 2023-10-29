@@ -23,4 +23,9 @@ export type RootStackParamList = {
         longitude: number;
         storeName: string;
     };
+    Bid: {
+        currentPrice: number;
+        lowerPrice: number;
+        upperPrice: number;
+    }
 };

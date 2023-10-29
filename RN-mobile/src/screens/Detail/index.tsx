@@ -54,7 +54,11 @@ export function Detail() {
           storeName={store_name}
         />
       </ScrollView>
-      <Footer currentPrice={current_price} />
+      <Footer
+        currentPrice={current_price}
+        upperPrice={upper_limit}
+        lowerPrice={lower_limit}
+      />
     </View>
   );
 }
