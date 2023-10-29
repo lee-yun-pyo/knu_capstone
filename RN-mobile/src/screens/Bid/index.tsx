@@ -2,15 +2,17 @@ import { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Pressable,
   TextInput,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
+import { PriceInfo } from "components/Bid/PriceInfo";
+import { RecommendPrice } from "components/Bid/RecommendPrice";
+import { BidButton } from "components/Bid/BidButton";
+
 import { WON_SYMBOL } from "constants";
-import { BackGroundColor } from "constants/color";
 import { BidScreenProps } from "types";
 
 import { styles } from "./style";
@@ -22,10 +24,6 @@ export function Bid() {
 
   const route = useRoute<BidScreenProps["route"]>();
   const { currentPrice, lowerPrice, upperPrice } = route.params;
-  const recommendPrice = Array.from(
-    { length: 3 },
-    (_, index) => currentPrice + 100 * (index + 1)
-  );
 
   const handleChangePrice = (text: string) => {
     let newText = "";
@@ -65,38 +63,17 @@ export function Bid() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.infoWrapper}>
-        <View style={styles.infoBox}>
-          <Text style={styles.subTitle}>현재가</Text>
-          <Text style={[styles.price, { fontSize: 25 }]}>
-            {currentPrice.toLocaleString()}원
-          </Text>
-        </View>
-        <View style={styles.infoBox}>
-          <Text style={styles.subTitle}>시작가/상한가</Text>
-          <Text style={[styles.price, { fontSize: 20 }]}>
-            {lowerPrice.toLocaleString()}원 - {upperPrice.toLocaleString()}원
-          </Text>
-        </View>
-      </View>
+      <PriceInfo
+        currentPrice={currentPrice}
+        lowerPrice={lowerPrice}
+        upperPrice={upperPrice}
+      />
       <View style={styles.bidWrapper}>
-        <View style={styles.recommendPriceView}>
-          {recommendPrice.map((price, index) => (
-            <View
-              key={index}
-              style={[
-                styles.recommendPriceTextView,
-                parseInt(bidPrice) === price && styles.selectedPrice,
-              ]}
-            >
-              <Pressable onPress={() => selectBidPrice(price)}>
-                <Text style={styles.recommendPriceText}>
-                  {WON_SYMBOL} {price.toLocaleString()}
-                </Text>
-              </Pressable>
-            </View>
-          ))}
-        </View>
+        <RecommendPrice
+          currentPrice={currentPrice}
+          onPressPrice={selectBidPrice}
+          bidPrice={bidPrice}
+        />
         <View>
           <TextInput
             keyboardType="number-pad"
@@ -113,16 +90,7 @@ export function Bid() {
           {warning !== "" && <Text style={styles.warning}>{warning}</Text>}
         </View>
       </View>
-      <View
-        style={[
-          styles.bidButtonView,
-          { backgroundColor: bidOk ? BackGroundColor.GREEN : "#B4B4B4" },
-        ]}
-      >
-        <Pressable disabled={!bidOk} onPress={() => {}}>
-          <Text style={styles.bidButton}>입찰하기</Text>
-        </Pressable>
-      </View>
+      <BidButton bidOk={bidOk} />
     </KeyboardAvoidingView>
   );
 }

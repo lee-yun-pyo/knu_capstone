@@ -7,6 +7,7 @@ export const FontColor = {
 
 export const BackGroundColor = {
     GREEN: "#03C75A",
+    NON_ACTIVE_BUTTON: "#B4B4B4", 
 }
 
 export const Border = {
