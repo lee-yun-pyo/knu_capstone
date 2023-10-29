@@ -1,19 +1,14 @@
 import { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import { useRoute } from "@react-navigation/native";
 
 import { PriceInfo } from "components/Bid/PriceInfo";
 import { RecommendPrice } from "components/Bid/RecommendPrice";
 import { BidButton } from "components/Bid/BidButton";
+import { TextInputPrice } from "components/Bid/TextInputPrice";
 
-import { WON_SYMBOL } from "constants";
 import { BidScreenProps } from "types";
+import { WARNNING_MESSAGE } from "constants";
 
 import { styles } from "./style";
 
@@ -26,36 +21,33 @@ export function Bid() {
   const { currentPrice, lowerPrice, upperPrice } = route.params;
 
   const handleChangePrice = (text: string) => {
-    let newText = "";
-    if (text.length === 1) {
-      newText = text.trim().replace(/,/g, "");
-    } else {
-      newText = text.slice(1).trim().replace(/,/g, "");
-    }
-    setBidPrice(newText);
+    const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
+    const newBidPrice = newText.replace(/,/g, "");
+    setBidPrice(newBidPrice);
   };
 
   const selectBidPrice = (price: number) => {
     setBidPrice(String(price));
   };
 
+  const validateBidPrice = (price: string) => {
+    if (price === "") return { warning: "", bidOk: false };
+
+    const numericPrice = parseInt(price);
+
+    if (numericPrice > upperPrice) {
+      return { warning: WARNNING_MESSAGE.HIGH, bidOk: false };
+    } else if (numericPrice < currentPrice) {
+      return { warning: WARNNING_MESSAGE.LOW, bidOk: false };
+    }
+
+    return { warning: "", bidOk: true };
+  };
+
   useEffect(() => {
-    if (bidPrice === "") {
-      setWarning("");
-      setBidOk(false);
-      return;
-    }
-    if (parseInt(bidPrice) > upperPrice) {
-      setWarning("상한가보다 높게 입찰하실 수 없습니다");
-      setBidOk(false);
-      return;
-    } else if (parseInt(bidPrice) < currentPrice) {
-      setWarning("현재가/시작가보다 낮게 입찰하실 수 없습니다");
-      setBidOk(false);
-      return;
-    }
-    setWarning("");
-    setBidOk(true);
+    const { warning, bidOk } = validateBidPrice(bidPrice);
+    setWarning(warning);
+    setBidOk(bidOk);
   }, [bidPrice]);
 
   return (
@@ -68,28 +60,17 @@ export function Bid() {
         lowerPrice={lowerPrice}
         upperPrice={upperPrice}
       />
-      <View style={styles.bidWrapper}>
-        <RecommendPrice
-          currentPrice={currentPrice}
-          onPressPrice={selectBidPrice}
-          bidPrice={bidPrice}
-        />
-        <View>
-          <TextInput
-            keyboardType="number-pad"
-            returnKeyType="done"
-            placeholder={`${WON_SYMBOL} ${currentPrice.toLocaleString()}원 이상의 가격을 입력해주세요.`}
-            style={[styles.input, warning !== "" && styles.warningInput]}
-            value={
-              bidPrice !== ""
-                ? `${WON_SYMBOL} ${parseInt(bidPrice).toLocaleString()}`
-                : ""
-            }
-            onChangeText={handleChangePrice}
-          />
-          {warning !== "" && <Text style={styles.warning}>{warning}</Text>}
-        </View>
-      </View>
+      <RecommendPrice
+        currentPrice={currentPrice}
+        onPressPrice={selectBidPrice}
+        bidPrice={bidPrice}
+      />
+      <TextInputPrice
+        currentPrice={currentPrice}
+        warning={warning}
+        bidPrice={bidPrice}
+        onChangeText={handleChangePrice}
+      />
       <BidButton bidOk={bidOk} />
     </KeyboardAvoidingView>
   );
