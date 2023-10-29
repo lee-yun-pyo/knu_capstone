@@ -1,13 +1,10 @@
 import MapView, { Marker } from "react-native-maps";
 import { useRoute } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { RootStackParamList } from "types";
+import { MapScreenProps } from "types";
 import { REGION_DELTA } from "constants";
 
 import { styles } from "./style";
-
-type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 
 export function Map() {
   const route = useRoute<MapScreenProps["route"]>();

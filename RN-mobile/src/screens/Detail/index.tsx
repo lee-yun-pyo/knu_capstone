@@ -1,6 +1,5 @@
 import { ScrollView, View, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { ItemImages } from "components/Detail/ItemImages";
 import { Profile } from "components/Detail/Profile";
@@ -9,11 +8,9 @@ import { Description } from "components/Detail/Description";
 import { Location } from "components/Detail/Location";
 import { Footer } from "components/Detail/Footer";
 
-import { RootStackParamList } from "types";
+import { DetailScreenProps } from "types";
 
 import { styles } from "./style";
-
-type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 
 export function Detail() {
   const route = useRoute<DetailScreenProps["route"]>();

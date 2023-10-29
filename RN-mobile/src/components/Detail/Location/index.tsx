@@ -1,13 +1,10 @@
 import { View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { getMapPreview } from "utils/location";
-import { RootStackParamList } from "types";
+import { MapScreenProps } from "types";
 
 import { styles } from "./style";
-
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 
 interface Props {
   latitude: number;
@@ -17,7 +14,7 @@ interface Props {
 }
 
 export function Location({ latitude, longitude, location, storeName }: Props) {
-  const navigation = useNavigation<HomeScreenProps["navigation"]>();
+  const navigation = useNavigation<MapScreenProps["navigation"]>();
   const goMapScreen = () => {
     navigation.navigate("Map", { latitude, longitude, storeName });
   };

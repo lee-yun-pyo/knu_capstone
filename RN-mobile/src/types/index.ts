@@ -1,3 +1,5 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 export type RootStackParamList = {
     Home: undefined;
     Detail: {
@@ -29,3 +31,7 @@ export type RootStackParamList = {
         upperPrice: number;
     }
 };
+
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
+export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
+export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;

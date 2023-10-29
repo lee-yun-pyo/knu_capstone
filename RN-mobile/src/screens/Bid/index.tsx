@@ -8,15 +8,12 @@ import {
   Platform,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { WON_SYMBOL } from "constants";
 import { BackGroundColor } from "constants/color";
-import { RootStackParamList } from "types";
+import { BidScreenProps } from "types";
 
 import { styles } from "./style";
-
-type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
 
 export function Bid() {
   const [bidPrice, setBidPrice] = useState("");

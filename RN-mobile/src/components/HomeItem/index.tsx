@@ -1,11 +1,10 @@
 import { View, Image, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-import { RootStackParamList } from "types";
+import { DetailScreenProps } from "types";
 import { calculateDaysAgo } from "utils";
 
 import { styles } from "./style";
@@ -29,10 +28,8 @@ interface Props {
   };
 }
 
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
-
 export function HomeItem({ props }: Props) {
-  const navigation = useNavigation<HomeScreenProps["navigation"]>();
+  const navigation = useNavigation<DetailScreenProps["navigation"]>();
   const {
     product_name,
     store_location,

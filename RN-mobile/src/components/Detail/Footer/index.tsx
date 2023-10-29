@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
 import { Etc } from "constants/color";
-import { RootStackParamList } from "types";
+import { BidScreenProps } from "types";
 
 import { styles } from "./style";
 
@@ -15,8 +14,6 @@ interface Props {
   upperPrice: number;
   lowerPrice: number;
 }
-
-type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
 
 export function Footer({ currentPrice, upperPrice, lowerPrice }: Props) {
   const navigation = useNavigation<BidScreenProps["navigation"]>();
