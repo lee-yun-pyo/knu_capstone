@@ -5,6 +5,8 @@ const router = require('express').Router();
 router.route('/')
     .get(broccoliCtrl.getBroccoli)
     .post(broccoliCtrl.insertBroccoli)
+router.route('/:id')
+    .delete(broccoliCtrl.deleteBroccoli)
 
 router.route('/like')
     .post(broccoliCtrl.addLike)

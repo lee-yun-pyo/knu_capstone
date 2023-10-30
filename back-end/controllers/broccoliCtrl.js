@@ -19,7 +19,7 @@ const broccoliCtrl = {
             //숫자를 입력받았는지 체크
             let check = /^[0-9]+$/; 
             if (!check.test(board_id)) {
-                res.send("숫자만 입력가능");
+                res.send({"statusCode" : 400, "message" : "숫자만 입력가능"});
                 return;
             }
             connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
@@ -66,12 +66,29 @@ const broccoliCtrl = {
         )
     },
 
+    deleteBroccoli : async(req, res)=>{
+        const board_id = req.params.id;
+        let check = /^[0-9]+$/; 
+        if (!check.test(board_id)) {
+            res.send({"statusCode" : 400, "message" : "숫자만 입력가능"});
+            return;
+        }
+
+        connection.query(`DELETE FROM broccoli.board where board_id=${board_id};`, (error, rows) =>{
+            if(error){
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                return;
+            }
+            res.send({"statusCode" : 200, "message" : "정상적으로 제거되었습니다."});
+        })
+    },
+
     
     addLike : async(req, res)=>{
         const board_id = req.body.id;
         let check = /^[0-9]+$/; 
         if (!check.test(board_id)) {
-            res.send("숫자만 입력가능");
+            res.send({"statusCode" : 400, "message" : "숫자만 입력가능"});
             return;
         }
         connection.query(`UPDATE broccoli.board SET like_count = like_count+1 WHERE board_id = ${board_id};`, (error, rows)=>{
@@ -109,7 +126,7 @@ const broccoliCtrl = {
             //숫자만 입력받음
             let check = /^[0-9]+$/; 
             if (!check.test(board_id)) {
-                res.send("숫자만 입력가능")
+                res.send({"statusCode" : 400, "message" : "숫자만 입력가능"})
             }
             else{
                 connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
