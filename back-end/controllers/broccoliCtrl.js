@@ -18,7 +18,7 @@ const broccoliCtrl = {
                 res.send("숫자만 입력가능")
             }
             else{
-                connection.query(`SELECT * FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
+                connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
                     if(error) throw error;
                     res.send(rows);
                 })
@@ -77,6 +77,36 @@ const broccoliCtrl = {
                 res.send(rows);
             }
         )
+    },
+
+    getlog : async(req, res)=>{
+        const board_id = req.query.id;
+
+        //id를 입력 받을 경우 모든 경매 기록 출력
+        if(board_id == undefined)
+        {
+            connection.query('SELECT user, profile, time, price, board_id FROM broccoli.auction_log;', (error, rows)=>{
+                if(error) throw error;
+                res.send(rows);
+            })
+        }
+
+        else{
+            //숫자만 입력받음
+            let check = /^[0-9]+$/; 
+            if (!check.test(board_id)) {
+                res.send("숫자만 입력가능")
+            }
+            else{
+                connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
+                    if(error) throw error;
+                    res.send(rows);
+            })
+        }
+
+        }
+
+        
     },
 
     insertlog : async(req, res)=>{
