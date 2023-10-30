@@ -3,6 +3,7 @@ const connection = require('../dbConfig');
 const broccoliCtrl = {
     getBroccoli : async(req, res)=>{
         const board_id = req.query.id;
+
         //id값을 받지 않으면 모든 상품 조회
         if(board_id == undefined){
             connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
@@ -15,68 +16,63 @@ const broccoliCtrl = {
             //숫자를 입력받았는지 체크
             let check = /^[0-9]+$/; 
             if (!check.test(board_id)) {
-                res.send("숫자만 입력가능")
+                res.send("숫자만 입력가능");
+                return;
             }
-            else{
-                connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
-                    if(error) throw error;
-                    res.send(rows);
-                })
-            }
+            connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
+                if(error) throw error;
+                res.send(rows[0]);
+            })
         }
-        
-
-
-        
     },
 
     insertBroccoli : async(req, res) => {
-        const {store_name, store_location, product_name, product_description,
+        let {store_name, store_location, product_name, product_description,
         current_price, upper_limit, lower_limit, like_count, start_time, end_time, product_image}
         = req.body;
-
+        
         let sql=``;
-        if(start_time == null){
-            sql = `INSERT INTO broccoli.board
-            VALUES(
-                default,
-                '${store_name}', 
-                '${store_location}',
-                '${product_name}',
-                '${product_description}',
-                ${current_price},
-                ${upper_limit},
-                ${lower_limit},
-                ${like_count},
-                default,
-                '${end_time}',
-                ${product_image}
+        if(start_time == null) start_time = "default";
+        sql = `INSERT INTO broccoli.board
+        VALUES(
+            default,
+            '${store_name}', 
+            '${store_location}',
+            '${product_name}',
+            '${product_description}',
+            ${current_price},
+            ${upper_limit},
+            ${lower_limit},
+            default,
+            '${start_time}',
+            '${end_time}',
+            ${product_image}
             );`
-        }
-        else{
-            sql = `INSERT INTO broccoli.board
-            VALUES(
-                default,
-                '${store_name}', 
-                '${store_location}',
-                '${product_name}',
-                '${product_description}',
-                ${current_price},
-                ${upper_limit},
-                ${lower_limit},
-                ${like_count},
-                '${start_time}',
-                '${end_time}',
-                ${product_image}
-            );`
-        }
-
+        
         connection.query(
             sql, (error, rows)=>{
                 if(error) throw error;
-                res.send(rows);
+                res.send({"board_id" : rows.insertId});
             }
         )
+    },
+
+    
+    addLike : async(req, res)=>{
+        const board_id = req.body.id;
+        let check = /^[0-9]+$/; 
+        if (!check.test(board_id)) {
+            res.send("숫자만 입력가능");
+            return;
+        }
+        connection.query(`UPDATE broccoli.board SET like_count = like_count+1 WHERE board_id = ${board_id};`, (error, rows)=>{
+            if(error) throw error;
+        });
+        connection.query(`SELECT like_count FROM broccoli.board WHERE board_id = ${board_id};`, (error, rows)=>{
+            if(error) throw error;
+            res.send(rows[0]);
+        });
+        
     },
 
     getlog : async(req, res)=>{
@@ -100,7 +96,7 @@ const broccoliCtrl = {
             else{
                 connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
                     if(error) throw error;
-                    res.send(rows);
+                    res.send(rows[0]);
             })
         }
 

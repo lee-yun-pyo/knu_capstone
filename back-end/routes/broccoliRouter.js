@@ -6,6 +6,9 @@ router.route('/')
     .get(broccoliCtrl.getBroccoli)
     .post(broccoliCtrl.insertBroccoli)
 
+router.route('/like')
+    .post(broccoliCtrl.addLike)
+
 router.route('/log')
     .get(broccoliCtrl.getlog)
     .post(broccoliCtrl.insertlog)
