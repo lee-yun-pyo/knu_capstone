@@ -2,10 +2,32 @@ const connection = require('../dbConfig');
 
 const broccoliCtrl = {
     getBroccoli : async(req, res)=>{
-        connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
-            if(error) throw error;
-            res.send(rows);
-        })
+        const board_id = req.query.id;
+        //id값을 받지 않으면 모든 상품 조회
+        if(board_id == undefined){
+            connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
+                if(error) throw error;
+                res.send(rows);
+            })
+        }
+
+        else{
+            //숫자를 입력받았는지 체크
+            let check = /^[0-9]+$/; 
+            if (!check.test(board_id)) {
+                res.send("숫자만 입력가능")
+            }
+            else{
+                connection.query(`SELECT * FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
+                    if(error) throw error;
+                    res.send(rows);
+                })
+            }
+        }
+        
+
+
+        
     },
 
     insertBroccoli : async(req, res) => {
@@ -55,13 +77,6 @@ const broccoliCtrl = {
                 res.send(rows);
             }
         )
-    },
-    getlog : async(req, res)=>{
-        const {board_id} = req.body;
-        connection.query(`SELECT * FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
-            if(error) throw error;
-            res.send(rows);
-        })
     },
 
     insertlog : async(req, res)=>{
