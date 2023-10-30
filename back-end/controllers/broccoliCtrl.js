@@ -7,8 +7,11 @@ const broccoliCtrl = {
         //id값을 받지 않으면 모든 상품 조회
         if(board_id == undefined){
             connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
-                if(error) throw error;
-                res.send(rows);
+                if(error){
+                    res.send({"statusCode" : 404})
+                    return;
+                };
+                res.send({"statusCode" : 200, "data" : { "board" : rows }});
             })
         }
 
@@ -20,8 +23,11 @@ const broccoliCtrl = {
                 return;
             }
             connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
-                if(error) throw error;
-                res.send(rows[0]);
+                if(error){
+                    res.send({"statusCode" : 404})
+                    return;
+                };
+                res.send({"statusCode" : 200, "data" : { "board" : rows[0]}});
             })
         }
     },
@@ -51,8 +57,11 @@ const broccoliCtrl = {
         
         connection.query(
             sql, (error, rows)=>{
-                if(error) throw error;
-                res.send({"board_id" : rows.insertId});
+                if(error){
+                    res.send({"statusCode" : 400, "message" : "입력 규격에 맞지 않습니다."});
+                    return;
+                }
+                res.send({"statusCode" : 200, "board_id" : rows.insertId});
             }
         )
     },
@@ -66,11 +75,17 @@ const broccoliCtrl = {
             return;
         }
         connection.query(`UPDATE broccoli.board SET like_count = like_count+1 WHERE board_id = ${board_id};`, (error, rows)=>{
-            if(error) throw error;
+            if(error){
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                return;
+            }
         });
         connection.query(`SELECT like_count FROM broccoli.board WHERE board_id = ${board_id};`, (error, rows)=>{
-            if(error) throw error;
-            res.send(rows[0]);
+            if(error){
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                return;
+            }
+            res.send({"statusCode" : 200, "like_count" : rows[0].like_count});
         });
         
     },
@@ -82,8 +97,11 @@ const broccoliCtrl = {
         if(board_id == undefined)
         {
             connection.query('SELECT user, profile, time, price, board_id FROM broccoli.auction_log;', (error, rows)=>{
-                if(error) throw error;
-                res.send(rows);
+                if(error){
+                    res.send({"statusCode" : 404});
+                    return;
+                }
+                res.send({"statusCode" : 200, "data" : {"log" : rows}});
             })
         }
 
@@ -95,8 +113,11 @@ const broccoliCtrl = {
             }
             else{
                 connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
-                    if(error) throw error;
-                    res.send(rows[0]);
+                    if(error){
+                        res.send({"statusCode":404});
+                        return;
+                    };
+                    res.send({"statusCode" : 200, "data" : {"log" : rows[0]}});
             })
         }
 
@@ -119,8 +140,8 @@ const broccoliCtrl = {
 
         connection.query(
             sql, (error, rows) =>{
-                if(error) throw error;
-                res.send(rows);
+                if(error) res.send({"statusCode": 400, "message" : "입력 규격이 맞지 않습니다."});
+                else res.send({"statusCode" : 200});
             }
         )
     }
