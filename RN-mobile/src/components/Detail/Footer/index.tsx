@@ -1,17 +1,30 @@
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
 import { Etc } from "constants/color";
+import { BidScreenProps } from "types";
 
 import { styles } from "./style";
 
-export function Footer() {
+interface Props {
+  currentPrice: number;
+  upperPrice: number;
+  lowerPrice: number;
+}
+
+export function Footer({ currentPrice, upperPrice, lowerPrice }: Props) {
+  const navigation = useNavigation<BidScreenProps["navigation"]>();
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
   const handleClickLike = () => {
     Haptics.selectionAsync();
     setIconName("heart");
+  };
+
+  const handleBid = () => {
+    navigation.navigate("Bid", { currentPrice, upperPrice, lowerPrice });
   };
 
   // useEffect로 렌더링 시 좋아요 색 결정
@@ -24,11 +37,13 @@ export function Footer() {
         </Pressable>
         <View style={styles.textView}>
           <Text style={styles.title}>현재가</Text>
-          <Text style={styles.price}>3600원</Text>
+          <Text style={styles.price}>{currentPrice.toLocaleString()}원</Text>
         </View>
       </View>
       <View style={styles.bidButton}>
-        <Text style={styles.buttonText}>입찰하기</Text>
+        <Pressable onPress={handleBid}>
+          <Text style={styles.buttonText}>입찰하기</Text>
+        </Pressable>
       </View>
     </View>
   );

@@ -1,27 +1,61 @@
 import { ScrollView, View, Image } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
+import { ItemImages } from "components/Detail/ItemImages";
 import { Profile } from "components/Detail/Profile";
 import { Price } from "components/Detail/Price";
 import { Description } from "components/Detail/Description";
 import { Location } from "components/Detail/Location";
 import { Footer } from "components/Detail/Footer";
 
+import { DetailScreenProps } from "types";
+
 import { styles } from "./style";
 
 export function Detail() {
+  const route = useRoute<DetailScreenProps["route"]>();
+  const {
+    store_name,
+    store_location,
+    product_name,
+    product_description,
+    current_price,
+    upper_limit,
+    lower_limit,
+    start_time,
+    end_time,
+    product_image,
+    latitude,
+    longitude,
+  } = route.params.info;
+
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView style={styles.container}>
-        <Image
-          source={require("../../../assets/user2.png")}
-          style={styles.itemImage}
+      <ScrollView contentContainerStyle={styles.container} bounces={false}>
+        <ItemImages imageArray={product_image} />
+        <Profile storeName={store_name} location={store_location} />
+        <Description
+          title={product_name}
+          registerDate={start_time}
+          description={product_description}
         />
-        <Profile storeName={"행복한 빵집"} location={"서울 강남구"} />
-        <Description title={"빵사세요"} date={"2023"} description={"맛있음"} />
-        <Price startPrice={1500} upperPrice={3000} limitTime={"23"} />
-        <Location />
+        <Price
+          startPrice={lower_limit}
+          upperPrice={upper_limit}
+          deadLineTime={end_time}
+        />
+        <Location
+          latitude={latitude}
+          longitude={longitude}
+          location={store_location}
+          storeName={store_name}
+        />
       </ScrollView>
-      <Footer />
+      <Footer
+        currentPrice={current_price}
+        upperPrice={upper_limit}
+        lowerPrice={lower_limit}
+      />
     </View>
   );
 }
