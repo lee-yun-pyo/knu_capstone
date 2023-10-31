@@ -14,6 +14,7 @@ import { BiddingList } from "screens/BiddingList";
 import { SaleHistory } from "screens/SaleHistory";
 import { MyNear } from "screens/MyNear";
 import { Upload } from "screens/Upload";
+import { BackButton } from "components/Common/BackButton";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -90,7 +91,17 @@ export default function App() {
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Map" component={Map} />
         <Stack.Screen name="Bid" component={Bid} />
-        <Stack.Screen name="Upload" component={Upload} />
+        <Stack.Screen
+          name="Upload"
+          component={Upload}
+          options={{
+            headerTitle: "내 재고 팔기",
+            gestureDirection: "vertical",
+            headerBackTitleVisible: false,
+            gestureEnabled: false,
+            headerLeft: () => <BackButton />,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
