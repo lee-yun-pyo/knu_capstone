@@ -13,6 +13,7 @@ import { LikeList } from "screens/LikeList";
 import { BiddingList } from "screens/BiddingList";
 import { SaleHistory } from "screens/SaleHistory";
 import { MyNear } from "screens/MyNear";
+import { Upload } from "screens/Upload";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -89,6 +90,7 @@ export default function App() {
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Map" component={Map} />
         <Stack.Screen name="Bid" component={Bid} />
+        <Stack.Screen name="Upload" component={Upload} />
       </Stack.Navigator>
     </NavigationContainer>
   );

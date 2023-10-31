@@ -1,5 +1,7 @@
 import { FlatList, View } from "react-native";
+
 import { HomeItem } from "components/HomeItem";
+import { UploadButton } from "components/Home/UploadButton";
 
 import { styles } from "./style";
 
@@ -41,6 +43,60 @@ const Data = [
     latitude: 37.51215,
     longitude: 127.071976,
   },
+  {
+    board_id: 1,
+    store_name: "행복한 빵집2",
+    store_location: "서울 노원구",
+    product_name: "초코식빵",
+    product_description: "우유가 들어간 부드러운 식빵",
+    current_price: 1500,
+    upper_limit: 3000,
+    lower_limit: 1000,
+    like_count: 0,
+    start_time: "2023-10-24T10:45:43.000Z",
+    end_time: "2023-11-01T00:00:00.000Z",
+    product_image: [
+      "https://images.unsplash.com/photo-1473976345543-9ffc928e648d?auto=format&fit=crop&q=80&w=1859&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
+    latitude: 37.51215,
+    longitude: 127.071976,
+  },
+  {
+    board_id: 1,
+    store_name: "행복한 빵집2",
+    store_location: "서울 노원구",
+    product_name: "초코식빵",
+    product_description: "우유가 들어간 부드러운 식빵",
+    current_price: 1500,
+    upper_limit: 3000,
+    lower_limit: 1000,
+    like_count: 0,
+    start_time: "2023-10-24T10:45:43.000Z",
+    end_time: "2023-11-01T00:00:00.000Z",
+    product_image: [
+      "https://images.unsplash.com/photo-1473976345543-9ffc928e648d?auto=format&fit=crop&q=80&w=1859&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
+    latitude: 37.51215,
+    longitude: 127.071976,
+  },
+  {
+    board_id: 1,
+    store_name: "행복한 빵집2",
+    store_location: "서울 노원구",
+    product_name: "초코식빵",
+    product_description: "우유가 들어간 부드러운 식빵",
+    current_price: 1500,
+    upper_limit: 3000,
+    lower_limit: 1000,
+    like_count: 0,
+    start_time: "2023-10-24T10:45:43.000Z",
+    end_time: "2023-11-01T00:00:00.000Z",
+    product_image: [
+      "https://images.unsplash.com/photo-1473976345543-9ffc928e648d?auto=format&fit=crop&q=80&w=1859&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
+    latitude: 37.51215,
+    longitude: 127.071976,
+  },
 ];
 
 export function Home() {
@@ -50,6 +106,7 @@ export function Home() {
         data={Data}
         renderItem={({ item }) => <HomeItem props={item} />}
       ></FlatList>
+      <UploadButton />
     </View>
   );
 }
