@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 import { Home } from "screens/Home";
 import { Detail } from "screens/Detail";
@@ -29,8 +30,36 @@ function ProfileStackNavigation() {
 function TabNavigation() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="홈" component={Home} />
-      <Tab.Screen name="마이페이지" component={ProfileStackNavigation} />
+      <Tab.Screen
+        name="홈"
+        component={Home}
+        options={{
+          tabBarActiveTintColor: "black",
+          tabBarInactiveTintColor: "#404040",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={22}
+              color={focused ? "black" : "#404040"}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="마이페이지"
+        component={ProfileStackNavigation}
+        options={{
+          tabBarActiveTintColor: "black",
+          tabBarInactiveTintColor: "#404040",
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome
+              name={focused ? "user" : "user-o"}
+              size={22}
+              color={focused ? "black" : "#404040"}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
