@@ -12,6 +12,7 @@ import { Profile } from "screens/Profile";
 import { LikeList } from "screens/LikeList";
 import { BiddingList } from "screens/BiddingList";
 import { SaleHistory } from "screens/SaleHistory";
+import { MyNear } from "screens/MyNear";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +41,21 @@ function TabNavigation() {
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={22}
+              color={focused ? "black" : "#404040"}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="내 근처"
+        component={MyNear}
+        options={{
+          tabBarActiveTintColor: "black",
+          tabBarInactiveTintColor: "#404040",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "location" : "location-outline"}
+              size={24}
               color={focused ? "black" : "#404040"}
             />
           ),
