@@ -1,4 +1,4 @@
-import { FontColor } from "constants/color";
+import { Border, FontColor } from "constants/color";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -9,20 +9,23 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   wrapper: {
-    padding: 10,
-    borderRadius: 12,
+    flex: 1,
     alignItems: "center",
-    backgroundColor: "white",
-    gap: 3,
+    gap: 7,
   },
   priceText: {
-    fontWeight: "600",
-    fontSize: 18,
+    fontWeight: "500",
+    fontSize: 16,
     lineHeight: 20,
   },
   subTitle: {
     fontSize: 13,
     color: FontColor.gray,
     fontWeight: "600",
+  },
+  separator: {
+    width: 1,
+    height: "80%",
+    backgroundColor: Border.LIGHT_MODE,
   },
 });

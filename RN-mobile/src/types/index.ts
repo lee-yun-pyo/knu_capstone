@@ -29,9 +29,23 @@ export type RootStackParamList = {
         currentPrice: number;
         lowerPrice: number;
         upperPrice: number;
-    }
+    },
+    Upload: undefined;
+};
+
+export type ProfileStackParamsList = {
+    LikeList: undefined;
+    BiddingList: undefined;
+    SaleHistory: undefined;
 };
 
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
+export type UploadScreenProps = NativeStackScreenProps<RootStackParamList, "Upload">;
+
+export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
+
+type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
+type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
+export type profileMenuType = { name: string, icon: profileMenuIconType, path: ProfileMenuPathType };
