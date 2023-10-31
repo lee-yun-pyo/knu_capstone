@@ -31,7 +31,7 @@ export function Detail() {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container} bounces={false}>
+      <ScrollView contentContainerStyle={styles.container}>
         <ItemImages imageArray={product_image} />
         <Profile storeName={store_name} location={store_location} />
         <Description

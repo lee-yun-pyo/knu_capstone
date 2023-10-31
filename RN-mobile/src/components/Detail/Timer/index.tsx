@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 import { Skeleton } from "components/Common/Skeleton";
 
@@ -38,7 +39,7 @@ export function Timer({ deadLineTime }: Props) {
 
   return (
     <View style={[styles.container, { flex: 1 }]}>
-      <Text style={styles.subTitle}>남은 시간</Text>
+      <Feather name="clock" size={20} color="black" />
       {minutes !== "" ? (
         parseInt(minutes) < 0 ? (
           <Text style={styles.subText}>마감</Text>
