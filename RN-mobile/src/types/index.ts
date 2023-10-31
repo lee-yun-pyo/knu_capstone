@@ -32,8 +32,18 @@ export type RootStackParamList = {
     }
 };
 
+export type ProfileStackParamsList = {
+    LikeList: undefined;
+    BiddingList: undefined;
+    SaleHistory: undefined;
+};
+
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
 
-export type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
+export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
+
+type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
+type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
+export type profileMenuType = { name: string, icon: profileMenuIconType, path: ProfileMenuPathType };
