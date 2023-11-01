@@ -8,7 +8,7 @@ const broccoliCtrl = {
         if(board_id == undefined){
             connection.query('SELECT * FROM broccoli.board;', (error, rows)=>{
                 if(error){
-                    res.send({"statusCode" : 404})
+                    res.send({"statusCode" : 404, "message" : error})
                     return;
                 };
                 res.send({"statusCode" : 200, "data" : { "board" : rows }});
@@ -24,7 +24,7 @@ const broccoliCtrl = {
             }
             connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
                 if(error){
-                    res.send({"statusCode" : 404})
+                    res.send({"statusCode" : 404, "message" : error})
                     return;
                 };
                 res.send({"statusCode" : 200, "data" : { "board" : rows[0]}});
@@ -34,9 +34,10 @@ const broccoliCtrl = {
 
     insertBroccoli : async(req, res) => {
         let {store_name, store_location, product_name, product_description,
-        current_price, upper_limit, lower_limit, like_count, start_time, end_time, product_image}
+        current_price, upper_limit, lower_limit, start_time, end_time}
         = req.body;
-        
+        const product_image = req.file ? req.file.filename : null;
+
         let sql=``;
         if(start_time == null) start_time = "default";
         sql = `INSERT INTO broccoli.board
@@ -52,13 +53,13 @@ const broccoliCtrl = {
             default,
             '${start_time}',
             '${end_time}',
-            ${product_image}
+            '${product_image}'
             );`
         
         connection.query(
             sql, (error, rows)=>{
                 if(error){
-                    res.send({"statusCode" : 400, "message" : "입력 규격에 맞지 않습니다."});
+                    res.send({"statusCode" : 400, "message" : "입력 규격에 맞지 않습니다." + error});
                     return;
                 }
                 res.send({"statusCode" : 200, "board_id" : rows.insertId});
@@ -76,7 +77,7 @@ const broccoliCtrl = {
 
         connection.query(`DELETE FROM broccoli.board where board_id=${board_id};`, (error, rows) =>{
             if(error){
-                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음" + error});
                 return;
             }
             res.send({"statusCode" : 200, "message" : "정상적으로 제거되었습니다."});
@@ -93,13 +94,13 @@ const broccoliCtrl = {
         }
         connection.query(`UPDATE broccoli.board SET like_count = like_count+1 WHERE board_id = ${board_id};`, (error, rows)=>{
             if(error){
-                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음" + error});
                 return;
             }
         });
         connection.query(`SELECT like_count FROM broccoli.board WHERE board_id = ${board_id};`, (error, rows)=>{
             if(error){
-                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음"});
+                res.send({"statusCode" : 400, "message": "board_id 값을 찾을 수 없음" + error});
                 return;
             }
             res.send({"statusCode" : 200, "like_count" : rows[0].like_count});
@@ -115,7 +116,7 @@ const broccoliCtrl = {
         {
             connection.query('SELECT user, profile, time, price, board_id FROM broccoli.auction_log;', (error, rows)=>{
                 if(error){
-                    res.send({"statusCode" : 404});
+                    res.send({"statusCode" : 404, "message" : error});
                     return;
                 }
                 res.send({"statusCode" : 200, "data" : {"log" : rows}});
@@ -131,7 +132,7 @@ const broccoliCtrl = {
             else{
                 connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
                     if(error){
-                        res.send({"statusCode":404});
+                        res.send({"statusCode":404, "message" : error});
                         return;
                     };
                     res.send({"statusCode" : 200, "data" : {"log" : rows[0]}});
@@ -144,12 +145,13 @@ const broccoliCtrl = {
     },
 
     insertlog : async(req, res)=>{
-        const {user, profile, price, board_id} = req.body;
+        const {user, price, board_id} = req.body;
+        const profile = req.file ? req.file.filename : null;
         const sql = `INSERT INTO broccoli.auction_log
         VALUES(
             default,
             '${user}',
-            ${profile},
+            '${profile}',
             default,
             ${price},
             ${board_id}
@@ -157,7 +159,7 @@ const broccoliCtrl = {
 
         connection.query(
             sql, (error, rows) =>{
-                if(error) res.send({"statusCode": 400, "message" : "입력 규격이 맞지 않습니다."});
+                if(error) res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error });
                 else res.send({"statusCode" : 200});
             }
         )
