@@ -23,10 +23,13 @@ router.route('/like')
     .post(broccoliCtrl.addLike)
 
 router.route('/log')
-    .get(broccoliCtrl.getlog)
-    .post(upload.single('bidder_image'),  broccoliCtrl.insertlog)
+    .get(broccoliCtrl.getLog)
+    .post(upload.single('bidder_image'),  broccoliCtrl.insertLog)
 
 router.route('/users')
     .get(broccoliCtrl.getUsers)
     .post(upload.single('profile_image'), broccoliCtrl.insertUser)
+router.route('/users/:id/:pw')
+    .delete(broccoliCtrl.deleteUser)
+    
 module.exports=router;

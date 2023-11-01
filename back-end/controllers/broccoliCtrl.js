@@ -1,4 +1,5 @@
 const connection = require('../dbConfig');
+const bcrypt = require('bcrypt');
 
 const broccoliCtrl = {
     getBroccoli : async(req, res)=>{
@@ -22,7 +23,7 @@ const broccoliCtrl = {
                 res.send({"statusCode" : 400, "message" : "숫자만 입력가능"});
                 return;
             }
-            connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id}`, (error, rows)=>{
+            connection.query(`SELECT * FROM broccoli.board where board_id = ${board_id};`, (error, rows)=>{
                 if(error){
                     res.send({"statusCode" : 404, "message" : error})
                     return;
@@ -108,7 +109,7 @@ const broccoliCtrl = {
         
     },
 
-    getlog : async(req, res)=>{
+    getLog : async(req, res)=>{
         const board_id = req.query.id;
 
         //id를 입력 받을 경우 모든 경매 기록 출력
@@ -130,7 +131,7 @@ const broccoliCtrl = {
                 res.send({"statusCode" : 400, "message" : "숫자만 입력가능"})
             }
             else{
-                connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id}`, (error, rows)=>{
+                connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id};`, (error, rows)=>{
                     if(error){
                         res.send({"statusCode":404, "message" : error});
                         return;
@@ -144,7 +145,7 @@ const broccoliCtrl = {
         
     },
 
-    insertlog : async(req, res)=>{
+    insertLog : async(req, res)=>{
         const {user, price, board_id} = req.body;
         const profile = req.file ? req.file.filename : null;
         const sql = `INSERT INTO broccoli.auction_log
@@ -163,7 +164,106 @@ const broccoliCtrl = {
                 else res.send({"statusCode" : 200});
             }
         )
+    },
+
+
+
+    getUsers : async(req, res)=>{
+        const id = req.query.id;
+        const pw = req.query.pw;
+
+        //id값을 받지 않으면 모든 계정정보를 볼 수 있음
+        if(id == undefined){
+            connection.query('SELECT * FROM broccoli.users;', (error, rows)=>{
+                if(error){
+                    res.send({"statusCode" : 404, "message" : error})
+                    return;
+                };
+                res.send({"statusCode" : 200, "data" : { "board" : rows }});
+            })
+            return;
+        }
+
+        console.log(pw);
+        //id만 입력이 들어온 경우
+        if(pw == undefined){
+            connection.query(`SELECT * FROM broccoli.users where id = ${id};`, (error, rows)=>{
+                if(error){
+                    res.send({"statusCode" : 404, "isAvailable" : false, "message" : error})
+                    return;
+                };
+
+                if (rows.length > 0) res.send({"statusCode" : 200, "isAvailable" : false, "message" : "이미 사용중인 ID입니다."});
+                else                 res.send({"statusCode" : 200, "isAvailable" : true, "message" : "사용 가능한 ID입니다."});
+            })
+        }
+
+        //id + pw 둘 다 입력 받은 경우
+        else{
+            connection.query(`SELECT password FROM broccoli.users where id = '${id}';`, (error, result)=>{
+                if(error)   return res.send({"statusCode" : 400, "isAvailable" : false, "message" : error});
+                //해싱값과 비교하여 비밀번호가 일치하는지 확인
+                bcrypt.compare(pw, result[0].password, (err, isMatch) => {
+                    if(err)     return res.send({"statusCode" : 400, "isAvailable" : false, "message" : err});
+                    if(!isMatch)return res.send({"statusCode" : 200, "isAvailable" : false, "message" : "ID 또는 Password가 일치하지 않습니다."});
+                    
+                    res.send({"statusCode" : 200, "isAvailable" : true, "message" : "로그인 성공"});
+                })
+            })
+        }
+
+    },
+    
+
+    insertUser : async(req, res)=>{
+        let {id, password, email, name, phone, latitude, longitude, role} = req.body;
+        const profile_image = req.file ? req.file.filename : null;
+        
+        // 비밀번호 해싱
+        const saltRounds = 10;
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+            if(err) return res.send({"statusCode" : 400, "message" : err});
+            const sql = `INSERT INTO broccoli.users
+            VALUES(
+                '${id}',
+                '${hash}',
+                '${email}',
+                '${name}',
+                '${phone}',
+                '${profile_image}',
+                ${latitude},
+                ${longitude},
+                '${role}'
+            );`
+            connection.query( sql, (error, rows) =>{
+                    if(error) return res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error });
+                    res.send({"statusCode" : 200, "message" : "회원가입 완료"});
+                }
+            )
+        });
+
+
+        
+    },
+
+    deleteUser: async(req, res)=>{
+        const id = req.params.id;
+        const pw = req.params.pw;
+        connection.query(`SELECT password FROM broccoli.users where id = '${id}';`, (error, result)=>{
+            if(error)   return res.send({"statusCode" : 400, "isAvailable" : false, "message" : error});
+            bcrypt.compare(pw, result[0].password, (err, isMatch) => {
+                if(err)     return res.send({"statusCode" : 400, "message" : err});
+                if(!isMatch)return res.send({"statusCode" : 200, "isAvailable" : false, "message" : "ID 또는 Password가 일치하지 않습니다."});
+            })
+            
+            connection.query(`DELETE FROM broccoli.users where id='${id}';`, (err, rows)=>{
+                if(err)     return res.send({"statusCode" : 400, "isAvailable" : false, "message" : err});
+                else        return res.send({"statusCode" : 200, "isAvailable" : true, "message" : "회원탈퇴가 완료되었습니다."});
+            })
+        })
     }
+
+
 }
 
 module.exports = broccoliCtrl;
