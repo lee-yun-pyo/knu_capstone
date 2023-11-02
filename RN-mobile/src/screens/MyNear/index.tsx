@@ -5,8 +5,8 @@ import * as Location from "expo-location";
 
 import { MyLocation } from "components/Common/MyLocation";
 
-import { REGION_DELTA } from "constants";
-import { getLocationPermission } from "utils";
+import { INITIAL_LOCATION, REGION_DELTA } from "constants";
+import { getLocationPermission, getObjAsyncStorage } from "utils";
 
 import { styles } from "./style";
 
@@ -17,12 +17,11 @@ interface currentLocationProps {
 
 export function MyNear() {
   const [loading, setLoading] = useState(true);
+  const [isPermission, setIsPermission] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<currentLocationProps>({
-    latitude: 0,
-    longitude: 0,
+    latitude: INITIAL_LOCATION.latitude,
+    longitude: INITIAL_LOCATION.longitude,
   });
-  const [errorMsg, setErrorMsg] = useState("");
-  const [isPermissoin, setIsPermission] = useState(false);
 
   const region = {
     latitude: currentLocation.latitude,
@@ -39,36 +38,46 @@ export function MyNear() {
     // TO_DO: navigate 처리
   };
 
-  const isLocationPermissionGranted = (status: string) => {
+  const isPermissionGranted = (status: string) => {
     return status === "granted";
   };
 
-  const getLocation = async () => {
-    try {
-      let location = await Location.getLastKnownPositionAsync();
+  const updateCurrentLocation = (location: currentLocationProps) => {
+    const { latitude, longitude } = location;
+    setCurrentLocation({ latitude, longitude });
+  };
 
-      if (!location) {
-        location = await Location.getCurrentPositionAsync();
-      }
+  const handlePermissionNotGranted = async () => {
+    const lastLocation = await getObjAsyncStorage("last-location");
+    lastLocation !== null && updateCurrentLocation(lastLocation);
+  };
 
-      const { latitude, longitude } = location.coords;
-      setCurrentLocation({ latitude, longitude });
-    } catch {
-      setErrorMsg("위치를 찾을 수 없습니다. 다시 시도해주세요.");
-    } finally {
-      setLoading(false);
+  const getCurrentLocation = async () => {
+    let location = await Location.getLastKnownPositionAsync();
+
+    if (!location) {
+      location = await Location.getCurrentPositionAsync();
     }
+
+    const { latitude, longitude } = location.coords;
+    return { latitude, longitude };
+  };
+
+  const handlePermissionGranted = async () => {
+    const currentLocation = await getCurrentLocation();
+    updateCurrentLocation(currentLocation);
   };
 
   useEffect(() => {
     (async () => {
       const status = await getLocationPermission();
-      if (!isLocationPermissionGranted(status)) {
-        // 위치 허용 안했을 때
-        return;
+      if (!isPermissionGranted(status)) {
+        await handlePermissionNotGranted();
+      } else {
+        await handlePermissionGranted();
+        setIsPermission(true);
       }
-      setIsPermission(true);
-      await getLocation();
+      setLoading(false);
     })();
   }, []);
 
@@ -78,7 +87,7 @@ export function MyNear() {
     </View>
   ) : (
     <MapView initialRegion={region} style={styles.container}>
-      {isPermissoin && (
+      {isPermission && (
         <Marker
           coordinate={{
             latitude: region.latitude,
