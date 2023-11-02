@@ -1,4 +1,5 @@
 import { TIME_UNITS } from "constants";
+import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {
   const now = new Date().getTime();
@@ -63,4 +64,9 @@ export function getLeftTimeByUnit(unit: Unit, diff: number) {
 
 export function convertToTwoDigits(index: number) {
   return (index + 1).toString().padStart(2, '0');
+}
+
+export async function getLocationPermission () {
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  return status;
 }
