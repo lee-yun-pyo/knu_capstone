@@ -39,3 +39,8 @@ export const PROFILE_MENU: profileMenuType[] = [
     path: "SaleHistory",
   }
 ]
+
+export const INITIAL_LOCATION = {
+  latitude: 37.574187,
+  longitude: 126.976882
+};

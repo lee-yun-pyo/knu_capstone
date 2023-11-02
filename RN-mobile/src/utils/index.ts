@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TIME_UNITS } from "constants";
 import * as Location from "expo-location";
 
@@ -69,4 +70,14 @@ export function convertToTwoDigits(index: number) {
 export async function getLocationPermission () {
   const { status } = await Location.requestForegroundPermissionsAsync();
   return status;
+}
+
+export async function getObjAsyncStorage(key: string) {
+  const jsonValue = await AsyncStorage.getItem(key);
+  return jsonValue !== null ? JSON.parse(jsonValue) : null;
+}
+
+export async function setObjAsyncStorage(key: string, value: string) {
+  const jsonValue = JSON.stringify(value);
+  return await AsyncStorage.setItem(key, jsonValue);
 }
