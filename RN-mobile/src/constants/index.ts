@@ -38,9 +38,19 @@ export const PROFILE_MENU: profileMenuType[] = [
     icon: "shoppingcart",
     path: "SaleHistory",
   }
-]
+];
 
 export const INITIAL_LOCATION = {
   latitude: 37.574187,
-  longitude: 126.976882
+  longitude: 126.976882,
+};
+
+export const INITIAL_DELTA = {
+  latitudeDelta: REGION_DELTA,
+  longitudeDelta: REGION_DELTA
+};
+
+export const INITIAL_REGION = {
+  ...INITIAL_LOCATION,
+  ...INITIAL_DELTA
 };

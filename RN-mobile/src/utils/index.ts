@@ -77,7 +77,11 @@ export async function getObjAsyncStorage(key: string) {
   return jsonValue !== null ? JSON.parse(jsonValue) : null;
 }
 
-export async function setObjAsyncStorage(key: string, value: string) {
-  const jsonValue = JSON.stringify(value);
+export async function setObjAsyncStorage(key: string, obj: Object) {
+  const jsonValue = JSON.stringify(obj);
   return await AsyncStorage.setItem(key, jsonValue);
 }
+
+export const isPermissionGranted = (status: string) => {
+  return status === "granted";
+};

@@ -49,3 +49,14 @@ export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsL
 type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
 type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
 export type profileMenuType = { name: string, icon: profileMenuIconType, path: ProfileMenuPathType };
+
+export interface LocationProps {
+    latitude: number;
+    longitude: number;
+}
+  
+export interface RegionProps extends LocationProps {
+    latitudeDelta: number;
+    longitudeDelta: number;
+}
+  

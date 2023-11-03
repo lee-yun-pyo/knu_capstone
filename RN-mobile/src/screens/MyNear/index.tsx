@@ -1,34 +1,29 @@
-import { useEffect, useState } from "react";
-import { Image, View } from "react-native";
-import MapView, { Marker, MarkerPressEvent } from "react-native-maps";
+import { useEffect, useState, useCallback } from "react";
+import { ActivityIndicator, View, Alert, Linking } from "react-native";
+import MapView, { Marker, MarkerPressEvent, Region } from "react-native-maps";
 import * as Location from "expo-location";
 
 import { MyLocation } from "components/Common/MyLocation";
+import { MyLocationButton } from "components/Common/MyLocationButon";
 
-import { INITIAL_LOCATION, REGION_DELTA } from "constants";
-import { getLocationPermission, getObjAsyncStorage } from "utils";
+import { RegionProps, LocationProps } from "types";
+import { INITIAL_LOCATION, INITIAL_REGION, INITIAL_DELTA } from "constants";
+import { BackGroundColor } from "constants/color";
+import {
+  getLocationPermission,
+  getObjAsyncStorage,
+  isPermissionGranted,
+  setObjAsyncStorage,
+} from "utils";
 
 import { styles } from "./style";
 
-interface currentLocationProps {
-  latitude: number;
-  longitude: number;
-}
-
 export function MyNear() {
   const [loading, setLoading] = useState(true);
-  const [isPermission, setIsPermission] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState<currentLocationProps>({
-    latitude: INITIAL_LOCATION.latitude,
-    longitude: INITIAL_LOCATION.longitude,
-  });
-
-  const region = {
-    latitude: currentLocation.latitude,
-    longitude: currentLocation.longitude,
-    latitudeDelta: REGION_DELTA,
-    longitudeDelta: REGION_DELTA,
-  };
+  const [permissionStatus, setPermissionStatus] = useState("");
+  const [myLocation, setMyLocation] = useState<LocationProps>(INITIAL_LOCATION);
+  const [currentLocation, setCurrentLocation] =
+    useState<RegionProps>(INITIAL_REGION);
 
   const handlePressMarker = (event: MarkerPressEvent) => {
     const { action } = event.nativeEvent;
@@ -38,13 +33,40 @@ export function MyNear() {
     // TO_DO: navigate 처리
   };
 
-  const isPermissionGranted = (status: string) => {
-    return status === "granted";
+  const handleMapRegionChange = async (region: Region) => {
+    setCurrentLocation(region);
+    setObjAsyncStorage("last-location", region);
   };
 
-  const updateCurrentLocation = (location: currentLocationProps) => {
+  const linkToSettings = useCallback(async () => {
+    await Linking.openSettings();
+  }, []);
+
+  const handlePressMyLocationBtn = async () => {
+    const status = await getLocationPermission();
+    setPermissionStatus(status);
+    if (!isPermissionGranted(status)) {
+      Alert.alert(
+        "위치 설정 사용",
+        "서비스를 이용하려면 위치 접근을 허용해주세요",
+        [
+          { text: "취소", style: "cancel" },
+          {
+            text: "설정으로 이동",
+            style: "destructive",
+            onPress: linkToSettings,
+          },
+        ]
+      );
+      return;
+    }
+    await handlePermissionGranted();
+  };
+
+  const updateCurrentLocation = (location: RegionProps) => {
     const { latitude, longitude } = location;
-    setCurrentLocation({ latitude, longitude });
+    setCurrentLocation(location);
+    setMyLocation({ latitude, longitude });
   };
 
   const handlePermissionNotGranted = async () => {
@@ -59,8 +81,10 @@ export function MyNear() {
       location = await Location.getCurrentPositionAsync();
     }
 
-    const { latitude, longitude } = location.coords;
-    return { latitude, longitude };
+    return {
+      ...location.coords,
+      ...INITIAL_DELTA,
+    };
   };
 
   const handlePermissionGranted = async () => {
@@ -69,29 +93,36 @@ export function MyNear() {
   };
 
   useEffect(() => {
-    (async () => {
+    const paintMap = async () => {
       const status = await getLocationPermission();
+      setPermissionStatus(status);
       if (!isPermissionGranted(status)) {
         await handlePermissionNotGranted();
       } else {
         await handlePermissionGranted();
-        setIsPermission(true);
       }
       setLoading(false);
-    })();
-  }, []);
+    };
+
+    paintMap();
+  }, [permissionStatus]);
 
   return loading ? (
-    <View style={styles.container}>
-      <Image source={require("../../../assets/rolling_loader.gif")} />
+    <View style={[styles.container, { justifyContent: "center" }]}>
+      <ActivityIndicator size="large" color={BackGroundColor.GREEN} />
     </View>
   ) : (
-    <MapView initialRegion={region} style={styles.container}>
-      {isPermission && (
+    <MapView
+      initialRegion={currentLocation}
+      onRegionChangeComplete={handleMapRegionChange}
+      region={currentLocation}
+      style={styles.container}
+    >
+      {isPermissionGranted(permissionStatus) && (
         <Marker
           coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
+            latitude: myLocation.latitude,
+            longitude: myLocation.longitude,
           }}
         >
           <MyLocation />
@@ -102,6 +133,10 @@ export function MyNear() {
         coordinate={{ latitude: 36.322475, longitude: 127.403294 }}
         image={require("../../../assets/location_red.png")}
         onPress={handlePressMarker}
+      />
+      <MyLocationButton
+        onPress={handlePressMyLocationBtn}
+        isPermitLocation={isPermissionGranted(permissionStatus)}
       />
     </MapView>
   );
