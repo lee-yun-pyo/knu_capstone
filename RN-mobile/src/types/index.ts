@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Control, FieldErrors } from "react-hook-form";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -66,5 +67,9 @@ export interface FormData {
     lowerLimit: string;
     upperLimit: string;
     endTime: string;
-  }
-  
+}
+
+export interface UploadInputProps {
+    control: Control<FormData>;
+    errors: FieldErrors<FormData>;
+}

@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TIME_UNITS } from "constants";
+import { TIME_UNITS, WON_SYMBOL } from "constants";
 import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {
@@ -90,4 +90,10 @@ export const convertToLocaleStringFromInput = (text: string) => {
   const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
   const result = newText.replace(/,/g, "");
   return result;
+};
+
+export const formatCurrency = (input: string) => {
+  return input !== ""
+    ? `${WON_SYMBOL} ${parseInt(input).toLocaleString()}`
+    : "";
 };
