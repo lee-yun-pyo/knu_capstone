@@ -2,7 +2,7 @@ export const FontColor = {
     gray: "#A4A5A1",
     startPriceColor: "#3983F6",
     upperPriceColor: "#ee4638",
-    WARNNING: "#d55257",
+    WARNNING: "#E23D27",
 }
 
 export const BackGroundColor = {

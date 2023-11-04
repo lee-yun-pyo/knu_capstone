@@ -85,3 +85,9 @@ export async function setObjAsyncStorage(key: string, obj: Object) {
 export const isPermissionGranted = (status: string) => {
   return status === "granted";
 };
+
+export const convertToLocaleStringFromInput = (text: string) => {
+  const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
+  const result = newText.replace(/,/g, "");
+  return result;
+};

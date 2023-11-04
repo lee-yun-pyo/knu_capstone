@@ -9,6 +9,7 @@ import { TextInputPrice } from "components/Bid/TextInputPrice";
 
 import { BidScreenProps } from "types";
 import { WARNNING_MESSAGE } from "constants";
+import { convertToLocaleStringFromInput } from "utils";
 
 import { styles } from "./style";
 
@@ -21,8 +22,7 @@ export function Bid() {
   const { currentPrice, lowerPrice, upperPrice } = route.params;
 
   const handleChangePrice = (text: string) => {
-    const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
-    const newBidPrice = newText.replace(/,/g, "");
+    const newBidPrice = convertToLocaleStringFromInput(text);
     setBidPrice(newBidPrice);
   };
 
