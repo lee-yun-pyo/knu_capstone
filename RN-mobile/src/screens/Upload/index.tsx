@@ -8,20 +8,12 @@ import {
   Platform,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import { styles } from "./style";
-import { FontColor } from "constants/color";
 import { WON_SYMBOL } from "constants";
 import { convertToLocaleStringFromInput } from "utils";
-
-interface FormData {
-  title: string;
-  description: string;
-  lowerLimit: string;
-  upperLimit: string;
-  endTime: string;
-}
+import { FormData } from "types";
+import { ErrorMessage } from "components/Common/ErrorMessage";
 
 export function Upload() {
   const {
@@ -61,15 +53,8 @@ export function Upload() {
             )}
             name="title"
           />
-          {errors.title && (
-            <View style={styles.errorBox}>
-              <MaterialIcons
-                name="error"
-                size={17}
-                color={FontColor.WARNNING}
-              />
-              <Text style={styles.errorMsg}>{errors.title.message}</Text>
-            </View>
+          {errors.title?.message && (
+            <ErrorMessage errorsMsg={errors.title.message} />
           )}
         </View>
         <View style={styles.inputBox}>
@@ -95,15 +80,8 @@ export function Upload() {
             )}
             name="description"
           />
-          {errors.description && (
-            <View style={styles.errorBox}>
-              <MaterialIcons
-                name="error"
-                size={17}
-                color={FontColor.WARNNING}
-              />
-              <Text style={styles.errorMsg}>{errors.description.message}</Text>
-            </View>
+          {errors.description?.message && (
+            <ErrorMessage errorsMsg={errors.description?.message} />
           )}
         </View>
         <View style={styles.inputBox}>
@@ -139,15 +117,8 @@ export function Upload() {
               )}
               name="lowerLimit"
             />
-            {errors.lowerLimit && (
-              <View style={styles.errorBox}>
-                <MaterialIcons
-                  name="error"
-                  size={17}
-                  color={FontColor.WARNNING}
-                />
-                <Text style={styles.errorMsg}>설명을 적어주세요</Text>
-              </View>
+            {errors.lowerLimit?.message && (
+              <ErrorMessage errorsMsg={errors.lowerLimit.message} />
             )}
           </View>
           <View style={styles.priceBox}>
@@ -178,15 +149,8 @@ export function Upload() {
               )}
               name="upperLimit"
             />
-            {errors.upperLimit && (
-              <View style={styles.errorBox}>
-                <MaterialIcons
-                  name="error"
-                  size={17}
-                  color={FontColor.WARNNING}
-                />
-                <Text style={styles.errorMsg}>설명을 적어주세요</Text>
-              </View>
+            {errors.upperLimit?.message && (
+              <ErrorMessage errorsMsg={errors.upperLimit.message} />
             )}
           </View>
         </View>

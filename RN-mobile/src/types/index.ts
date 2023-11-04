@@ -60,3 +60,11 @@ export interface RegionProps extends LocationProps {
     longitudeDelta: number;
 }
   
+export interface FormData {
+    title: string;
+    description: string;
+    lowerLimit: string;
+    upperLimit: string;
+    endTime: string;
+  }
+  
