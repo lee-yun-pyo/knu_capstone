@@ -10,4 +10,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  deleteButton: {
+    position: "absolute",
+    right: -5,
+    top: -5,
+    zIndex: 1,
+  },
 });

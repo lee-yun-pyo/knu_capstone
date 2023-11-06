@@ -18,6 +18,14 @@ export function ImagePicker() {
     setPickedImages((prevImages) => [...newImageUrl, ...prevImages]);
   };
 
+  const removeImageAtIndex = (index: number) => {
+    setPickedImages((prevImages) => {
+      const updatedImages = [...prevImages];
+      updatedImages.splice(index, 1);
+      return updatedImages;
+    });
+  };
+
   const verifyPermission = async () => {
     if (cameraPermissionInfo?.status === picker.PermissionStatus.UNDETERMINED) {
       const permissionRespnse = await requestPermission();
@@ -108,8 +116,13 @@ export function ImagePicker() {
       </View>
       <View style={styles.imageWrapper}>
         {pickedImages.length !== 0 &&
-          pickedImages.map((imageUrl) => (
-            <PreviewImage key={imageUrl} source={imageUrl} />
+          pickedImages.map((imageUrl, index) => (
+            <PreviewImage
+              key={imageUrl}
+              source={imageUrl}
+              onPress={removeImageAtIndex}
+              index={index}
+            />
           ))}
       </View>
     </ScrollView>
