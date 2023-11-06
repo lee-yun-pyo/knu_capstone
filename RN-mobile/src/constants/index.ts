@@ -54,3 +54,5 @@ export const INITIAL_REGION = {
   ...INITIAL_LOCATION,
   ...INITIAL_DELTA
 };
+
+export const MAXIMUM_PICKED_NUMBER = 5;

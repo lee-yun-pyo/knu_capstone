@@ -5,6 +5,8 @@ import * as picker from "expo-image-picker";
 import { PickerButton } from "./PickerButton";
 import { PreviewImage } from "./PreviewImage";
 
+import { MAXIMUM_PICKED_NUMBER } from "constants";
+
 import { styles } from "./style";
 
 export function ImagePicker() {
@@ -41,6 +43,15 @@ export function ImagePicker() {
   const takePhotosHandler = async () => {
     const hasPermission = await verifyPermission();
 
+    if (pickedImages.length === MAXIMUM_PICKED_NUMBER) {
+      Alert.alert(
+        "이미지 업로드 수 초과",
+        `최대 ${MAXIMUM_PICKED_NUMBER}장 까지 업로드 할 수 있습니다`,
+        [{ text: "확인" }]
+      );
+      return;
+    }
+
     if (!hasPermission) {
       return;
     }
@@ -55,11 +66,19 @@ export function ImagePicker() {
   };
 
   const getImageHandler = async () => {
+    if (pickedImages.length === MAXIMUM_PICKED_NUMBER) {
+      Alert.alert(
+        "이미지 업로드 수 초과",
+        `최대 ${MAXIMUM_PICKED_NUMBER}장 까지 업로드 할 수 있습니다`,
+        [{ text: "확인" }]
+      );
+      return;
+    }
     const result = await picker.launchImageLibraryAsync({
       mediaTypes: picker.MediaTypeOptions.Images,
       aspect: [4, 3],
       quality: 1,
-      selectionLimit: 5,
+      selectionLimit: MAXIMUM_PICKED_NUMBER - pickedImages.length,
       allowsMultipleSelection: true,
     });
 
@@ -76,8 +95,16 @@ export function ImagePicker() {
       style={styles.container}
     >
       <View style={styles.buttonWrapper}>
-        <PickerButton onPress={getImageHandler} icon="image" />
-        <PickerButton onPress={takePhotosHandler} icon="camera" />
+        <PickerButton
+          onPress={getImageHandler}
+          icon="image"
+          text={`${pickedImages.length} / ${MAXIMUM_PICKED_NUMBER}`}
+        />
+        <PickerButton
+          onPress={takePhotosHandler}
+          icon="camera"
+          text="사진촬영"
+        />
       </View>
       <View style={styles.imageWrapper}>
         {pickedImages.length !== 0 &&

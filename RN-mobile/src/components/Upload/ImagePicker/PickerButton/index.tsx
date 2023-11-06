@@ -8,14 +8,15 @@ import { styles } from "./style";
 interface Props {
   icon: "image" | "camera";
   onPress: () => void;
+  text: string;
 }
 
-export function PickerButton({ icon, onPress }: Props) {
+export function PickerButton({ icon, onPress, text }: Props) {
   return (
     <Pressable onPress={onPress}>
       <View style={styles.container}>
         <Ionicons name={icon} size={20} color={FontColor.gray} />
-        <Text style={styles.text}>0/10</Text>
+        <Text style={styles.text}>{text}</Text>
       </View>
     </Pressable>
   );
