@@ -6,6 +6,7 @@ import { DescriptionInput } from "components/Upload/DescriptionInput";
 import { PriceInput } from "components/Upload/PriceInput";
 import { EndTimeInput } from "components/Upload/EndTimeInput";
 import { SubmitButton } from "components/Upload/SubmitButton";
+import { ImagePicker } from "components/Upload/ImagePicker";
 
 import { FormData } from "types";
 
@@ -33,6 +34,7 @@ export function Upload() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView style={styles.container}>
+        <ImagePicker />
         <TitleInput control={control} errors={errors} />
         <DescriptionInput control={control} errors={errors} />
         <PriceInput control={control} errors={errors} />
