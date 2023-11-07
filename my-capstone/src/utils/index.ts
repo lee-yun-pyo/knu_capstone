@@ -30,7 +30,7 @@ export function calculateDaysAgo(inputDate: string) {
   return '방금 전';
 }
 
-export function formatDate(inputDate: string) {
+export function getFormattedDate(inputDate: string) {
   const date = new Date(inputDate);
   const year = date.getFullYear() % 100;
   const month = date.getMonth() + 1;

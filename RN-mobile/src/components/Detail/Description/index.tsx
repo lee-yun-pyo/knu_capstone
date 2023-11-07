@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-import { calculateDaysAgo, formatDate } from "utils";
+import { calculateDaysAgo, getFormattedDate } from "utils";
 
 import { styles } from "./style";
 
@@ -12,7 +12,7 @@ interface Props {
 
 export function Description({ title, registerDate, description }: Props) {
   const daysAgo = calculateDaysAgo(registerDate);
-  const formatedDate = formatDate(registerDate);
+  const formatedDate = getFormattedDate(registerDate);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>

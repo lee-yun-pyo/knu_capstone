@@ -32,7 +32,7 @@ export function calculateDaysAgo(inputDate: string) {
   return '방금 전';
 }
 
-export function formatDate(inputDate: string) {
+export function getFormattedDate(inputDate: string) {
   const date = new Date(inputDate);
   const year = date.getFullYear() % 100;
   const month = date.getMonth() + 1;
@@ -40,6 +40,23 @@ export function formatDate(inputDate: string) {
 
   return `${year}년 ${month}월 ${day}일`;
 }
+
+export function getFormattedTime(inputDate: string) {
+  const date = new Date(inputDate);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${period} ${formattedHours}:${formattedMinutes}`;
+}
+
+export function getFormattedDateTime(inputDate: string) {
+  const date = new Date(inputDate);
+  return `${getFormattedDate(String(date))} ${getFormattedTime(String(date))}`;
+};
 
 export function getTimeToNumber(inputDate: string) {
   return new Date(inputDate).getTime();
