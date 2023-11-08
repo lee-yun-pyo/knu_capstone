@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { View, ScrollView, Alert } from "react-native";
+import { useCallback, useState } from "react";
+import { View, ScrollView, Alert, Linking } from "react-native";
 import * as picker from "expo-image-picker";
 
 import { PickerButton } from "./PickerButton";
@@ -13,6 +13,10 @@ export function ImagePicker() {
   const [pickedImages, setPickedImages] = useState<string[]>([]);
   const [cameraPermissionInfo, requestPermission] =
     picker.useCameraPermissions();
+
+  const linkToSettings = useCallback(async () => {
+    await Linking.openSettings();
+  }, []);
 
   const addNewImage = (newImageUrl: string[]) => {
     setPickedImages((prevImages) => [...newImageUrl, ...prevImages]);
@@ -39,7 +43,7 @@ export function ImagePicker() {
         "서비스를 이용하려면 카메라 접근을 허용해주세요",
         [
           { text: "취소", style: "cancel" },
-          { text: "설정으로 이동", style: "default", onPress: () => {} },
+          { text: "설정으로 이동", style: "default", onPress: linkToSettings },
         ]
       );
       return false;
