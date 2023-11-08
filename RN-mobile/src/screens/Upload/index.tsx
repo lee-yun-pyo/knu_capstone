@@ -1,4 +1,9 @@
-import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from "react-native";
 import { useForm } from "react-hook-form";
 
 import { TitleInput } from "components/Upload/TitleInput";
@@ -16,9 +21,13 @@ export function Upload() {
   const {
     control,
     handleSubmit,
+    setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
+      images: [],
       title: "",
       description: "",
       lowerLimit: "",
@@ -27,18 +36,33 @@ export function Upload() {
     },
   });
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const handleImagesValue = (value: string[]) => {
+    setValue("images", value);
+  };
+
+  const handleEndTimeValue = (value: string) => {
+    setValue("endTime", value);
+  };
+
+  const onSubmit = (data: FormData) => {
+    Alert.alert("data", JSON.stringify(data));
+  };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView style={styles.container}>
-        <ImagePicker />
+        <ImagePicker setValue={handleImagesValue} />
         <TitleInput control={control} errors={errors} />
         <DescriptionInput control={control} errors={errors} />
         <PriceInput control={control} errors={errors} />
-        <EndTimeInput />
+        <EndTimeInput
+          setValue={handleEndTimeValue}
+          errors={errors}
+          setError={setError}
+          clearErrors={clearErrors}
+        />
         <SubmitButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
       </ScrollView>
     </KeyboardAvoidingView>

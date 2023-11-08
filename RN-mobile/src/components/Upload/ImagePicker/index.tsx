@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { View, ScrollView, Alert, Linking } from "react-native";
 import * as picker from "expo-image-picker";
 
@@ -9,7 +9,11 @@ import { MAXIMUM_PICKED_NUMBER } from "constants";
 
 import { styles } from "./style";
 
-export function ImagePicker() {
+interface Props {
+  setValue: (value: string[]) => void;
+}
+
+export function ImagePicker({ setValue }: Props) {
   const [pickedImages, setPickedImages] = useState<string[]>([]);
   const [cameraPermissionInfo, requestPermission] =
     picker.useCameraPermissions();
@@ -103,6 +107,10 @@ export function ImagePicker() {
 
     await handleImageSelection(picker.launchImageLibraryAsync, options);
   };
+
+  useEffect(() => {
+    setValue([...pickedImages]);
+  }, [pickedImages]);
 
   return (
     <ScrollView

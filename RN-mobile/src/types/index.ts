@@ -62,6 +62,7 @@ export interface RegionProps extends LocationProps {
 }
   
 export interface FormData {
+    images: string[];
     title: string;
     description: string;
     lowerLimit: string;
