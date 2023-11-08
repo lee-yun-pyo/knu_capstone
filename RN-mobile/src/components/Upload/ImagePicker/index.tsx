@@ -14,6 +14,14 @@ export function ImagePicker() {
   const [cameraPermissionInfo, requestPermission] =
     picker.useCameraPermissions();
 
+  const handleImageUploadLimitExceeded = () => {
+    Alert.alert(
+      "이미지 업로드 수 초과",
+      `최대 ${MAXIMUM_PICKED_NUMBER}장 까지 업로드 할 수 있습니다`,
+      [{ text: "확인" }]
+    );
+  };
+
   const linkToSettings = useCallback(async () => {
     await Linking.openSettings();
   }, []);
@@ -52,52 +60,48 @@ export function ImagePicker() {
     return true;
   };
 
-  const takePhotosHandler = async () => {
-    const hasPermission = await verifyPermission();
-
+  const handleImageSelection = async (
+    launchFunction: Function,
+    options: any
+  ) => {
     if (pickedImages.length === MAXIMUM_PICKED_NUMBER) {
-      Alert.alert(
-        "이미지 업로드 수 초과",
-        `최대 ${MAXIMUM_PICKED_NUMBER}장 까지 업로드 할 수 있습니다`,
-        [{ text: "확인" }]
-      );
+      handleImageUploadLimitExceeded();
       return;
     }
 
-    if (!hasPermission) {
-      return;
-    }
-    const image = await picker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
-    if (image.assets) {
-      addNewImage([image.assets[0].uri]);
+    const result = await launchFunction(options);
+
+    if (!result.canceled) {
+      const newImages = result.assets.map((item: any) => item.uri);
+      addNewImage(newImages);
     }
   };
 
-  const getImageHandler = async () => {
-    if (pickedImages.length === MAXIMUM_PICKED_NUMBER) {
-      Alert.alert(
-        "이미지 업로드 수 초과",
-        `최대 ${MAXIMUM_PICKED_NUMBER}장 까지 업로드 할 수 있습니다`,
-        [{ text: "확인" }]
-      );
+  const takePhotosHandler = async () => {
+    const hasPermission = await verifyPermission();
+    if (!hasPermission) {
       return;
     }
-    const result = await picker.launchImageLibraryAsync({
+
+    const options = {
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5,
+    };
+
+    await handleImageSelection(picker.launchCameraAsync, options);
+  };
+
+  const getImageHandler = async () => {
+    const options = {
       mediaTypes: picker.MediaTypeOptions.Images,
       aspect: [4, 3],
       quality: 1,
       selectionLimit: MAXIMUM_PICKED_NUMBER - pickedImages.length,
       allowsMultipleSelection: true,
-    });
+    };
 
-    if (!result.canceled) {
-      const newImages = result.assets.map((item) => item.uri);
-      addNewImage(newImages);
-    }
+    await handleImageSelection(picker.launchImageLibraryAsync, options);
   };
 
   return (
