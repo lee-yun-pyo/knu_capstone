@@ -52,7 +52,7 @@ export function Upload() {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <ImagePicker setValue={handleImagesValue} />
         <TitleInput control={control} errors={errors} />
         <DescriptionInput control={control} errors={errors} />
