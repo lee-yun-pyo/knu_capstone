@@ -1,4 +1,4 @@
-import { calculateDaysAgo, formatDate } from '@/utils';
+import { calculateDaysAgo, getFormattedDate } from '@/utils';
 
 import * as S from './style';
 
@@ -15,7 +15,7 @@ interface Props {
 export function Description({ info }: Props) {
   const { owner, title, location, registerDate, description } = info;
   const daysAgo = calculateDaysAgo(registerDate);
-  const formatedDate = formatDate(registerDate);
+  const formatedDate = getFormattedDate(registerDate);
   return (
     <S.Container>
       <S.OwnerWrapper>
