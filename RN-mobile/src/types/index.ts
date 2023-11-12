@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Control, FieldErrors } from "react-hook-form";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -49,3 +50,27 @@ export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsL
 type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
 type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
 export type profileMenuType = { name: string, icon: profileMenuIconType, path: ProfileMenuPathType };
+
+export interface LocationProps {
+    latitude: number;
+    longitude: number;
+}
+  
+export interface RegionProps extends LocationProps {
+    latitudeDelta: number;
+    longitudeDelta: number;
+}
+  
+export interface FormData {
+    images: string[];
+    title: string;
+    description: string;
+    lowerLimit: string;
+    upperLimit: string;
+    endTime: string;
+}
+
+export interface UploadInputProps {
+    control: Control<FormData>;
+    errors: FieldErrors<FormData>;
+}

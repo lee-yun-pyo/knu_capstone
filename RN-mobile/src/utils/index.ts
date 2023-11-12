@@ -1,4 +1,6 @@
-import { TIME_UNITS } from "constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TIME_UNITS, WON_SYMBOL } from "constants";
+import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {
   const now = new Date().getTime();
@@ -30,7 +32,7 @@ export function calculateDaysAgo(inputDate: string) {
   return '방금 전';
 }
 
-export function formatDate(inputDate: string) {
+export function getFormattedDate(inputDate: string) {
   const date = new Date(inputDate);
   const year = date.getFullYear() % 100;
   const month = date.getMonth() + 1;
@@ -38,6 +40,23 @@ export function formatDate(inputDate: string) {
 
   return `${year}년 ${month}월 ${day}일`;
 }
+
+export function getFormattedTime(inputDate: string) {
+  const date = new Date(inputDate);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${period} ${formattedHours}:${formattedMinutes}`;
+}
+
+export function getFormattedDateTime(inputDate: string) {
+  const date = new Date(inputDate);
+  return `${getFormattedDate(String(date))} ${getFormattedTime(String(date))}`;
+};
 
 export function getTimeToNumber(inputDate: string) {
   return new Date(inputDate).getTime();
@@ -64,3 +83,34 @@ export function getLeftTimeByUnit(unit: Unit, diff: number) {
 export function convertToTwoDigits(index: number) {
   return (index + 1).toString().padStart(2, '0');
 }
+
+export async function getLocationPermission () {
+  const { status } = await Location.requestForegroundPermissionsAsync();
+  return status;
+}
+
+export async function getObjAsyncStorage(key: string) {
+  const jsonValue = await AsyncStorage.getItem(key);
+  return jsonValue !== null ? JSON.parse(jsonValue) : null;
+}
+
+export async function setObjAsyncStorage(key: string, obj: Object) {
+  const jsonValue = JSON.stringify(obj);
+  return await AsyncStorage.setItem(key, jsonValue);
+}
+
+export const isPermissionGranted = (status: string) => {
+  return status === "granted";
+};
+
+export const convertToLocaleStringFromInput = (text: string) => {
+  const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
+  const result = newText.replace(/,/g, "");
+  return result;
+};
+
+export const formatCurrency = (input: string) => {
+  return input !== ""
+    ? `${WON_SYMBOL} ${parseInt(input).toLocaleString()}`
+    : "";
+};

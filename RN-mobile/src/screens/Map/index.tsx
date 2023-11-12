@@ -21,6 +21,7 @@ export function Map() {
       <Marker
         title={storeName}
         coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+        image={require("../../../assets/location_red.png")}
       />
     </MapView>
   );
