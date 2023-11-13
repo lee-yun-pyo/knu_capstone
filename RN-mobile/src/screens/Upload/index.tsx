@@ -10,7 +10,7 @@ import { TitleInput } from "components/Upload/TitleInput";
 import { DescriptionInput } from "components/Upload/DescriptionInput";
 import { PriceInput } from "components/Upload/PriceInput";
 import { EndTimeInput } from "components/Upload/EndTimeInput";
-import { SubmitButton } from "components/Upload/SubmitButton";
+import { SubmitButton } from "components/Common/SubmitButton";
 import { ImagePicker } from "components/Upload/ImagePicker";
 
 import { FormData } from "types";

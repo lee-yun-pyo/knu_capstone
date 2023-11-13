@@ -10,7 +10,7 @@ import { NameInput } from "components/SignUp/NameInput";
 import { IdInput } from "components/SignUp/IdInput";
 import { EmailInput } from "components/SignUp/EmailInput";
 import { PasswordInput } from "components/SignUp/PasswordInput";
-import { SubmitButton } from "components/Upload/SubmitButton";
+import { SubmitButton } from "components/Common/SubmitButton";
 
 import { SignUpData } from "types";
 
