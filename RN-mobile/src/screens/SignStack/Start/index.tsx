@@ -1,8 +1,21 @@
 import { View, Image, Text, Pressable, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { SignPathType, SignStackScreenProps } from "types";
 
 import { styles } from "./style";
 
 export function Start() {
+  const navigation = useNavigation<SignStackScreenProps["navigation"]>();
+
+  const handleNavigate = (screen: SignPathType) => {
+    navigation.navigate(screen);
+  };
+
+  const handlePress = (screen: SignPathType) => {
+    handleNavigate(screen);
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -17,7 +30,7 @@ export function Start() {
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={() => handlePress("SelectType")}>
             <View style={styles.btnView}>
               <Text style={styles.btnText}>시작하기</Text>
             </View>
@@ -25,7 +38,7 @@ export function Start() {
           <View>
             <Text style={styles.signInText}>
               이미 계정이 있나요?
-              <Pressable onPress={() => {}}>
+              <Pressable onPress={() => handlePress("SignIn")}>
                 <Text style={styles.signInBtn}>로그인</Text>
               </Pressable>
             </Text>
