@@ -1,20 +1,23 @@
 import { View, Text, Pressable } from "react-native";
-import { UseFormHandleSubmit } from "react-hook-form";
-
-import { FormData } from "types";
+import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
 
 import { styles } from "./style";
 
-interface Props {
-  handleSubmit: UseFormHandleSubmit<FormData, undefined>;
-  onSubmit: (data: FormData) => void;
+interface Props<T extends FieldValues> {
+  handleSubmit: UseFormHandleSubmit<T, undefined>;
+  onSubmit: (data: T) => void;
+  content: string;
 }
 
-export function SubmitButton({ handleSubmit, onSubmit }: Props) {
+export function SubmitButton<T extends FieldValues>({
+  handleSubmit,
+  onSubmit,
+  content,
+}: Props<T>) {
   return (
     <View style={styles.container}>
       <Pressable onPress={handleSubmit(onSubmit)}>
-        <Text style={styles.btnText}>작성 완료</Text>
+        <Text style={styles.btnText}>{content}</Text>
       </Pressable>
     </View>
   );

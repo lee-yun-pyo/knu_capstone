@@ -63,7 +63,11 @@ export function Upload() {
           setError={setError}
           clearErrors={clearErrors}
         />
-        <SubmitButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
+        <SubmitButton<FormData>
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          content="작성완료"
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );

@@ -40,12 +40,22 @@ export type ProfileStackParamsList = {
     SaleHistory: undefined;
 };
 
+export type SignStackParamsList = {
+    Start: undefined;
+    SelectType: undefined;
+    SignUp: undefined;
+    SignIn: undefined;
+};
+
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
 export type UploadScreenProps = NativeStackScreenProps<RootStackParamList, "Upload">;
 
 export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
+export type SignStackScreenProps = NativeStackScreenProps<SignStackParamsList>;
+
+export type SignPathType = "SelectType" | "SignUp" | "SignIn";
 
 type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
 type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
@@ -70,7 +80,22 @@ export interface FormData {
     endTime: string;
 }
 
+export interface SignUpData {
+    name: string;
+    email: string;
+    id: string;
+    password: string;
+    passwordConfirm: string;
+    latitude: number;
+    longitude: number;
+}
+
 export interface UploadInputProps {
     control: Control<FormData>;
     errors: FieldErrors<FormData>;
+}
+
+export interface SignUpInputProps {
+    control: Control<SignUpData>;
+    errors: FieldErrors<SignUpData>;
 }
