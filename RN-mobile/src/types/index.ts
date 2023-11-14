@@ -43,7 +43,7 @@ export type ProfileStackParamsList = {
 export type SignStackParamsList = {
     Start: undefined;
     SelectType: undefined;
-    SignUp: undefined;
+    SignUp: {type: UserType};
     SignIn: undefined;
 };
 
@@ -54,6 +54,7 @@ export type UploadScreenProps = NativeStackScreenProps<RootStackParamList, "Uplo
 
 export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
 export type SignStackScreenProps = NativeStackScreenProps<SignStackParamsList>;
+export type SignUpScreenProps = NativeStackScreenProps<SignStackParamsList, "SignUp">;
 
 export type SignPathType = "SelectType" | "SignUp" | "SignIn";
 
@@ -99,3 +100,5 @@ export interface SignUpInputProps {
     control: Control<SignUpData>;
     errors: FieldErrors<SignUpData>;
 }
+
+export type UserType = "Seller" | "Buyer"

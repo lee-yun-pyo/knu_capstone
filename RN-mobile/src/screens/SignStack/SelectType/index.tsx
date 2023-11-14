@@ -5,24 +5,25 @@ import { useNavigation } from "@react-navigation/native";
 import { BottomButton } from "components/Common/BottomButton";
 
 import { BackGroundColor } from "constants/color";
-import { SignPathType, SignStackScreenProps } from "types";
+import { SignStackScreenProps, UserType } from "types";
 
 import { styles } from "./style";
 
 export function SelectType() {
-  const [useType, setUseType] = useState(0);
+  const [selectedUser, setSelectedUser] = useState<UserType>("Buyer");
   const navigation = useNavigation<SignStackScreenProps["navigation"]>();
 
-  const handlePressType = (useType: number) => {
-    setUseType(useType);
+  const handlePressType = (selectedUser: UserType) => {
+    setSelectedUser(selectedUser);
   };
 
-  const handleNavigate = (screen: SignPathType) => {
-    navigation.navigate(screen);
+  const navigateToSignUp = () => {
+    return { type: selectedUser };
   };
 
-  const handlePressSignUpButton = (screen: SignPathType) => {
-    handleNavigate(screen);
+  const handlePressSignUpButton = () => {
+    const navigationParams = navigateToSignUp();
+    navigation.navigate("SignUp", navigationParams);
   };
 
   return (
@@ -36,16 +37,16 @@ export function SelectType() {
               styles.buttonView,
               {
                 backgroundColor:
-                  useType === 0 ? BackGroundColor.GREEN : "white",
+                  selectedUser === "Buyer" ? BackGroundColor.GREEN : "white",
               },
             ]}
-            onPress={() => handlePressType(0)}
+            onPress={() => handlePressType("Buyer")}
           >
             <View>
               <Text
                 style={[
                   styles.buttonText,
-                  { color: useType === 0 ? "white" : "#000" },
+                  { color: selectedUser === "Buyer" ? "white" : "#000" },
                 ]}
               >
                 일반
@@ -57,16 +58,16 @@ export function SelectType() {
               styles.buttonView,
               {
                 backgroundColor:
-                  useType === 1 ? BackGroundColor.GREEN : "white",
+                  selectedUser === "Seller" ? BackGroundColor.GREEN : "white",
               },
             ]}
-            onPress={() => handlePressType(1)}
+            onPress={() => handlePressType("Seller")}
           >
             <View>
               <Text
                 style={[
                   styles.buttonText,
-                  { color: useType === 1 ? "white" : "#000" },
+                  { color: selectedUser === "Seller" ? "white" : "#000" },
                 ]}
               >
                 판매자
@@ -76,10 +77,7 @@ export function SelectType() {
         </View>
       </View>
       <View>
-        <BottomButton
-          onPress={() => handlePressSignUpButton("SignUp")}
-          content="회원가입"
-        />
+        <BottomButton onPress={handlePressSignUpButton} content="회원가입" />
       </View>
     </View>
   );

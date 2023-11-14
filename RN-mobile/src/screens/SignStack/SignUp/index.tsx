@@ -4,6 +4,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 import { NameInput } from "components/SignUp/NameInput";
@@ -12,11 +13,13 @@ import { EmailInput } from "components/SignUp/EmailInput";
 import { PasswordInput } from "components/SignUp/PasswordInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 
-import { SignUpData } from "types";
+import { SignUpData, SignUpScreenProps } from "types";
 
 import { styles } from "./style";
 
 export function SignUp() {
+  const route = useRoute<SignUpScreenProps["route"]>();
+  const { type } = route.params;
   const {
     control,
     handleSubmit,
@@ -37,7 +40,7 @@ export function SignUp() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <NameInput control={control} errors={errors} />
+        <NameInput control={control} errors={errors} userType={type} />
         <EmailInput control={control} errors={errors} />
         <IdInput control={control} errors={errors} />
         <PasswordInput control={control} errors={errors} />
