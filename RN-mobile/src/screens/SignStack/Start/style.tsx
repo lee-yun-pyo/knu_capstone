@@ -31,18 +31,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     gap: 8,
   },
-  btnView: {
-    paddingVertical: 17,
-    width: "100%",
-    backgroundColor: BackGroundColor.GREEN,
-    borderRadius: 6,
-  },
-  btnText: {
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
-    color: "white",
-  },
   signInText: {
     fontSize: 15,
     fontWeight: "500",

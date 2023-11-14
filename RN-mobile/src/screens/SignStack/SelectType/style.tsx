@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { BackGroundColor } from "constants/color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,10 +21,10 @@ export const styles = StyleSheet.create({
     gap: 12,
   },
   buttonView: {
-    paddingVertical: 22,
-    borderRadius: 14,
+    paddingVertical: 20,
+    borderRadius: 34,
     backgroundColor: "white",
-    width: "50%",
+    width: "45%",
   },
   buttonText: {
     textAlign: "center",

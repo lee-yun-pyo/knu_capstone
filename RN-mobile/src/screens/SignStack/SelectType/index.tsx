@@ -1,15 +1,28 @@
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { BottomButton } from "components/Common/BottomButton";
 
 import { BackGroundColor } from "constants/color";
+import { SignPathType, SignStackScreenProps } from "types";
 
 import { styles } from "./style";
 
 export function SelectType() {
   const [useType, setUseType] = useState(0);
+  const navigation = useNavigation<SignStackScreenProps["navigation"]>();
 
-  const handlePress = (useType: number) => {
+  const handlePressType = (useType: number) => {
     setUseType(useType);
+  };
+
+  const handleNavigate = (screen: SignPathType) => {
+    navigation.navigate(screen);
+  };
+
+  const handlePressSignUpButton = (screen: SignPathType) => {
+    handleNavigate(screen);
   };
 
   return (
@@ -26,7 +39,7 @@ export function SelectType() {
                   useType === 0 ? BackGroundColor.GREEN : "white",
               },
             ]}
-            onPress={() => handlePress(0)}
+            onPress={() => handlePressType(0)}
           >
             <View>
               <Text
@@ -47,7 +60,7 @@ export function SelectType() {
                   useType === 1 ? BackGroundColor.GREEN : "white",
               },
             ]}
-            onPress={() => handlePress(1)}
+            onPress={() => handlePressType(1)}
           >
             <View>
               <Text
@@ -63,7 +76,10 @@ export function SelectType() {
         </View>
       </View>
       <View>
-        <Text>saf</Text>
+        <BottomButton
+          onPress={() => handlePressSignUpButton("SignUp")}
+          content="회원가입"
+        />
       </View>
     </View>
   );

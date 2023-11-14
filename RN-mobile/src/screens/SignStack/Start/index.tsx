@@ -1,6 +1,8 @@
 import { View, Image, Text, Pressable, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { BottomButton } from "components/Common/BottomButton";
+
 import { SignPathType, SignStackScreenProps } from "types";
 
 import { styles } from "./style";
@@ -30,11 +32,10 @@ export function Start() {
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Pressable onPress={() => handlePress("SelectType")}>
-            <View style={styles.btnView}>
-              <Text style={styles.btnText}>시작하기</Text>
-            </View>
-          </Pressable>
+          <BottomButton
+            onPress={() => handlePress("SelectType")}
+            content="시작하기"
+          />
           <View>
             <Text style={styles.signInText}>
               이미 계정이 있나요?
