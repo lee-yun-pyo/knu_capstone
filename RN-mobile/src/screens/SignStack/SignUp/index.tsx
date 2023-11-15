@@ -12,19 +12,24 @@ import { IdInput } from "components/SignUp/IdInput";
 import { EmailInput } from "components/SignUp/EmailInput";
 import { PasswordInput } from "components/SignUp/PasswordInput";
 import { SubmitButton } from "components/Common/SubmitButton";
+import { MapInput } from "components/SignUp/MapInput";
 
-import { SignUpData, SignUpScreenProps } from "types";
+import { SignUpData, SignUpScreenProps, UserType } from "types";
 
 import { styles } from "./style";
 
 export function SignUp() {
   const route = useRoute<SignUpScreenProps["route"]>();
-  const { type } = route.params;
+  const { type, pickedLocation } = route.params;
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpData>();
+
+  const isSeller = (type: UserType) => {
+    return type === "Seller";
+  };
 
   const onSubmit = (data: SignUpData) => {
     const { id, name, email, password, passwordConfirm, latitude, longitude } =
@@ -41,6 +46,7 @@ export function SignUp() {
     >
       <ScrollView contentContainerStyle={styles.container}>
         <NameInput control={control} errors={errors} userType={type} />
+        {isSeller(type) && <MapInput pickedLocation={pickedLocation} />}
         <EmailInput control={control} errors={errors} />
         <IdInput control={control} errors={errors} />
         <PasswordInput control={control} errors={errors} />

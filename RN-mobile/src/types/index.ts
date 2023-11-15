@@ -43,8 +43,14 @@ export type ProfileStackParamsList = {
 export type SignStackParamsList = {
     Start: undefined;
     SelectType: undefined;
-    SignUp: {type: UserType};
+    SignUp: {
+        type: UserType,
+        pickedLocation?: LocationType
+    };
     SignIn: undefined;
+    SignUpMap: {
+        pickedLocation?: LocationType
+    };
 };
 
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
@@ -55,6 +61,7 @@ export type UploadScreenProps = NativeStackScreenProps<RootStackParamList, "Uplo
 export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
 export type SignStackScreenProps = NativeStackScreenProps<SignStackParamsList>;
 export type SignUpScreenProps = NativeStackScreenProps<SignStackParamsList, "SignUp">;
+export type SignUpMapScreenProps = NativeStackScreenProps<SignStackParamsList, "SignUpMap">;
 
 export type SignPathType = "SelectType" | "SignUp" | "SignIn";
 
@@ -71,6 +78,8 @@ export interface RegionProps extends LocationProps {
     latitudeDelta: number;
     longitudeDelta: number;
 }
+
+export type LocationType = { lat: number, lng: number };
   
 export interface FormData {
     images: string[];
