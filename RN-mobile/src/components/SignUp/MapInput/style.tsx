@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
     backgroundColor: "#fff",
+    marginBottom: 5,
   },
   mapText: {
     fontSize: 16,

@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { IconButton } from "components/Common/IconButton";
 
 import { LocationType, SignUpMapScreenProps, SignUpScreenProps } from "types";
-import { INITIAL_REGION } from "constants";
+import { INITIAL_LOCATION, REGION_DELTA } from "constants";
 
 import { styles } from "./style";
 
@@ -18,18 +18,26 @@ export function SignUpMap() {
     null
   );
 
+  const region = {
+    latitude: pickedLocation?.lat || INITIAL_LOCATION.latitude,
+    longitude: pickedLocation?.lng || INITIAL_LOCATION.longitude,
+    latitudeDelta: REGION_DELTA,
+    longitudeDelta: REGION_DELTA,
+  };
+
   const selectLocationHandler = (event: MapPressEvent) => {
     const { latitude: lat, longitude: lng } = event.nativeEvent.coordinate;
     setSelectedLocation({ lat, lng });
   };
 
   const savePickedLocationHandler = useCallback(() => {
-    if (!selectedLocation) {
+    if (!selectedLocation && !pickedLocation) {
       Alert.alert("선택한 위치 없음", "지도를 클릭해서 위치를 선택하세요");
       return;
     }
-    navigateToSignUp(selectedLocation);
-  }, [selectedLocation]);
+
+    navigateToSignUp(selectedLocation || pickedLocation!);
+  }, [selectedLocation, pickedLocation]);
 
   const navigateToSignUp = useCallback(
     (location: LocationType) => {
@@ -67,7 +75,7 @@ export function SignUpMap() {
 
   return (
     <MapView
-      initialRegion={INITIAL_REGION}
+      initialRegion={region}
       style={styles.container}
       onPress={selectLocationHandler}
     >

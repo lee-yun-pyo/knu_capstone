@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
 
 import { LocationType, SignStackScreenProps } from "types";
 import { getMapPreview } from "utils/location";
@@ -13,9 +15,33 @@ interface Props {
 
 export function MapInput({ pickedLocation }: Props) {
   const navigation = useNavigation<SignStackScreenProps["navigation"]>();
+  const [geoName, setGeoName] = useState<string | null>(null);
   const handlePress = () => {
     navigation.navigate("SignUpMap", { pickedLocation });
   };
+
+  const getCityName = async (location: LocationType | undefined) => {
+    if (!location) {
+      return null;
+    }
+    const result = await Location.reverseGeocodeAsync(
+      {
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+      { useGoogleMaps: false }
+    );
+    return `${result[0].city || result[0].region} ${result[0].district}`;
+  };
+
+  useEffect(() => {
+    const updateGeoName = async () => {
+      const cityName = await getCityName(pickedLocation);
+      setGeoName(cityName);
+    };
+
+    updateGeoName();
+  }, [pickedLocation]);
 
   return (
     <View style={commonStyle.container}>
@@ -34,6 +60,7 @@ export function MapInput({ pickedLocation }: Props) {
           )}
         </View>
       </Pressable>
+      {pickedLocation && geoName && <Text>{geoName}</Text>}
     </View>
   );
 }
