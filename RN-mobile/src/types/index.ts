@@ -96,8 +96,9 @@ export interface SignUpData {
     id: string;
     password: string;
     passwordConfirm: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
+    address?: string;
 }
 
 export interface UploadInputProps {
