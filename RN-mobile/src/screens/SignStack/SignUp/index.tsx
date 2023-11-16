@@ -4,7 +4,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 import { NameInput } from "components/SignUp/NameInput";
@@ -14,12 +14,19 @@ import { PasswordInput } from "components/SignUp/PasswordInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { MapInput } from "components/SignUp/MapInput";
 
-import { LocationType, SignUpData, SignUpScreenProps, UserType } from "types";
+import {
+  LocationType,
+  SignStackScreenProps,
+  SignUpData,
+  SignUpScreenProps,
+  UserType,
+} from "types";
 
 import { styles } from "./style";
 
 export function SignUp() {
   const route = useRoute<SignUpScreenProps["route"]>();
+  const navigation = useNavigation<SignStackScreenProps["navigation"]>();
   const { type, pickedLocation } = route.params;
   const {
     control,
@@ -58,6 +65,7 @@ export function SignUp() {
       Alert.alert("비밀번호 오류", "비밀번호가 일치하지 않습니다");
       return;
     }
+    navigation.navigate("SignIn"); // 📌 navigate가 아닌 다른 걸로 stack 안쌓이게
   };
 
   return (

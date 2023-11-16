@@ -1,21 +1,16 @@
 import { View, Image, Text, Pressable, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { SignStackScreenProps } from "types";
 import { BottomButton } from "components/Common/BottomButton";
-
-import { SignPathType, SignStackScreenProps } from "types";
 
 import { styles } from "./style";
 
 export function Start() {
   const navigation = useNavigation<SignStackScreenProps["navigation"]>();
 
-  const handleNavigate = (screen: SignPathType) => {
+  const handlePress = (screen: "SelectType" | "SignIn") => {
     navigation.navigate(screen);
-  };
-
-  const handlePress = (screen: SignPathType) => {
-    handleNavigate(screen);
   };
 
   return (

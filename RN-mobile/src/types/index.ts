@@ -101,6 +101,11 @@ export interface SignUpData {
     address?: string;
 }
 
+export interface SignInData {
+    id: string;
+    password: string;
+}
+
 export interface UploadInputProps {
     control: Control<FormData>;
     errors: FieldErrors<FormData>;
@@ -109,6 +114,11 @@ export interface UploadInputProps {
 export interface SignUpInputProps {
     control: Control<SignUpData>;
     errors: FieldErrors<SignUpData>;
+}
+
+export interface SignInInputProps {
+    control: Control<SignInData>;
+    errors: FieldErrors<SignInData>;
 }
 
 export type UserType = "Seller" | "Buyer"
