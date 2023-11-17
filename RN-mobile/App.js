@@ -15,9 +15,45 @@ import { SaleHistory } from "screens/SaleHistory";
 import { MyNear } from "screens/MyNear";
 import { Upload } from "screens/Upload";
 import { BackButton } from "components/Common/BackButton";
+import { Start } from "screens/SignStack/Start";
+import { SignUp } from "screens/SignStack/SignUp";
+import { SelectType } from "screens/SignStack/SelectType";
+import { SignUpMap } from "screens/SignStack/SignUpMap";
+import { SignIn } from "screens/SignStack/SignIn";
+import { theme } from "style/theme";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function SignNavigation() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Start"
+        component={Start}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SelectType"
+        component={SelectType}
+        options={{
+          headerTitle: "",
+          headerStyle: { backgroundColor: "transparent" },
+        }}
+      />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="SignUpMap" component={SignUpMap} />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{
+          headerTitle: "",
+          headerStyle: { backgroundColor: "transparent" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 function ProfileStackNavigation() {
   return (
@@ -84,9 +120,14 @@ function TabNavigation() {
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <StatusBar />
       <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="SignStack"
+          component={SignNavigation}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Tab" component={TabNavigation} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Map" component={Map} />

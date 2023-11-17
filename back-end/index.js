@@ -20,4 +20,5 @@ app.listen(port, ()=>{
 // })
 
 //프론트에서 사용할때
-app.use('/api/broccoli', require('./routes/broccoliRouter'));
+app.use('/broccoli', require('./routes/broccoliRouter'));
+app.use('/uploads', express.static('uploads'));

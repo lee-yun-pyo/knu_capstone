@@ -40,12 +40,30 @@ export type ProfileStackParamsList = {
     SaleHistory: undefined;
 };
 
+export type SignStackParamsList = {
+    Start: undefined;
+    SelectType: undefined;
+    SignUp: {
+        type: UserType,
+        pickedLocation?: LocationType
+    };
+    SignIn: undefined;
+    SignUpMap: {
+        pickedLocation?: LocationType
+    };
+};
+
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
 export type UploadScreenProps = NativeStackScreenProps<RootStackParamList, "Upload">;
 
 export type ProfileStackScreenProps = NativeStackScreenProps<ProfileStackParamsList>;
+export type SignStackScreenProps = NativeStackScreenProps<SignStackParamsList>;
+export type SignUpScreenProps = NativeStackScreenProps<SignStackParamsList, "SignUp">;
+export type SignUpMapScreenProps = NativeStackScreenProps<SignStackParamsList, "SignUpMap">;
+
+export type SignPathType = "SelectType" | "SignUp" | "SignIn";
 
 type profileMenuIconType = "hearto" | "profile" | "shoppingcart";
 type ProfileMenuPathType = "LikeList" | "BiddingList" | "SaleHistory";
@@ -60,6 +78,8 @@ export interface RegionProps extends LocationProps {
     latitudeDelta: number;
     longitudeDelta: number;
 }
+
+export type LocationType = { lat: number, lng: number };
   
 export interface FormData {
     images: string[];
@@ -70,7 +90,35 @@ export interface FormData {
     endTime: string;
 }
 
+export interface SignUpData {
+    name: string;
+    email: string;
+    id: string;
+    password: string;
+    passwordConfirm: string;
+    latitude?: number;
+    longitude?: number;
+    address?: string;
+}
+
+export interface SignInData {
+    id: string;
+    password: string;
+}
+
 export interface UploadInputProps {
     control: Control<FormData>;
     errors: FieldErrors<FormData>;
 }
+
+export interface SignUpInputProps {
+    control: Control<SignUpData>;
+    errors: FieldErrors<SignUpData>;
+}
+
+export interface SignInInputProps {
+    control: Control<SignInData>;
+    errors: FieldErrors<SignInData>;
+}
+
+export type UserType = "Seller" | "Buyer"
