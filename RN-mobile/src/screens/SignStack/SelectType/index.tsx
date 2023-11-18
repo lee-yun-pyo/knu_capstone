@@ -38,6 +38,7 @@ export function SelectType() {
               {
                 backgroundColor:
                   selectedUser === "Buyer" ? BackGroundColor.GREEN : "white",
+                borderWidth: selectedUser === "Buyer" ? 0 : 1.5,
               },
             ]}
             onPress={() => handlePressType("Buyer")}
@@ -59,6 +60,7 @@ export function SelectType() {
               {
                 backgroundColor:
                   selectedUser === "Seller" ? BackGroundColor.GREEN : "white",
+                borderWidth: selectedUser === "Seller" ? 0 : 1.5,
               },
             ]}
             onPress={() => handlePressType("Seller")}

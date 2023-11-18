@@ -21,13 +21,14 @@ import { SelectType } from "screens/SignStack/SelectType";
 import { SignUpMap } from "screens/SignStack/SignUpMap";
 import { SignIn } from "screens/SignStack/SignIn";
 import { theme } from "style/theme";
+import { FontColor } from "constants/color";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function SignNavigation() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerTintColor: FontColor.TINT }}>
       <Stack.Screen
         name="Start"
         component={Start}
@@ -41,7 +42,11 @@ function SignNavigation() {
           headerStyle: { backgroundColor: "transparent" },
         }}
       />
-      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{ headerTitle: "회원가입" }}
+      />
       <Stack.Screen name="SignUpMap" component={SignUpMap} />
       <Stack.Screen
         name="SignIn"

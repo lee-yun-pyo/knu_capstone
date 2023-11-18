@@ -4,22 +4,12 @@ import { Controller } from "react-hook-form";
 
 import { ErrorMessage } from "components/Common/ErrorMessage";
 
-import { SignUpInputProps, UserType } from "types";
+import { SignUpInputProps } from "types";
 
 import { commonStyle } from "screens/Upload/style";
 
-interface NameInputType {
-  userType: UserType;
-}
-
-type Props = SignUpInputProps & NameInputType;
-
-export function NameInput({ control, errors, userType }: Props) {
+export function PasswordConfirmInput({ control, errors }: SignUpInputProps) {
   const [isFoucsed, setIsFocused] = useState(false);
-
-  const isSeller = (type: UserType) => {
-    return type === "Seller";
-  };
 
   const handleBlur = () => {
     setIsFocused(false);
@@ -31,22 +21,21 @@ export function NameInput({ control, errors, userType }: Props) {
 
   return (
     <View style={commonStyle.container}>
-      <Text style={commonStyle.label}>
-        {isSeller(userType) ? "가게 이름" : "이름"}
-      </Text>
+      <Text style={commonStyle.label}>비밀번호 확인</Text>
       <Controller
         control={control}
         rules={{
-          required: `${
-            isSeller(userType) ? "가게이름" : "이름"
-          }을 입력해주세요`,
+          required: "비밀번호 확인 해주세요",
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            placeholder={isSeller(userType) ? "가게 이름" : "이름"}
+            placeholder="비밀번호 확인"
+            keyboardType="default"
+            returnKeyType="done"
+            secureTextEntry={true}
             style={[
               commonStyle.textInput,
-              errors.name && commonStyle.warningInput,
+              errors.passwordConfirm && commonStyle.warningInput,
               isFoucsed && commonStyle.isFocused,
             ]}
             onChangeText={onChange}
@@ -55,9 +44,11 @@ export function NameInput({ control, errors, userType }: Props) {
             value={value && value.trim()}
           />
         )}
-        name="name"
+        name="passwordConfirm"
       />
-      {errors.name?.message && <ErrorMessage errorsMsg={errors.name.message} />}
+      {errors.passwordConfirm?.message && (
+        <ErrorMessage errorsMsg={errors.passwordConfirm.message} />
+      )}
     </View>
   );
 }
