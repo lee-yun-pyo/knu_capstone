@@ -78,7 +78,7 @@ function ProfileStackNavigation() {
 
 function TabNavigation() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator>
       <Tab.Screen
         name="홈"
         component={Home}
@@ -92,6 +92,7 @@ function TabNavigation() {
               color={focused ? "black" : "#404040"}
             />
           ),
+          headerTitle: "홈",
         }}
       />
       <Tab.Screen
@@ -107,6 +108,7 @@ function TabNavigation() {
               color={focused ? "black" : "#404040"}
             />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -122,6 +124,7 @@ function TabNavigation() {
               color={focused ? "black" : "#404040"}
             />
           ),
+          headerTitle: "",
         }}
       />
     </Tab.Navigator>
@@ -131,17 +134,36 @@ function TabNavigation() {
 export default function App() {
   return (
     <NavigationContainer theme={theme}>
-      <StatusBar />
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
+      <StatusBar style="dark" />
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerTintColor: FontColor.TINT }}
+      >
+        {/* <Stack.Screen
           name="SignStack"
           component={SignNavigation}
           options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="Tab"
+          component={TabNavigation}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen name="Tab" component={TabNavigation} />
-        <Stack.Screen name="Detail" component={Detail} />
-        <Stack.Screen name="Map" component={Map} />
-        <Stack.Screen name="Bid" component={Bid} />
+        <Stack.Screen
+          name="Detail"
+          component={Detail}
+          options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="Map"
+          component={Map}
+          options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="Bid"
+          component={Bid}
+          options={{ headerTitle: "입찰하기" }}
+        />
         <Stack.Screen
           name="Upload"
           component={Upload}

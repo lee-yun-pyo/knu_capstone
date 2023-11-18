@@ -41,7 +41,7 @@ export function NameInput({ control, errors, userType }: Props) {
             isSeller(userType) ? "가게이름" : "이름"
           }을 입력해주세요`,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             placeholder={isSeller(userType) ? "가게 이름" : "이름"}
             style={[

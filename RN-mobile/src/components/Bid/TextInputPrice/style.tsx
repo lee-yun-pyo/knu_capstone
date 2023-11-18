@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
-import { FontColor } from "constants/color";
+import { Border, FontColor } from "constants/color";
 
 export const styles = StyleSheet.create({
   container: {
     marginTop: 8,
   },
   input: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    fontSize: 15,
-    backgroundColor: "white",
-    borderRadius: 8,
+    paddingVertical: 10,
+    fontSize: 16,
+    borderBottomColor: Border.BOX_BORDER,
+    borderBottomWidth: 1.4,
   },
   warningMessage: {
     fontSize: 14,
@@ -19,7 +18,7 @@ export const styles = StyleSheet.create({
     color: FontColor.WARNNING,
   },
   warningInput: {
-    borderColor: FontColor.WARNNING,
-    borderWidth: 1,
+    borderBottomColor: FontColor.WARNNING,
+    borderBottomWidth: 1.4,
   },
 });
