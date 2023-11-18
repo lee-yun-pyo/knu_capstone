@@ -18,7 +18,7 @@ export const commonStyle = StyleSheet.create({
     fontWeight: "600",
   },
   textInput: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     fontSize: 16,
     borderBottomColor: Border.BOX_BORDER,
     borderBottomWidth: 1.4,

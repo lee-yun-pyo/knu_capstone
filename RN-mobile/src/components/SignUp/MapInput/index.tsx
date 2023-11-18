@@ -7,11 +7,13 @@ import {
   UseFormClearErrors,
   UseFormSetError,
 } from "react-hook-form";
+import { Entypo } from "@expo/vector-icons";
 
 import { ErrorMessage } from "components/Common/ErrorMessage";
 
 import { LocationType, SignStackScreenProps, SignUpData } from "types";
 import { getMapPreview } from "utils/location";
+import { FontColor } from "constants/color";
 
 import { commonStyle } from "screens/Upload/style";
 import { styles } from "./style";
@@ -96,7 +98,10 @@ export function MapInput({
               }}
             />
           ) : (
-            <Text style={styles.mapText}>가게 위치를 설정해주세요</Text>
+            <View style={styles.mapTextView}>
+              <Entypo name="location" size={20} color={FontColor.gray} />
+              <Text style={styles.mapText}>가게 위치를 설정해주세요</Text>
+            </View>
           )}
         </View>
       </Pressable>

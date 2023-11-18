@@ -72,6 +72,7 @@ export function SignUp() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <NameInput control={control} errors={errors} userType={type} />

@@ -52,7 +52,7 @@ export function MyNear() {
         [
           { text: "취소", style: "cancel" },
           {
-            text: "설정으로 이동",
+            text: "설정",
             style: "destructive",
             onPress: linkToSettings,
           },

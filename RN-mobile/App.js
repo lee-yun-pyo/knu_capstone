@@ -39,7 +39,6 @@ function SignNavigation() {
         component={SelectType}
         options={{
           headerTitle: "",
-          headerStyle: { backgroundColor: "transparent" },
         }}
       />
       <Stack.Screen
@@ -47,13 +46,19 @@ function SignNavigation() {
         component={SignUp}
         options={{ headerTitle: "회원가입" }}
       />
-      <Stack.Screen name="SignUpMap" component={SignUpMap} />
+      <Stack.Screen
+        name="SignUpMap"
+        component={SignUpMap}
+        options={{
+          headerTitle: "가게 위치 설정",
+          headerBackTitleVisible: false,
+        }}
+      />
       <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{
           headerTitle: "",
-          headerStyle: { backgroundColor: "transparent" },
         }}
       />
     </Stack.Navigator>
