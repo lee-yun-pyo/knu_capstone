@@ -104,7 +104,7 @@ export const isPermissionGranted = (status: string) => {
 };
 
 export const convertToLocaleStringFromInput = (text: string) => {
-  const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
+  const newText = text.length === 1 ? text.trim() : text.slice(1).trim(); // ₩ 표시 및 쉼표 제거
   const result = newText.replace(/,/g, "");
   return result;
 };

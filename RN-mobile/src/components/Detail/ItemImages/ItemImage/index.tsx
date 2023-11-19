@@ -1,4 +1,4 @@
-import { ScrollView, Image } from "react-native";
+import { Image } from "react-native";
 
 import { THEME_PADDING, WINDOW_WIDTH } from "constants";
 

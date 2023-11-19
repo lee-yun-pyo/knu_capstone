@@ -34,7 +34,7 @@ export function LowerPriceInput({ control, errors, onChangeText }: Props) {
       <Controller
         control={control}
         rules={{ required: "시작가를 입력해주세요" }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             placeholder={`${WON_SYMBOL} 시작가를 입력해주세요`}
             keyboardType="number-pad"
