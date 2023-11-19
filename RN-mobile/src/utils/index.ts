@@ -114,3 +114,9 @@ export const formatCurrency = (input: string) => {
     ? `${WON_SYMBOL} ${parseInt(input).toLocaleString()}`
     : "";
 };
+
+export const isExpiredDate = (inputDate: string) => {
+  const targetDate = getTimeToNumber(inputDate);
+  const currentDate = new Date().getTime();
+  return currentDate > targetDate;
+};
