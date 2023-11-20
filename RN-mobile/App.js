@@ -21,7 +21,7 @@ import { SelectType } from "screens/SignStack/SelectType";
 import { SignUpMap } from "screens/SignStack/SignUpMap";
 import { SignIn } from "screens/SignStack/SignIn";
 import { theme } from "style/theme";
-import { FontColor } from "constants/color";
+import { FontColor, TabColor } from "constants/color";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -83,13 +83,13 @@ function TabNavigation() {
         name="홈"
         component={Home}
         options={{
-          tabBarActiveTintColor: "black",
-          tabBarInactiveTintColor: "#404040",
+          tabBarActiveTintColor: TabColor.ACTIVE,
+          tabBarInactiveTintColor: TabColor.INACTIVE,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
               size={22}
-              color={focused ? "black" : "#404040"}
+              color={focused ? TabColor.ACTIVE : TabColor.INACTIVE}
             />
           ),
           headerTitle: "홈",
@@ -99,13 +99,13 @@ function TabNavigation() {
         name="내 근처"
         component={MyNear}
         options={{
-          tabBarActiveTintColor: "black",
-          tabBarInactiveTintColor: "#404040",
+          tabBarActiveTintColor: TabColor.ACTIVE,
+          tabBarInactiveTintColor: TabColor.INACTIVE,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "location" : "location-outline"}
               size={24}
-              color={focused ? "black" : "#404040"}
+              color={focused ? TabColor.ACTIVE : TabColor.INACTIVE}
             />
           ),
           headerShown: false,
@@ -115,13 +115,13 @@ function TabNavigation() {
         name="마이페이지"
         component={ProfileStackNavigation}
         options={{
-          tabBarActiveTintColor: "black",
-          tabBarInactiveTintColor: "#404040",
+          tabBarActiveTintColor: TabColor.ACTIVE,
+          tabBarInactiveTintColor: TabColor.INACTIVE,
           tabBarIcon: ({ focused }) => (
             <FontAwesome
               name={focused ? "user" : "user-o"}
               size={22}
-              color={focused ? "black" : "#404040"}
+              color={focused ? TabColor.ACTIVE : TabColor.INACTIVE}
             />
           ),
           headerTitle: "",

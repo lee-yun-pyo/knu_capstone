@@ -23,3 +23,8 @@ export const Etc = {
 export const Skeleton = {
     BG_GRAY: "#f1f3f5",
 }
+
+export const TabColor = {
+    ACTIVE: "#000000",
+    INACTIVE: "#404040"
+}
