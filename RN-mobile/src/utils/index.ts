@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TIME_UNITS, WON_SYMBOL } from "constants";
+import { MINIMUM_PRICE_UNIT, TIME_UNITS, WON_SYMBOL } from "constants";
 import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {
@@ -119,4 +119,8 @@ export const isExpiredDate = (inputDate: string) => {
   const targetDate = getTimeToNumber(inputDate);
   const currentDate = new Date().getTime();
   return currentDate > targetDate;
+};
+
+export const isFullfiledUnit = (value: number) => {
+  return value % MINIMUM_PRICE_UNIT === 0;
 };

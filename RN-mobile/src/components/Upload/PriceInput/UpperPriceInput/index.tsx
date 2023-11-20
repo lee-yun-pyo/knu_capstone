@@ -5,8 +5,12 @@ import { Controller } from "react-hook-form";
 import { ErrorMessage } from "components/Common/ErrorMessage";
 
 import { UploadInputProps } from "types";
-import { WON_SYMBOL } from "constants";
-import { convertToLocaleStringFromInput, formatCurrency } from "utils";
+import { WARNNING_MESSAGE, WON_SYMBOL } from "constants";
+import {
+  convertToLocaleStringFromInput,
+  formatCurrency,
+  isFullfiledUnit,
+} from "utils";
 
 import { commonStyle } from "screens/Upload/style";
 import { styles } from "../style";
@@ -36,10 +40,12 @@ export function UpperPriceInput({ control, errors, lowerPrice }: Props) {
         rules={{
           required: "상한가를 입력해주세요",
           validate: (value) =>
-            parseInt(value) > parseInt(lowerPrice) ||
-            "시작가보다 높게 설정해주세요",
+            parseInt(value) > parseInt(lowerPrice)
+              ? isFullfiledUnit(parseInt(value)) ||
+                WARNNING_MESSAGE.UNFULLFILED_UNIT
+              : "시작가보다 높게 설정해주세요",
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             placeholder={`${WON_SYMBOL} 상한가를 입력해주세요`}
             keyboardType="number-pad"
