@@ -31,11 +31,11 @@ export function Location({ latitude, longitude, location, storeName }: Props) {
             style={styles.mapImage}
             source={{ uri: getMapPreview(latitude, longitude) }}
           />
+          <View style={styles.subTextView}>
+            <Text style={styles.subText}>지도 보기</Text>
+            <AntDesign name="arrowsalt" size={12} color="#FFF" />
+          </View>
         </Pressable>
-        <View style={styles.subTextView}>
-          <Text style={styles.subText}>지도 보기</Text>
-          <AntDesign name="arrowsalt" size={12} color="#FFF" />
-        </View>
       </View>
     </View>
   );
