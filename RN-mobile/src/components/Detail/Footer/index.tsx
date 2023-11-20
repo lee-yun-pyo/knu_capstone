@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
-import { Etc } from "constants/color";
+import { BackGroundColor, Etc } from "constants/color";
 import { BidScreenProps } from "types";
+import { isExpiredDate } from "utils";
 
 import { styles } from "./style";
 
@@ -13,11 +14,19 @@ interface Props {
   currentPrice: number;
   upperPrice: number;
   lowerPrice: number;
+  deadLineTime: string;
 }
 
-export function Footer({ currentPrice, upperPrice, lowerPrice }: Props) {
+export function Footer({
+  currentPrice,
+  upperPrice,
+  lowerPrice,
+  deadLineTime,
+}: Props) {
   const navigation = useNavigation<BidScreenProps["navigation"]>();
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
+  const [isExpired, setIsExpired] = useState(false);
+
   const handleClickLike = () => {
     Haptics.selectionAsync();
     setIconName("heart");
@@ -27,7 +36,10 @@ export function Footer({ currentPrice, upperPrice, lowerPrice }: Props) {
     navigation.navigate("Bid", { currentPrice, upperPrice, lowerPrice });
   };
 
-  // useEffect로 렌더링 시 좋아요 색 결정
+  useEffect(() => {
+    setIsExpired(isExpiredDate(deadLineTime));
+    // TO DO: 렌더링 시 좋아요 색 결정
+  }, [isExpiredDate]);
 
   return (
     <View style={styles.container}>
@@ -40,9 +52,20 @@ export function Footer({ currentPrice, upperPrice, lowerPrice }: Props) {
           <Text style={styles.price}>{currentPrice.toLocaleString()}원</Text>
         </View>
       </View>
-      <View style={styles.bidButton}>
-        <Pressable onPress={handleBid}>
-          <Text style={styles.buttonText}>입찰하기</Text>
+      <View
+        style={[
+          styles.bidButton,
+          {
+            backgroundColor: isExpired
+              ? BackGroundColor.NON_ACTIVE_BUTTON
+              : BackGroundColor.GREEN,
+          },
+        ]}
+      >
+        <Pressable disabled={isExpired} onPress={handleBid}>
+          <Text style={styles.buttonText}>
+            {isExpired ? "마감" : "입찰하기"}
+          </Text>
         </Pressable>
       </View>
     </View>

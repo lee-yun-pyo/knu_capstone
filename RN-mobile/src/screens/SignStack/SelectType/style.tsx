@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { BackGroundColor } from "constants/color";
+import { Border } from "constants/color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -25,6 +25,8 @@ export const styles = StyleSheet.create({
     borderRadius: 34,
     backgroundColor: "white",
     width: "45%",
+    borderWidth: 1.5,
+    borderColor: Border.BOX_BORDER,
   },
   buttonText: {
     textAlign: "center",

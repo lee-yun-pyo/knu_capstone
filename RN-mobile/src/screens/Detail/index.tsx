@@ -55,6 +55,7 @@ export function Detail() {
         currentPrice={current_price}
         upperPrice={upper_limit}
         lowerPrice={lower_limit}
+        deadLineTime={end_time}
       />
     </View>
   );

@@ -1,5 +1,11 @@
 import { useForm } from "react-hook-form";
-import { View, Image, Text } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 import { IdInput } from "components/SignIn/IdInput";
 import { PasswordInput } from "components/SignIn/PasswordInput";
@@ -21,23 +27,28 @@ export function SignIn() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.imageView}>
-        <Image
-          source={require("../../../../assets/logo.png")}
-          style={styles.image}
-        />
-        <Text style={styles.title}>브로콜리</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <View style={styles.imageView}>
+          <Image
+            source={require("../../../../assets/logo.png")}
+            style={styles.image}
+          />
+          <Text style={styles.title}>브로콜리</Text>
+        </View>
+        <View>
+          <IdInput control={control} errors={errors} />
+          <PasswordInput control={control} errors={errors} />
+          <SubmitButton<SignInData>
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+            content="로그인"
+          />
+        </View>
       </View>
-      <View>
-        <IdInput control={control} errors={errors} />
-        <PasswordInput control={control} errors={errors} />
-        <SubmitButton<SignInData>
-          handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
-          content="로그인"
-        />
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

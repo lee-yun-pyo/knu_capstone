@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderRadius: 8,
-    backgroundColor: "white",
+    borderBottomWidth: 1.4,
+    borderColor: Border.BOX_BORDER,
   },
   title: {},
   priceLabelWrapper: {

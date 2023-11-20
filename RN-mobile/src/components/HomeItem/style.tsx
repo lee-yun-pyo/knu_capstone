@@ -1,3 +1,4 @@
+import { BackGroundColor } from "constants/color";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -5,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     gap: 10,
-    paddingVertical: 10,
+    paddingVertical: 13,
     paddingHorizontal: 5,
     borderStyle: "solid",
     borderColor: "#E2E2E2",
@@ -17,10 +18,11 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   wrapper: {
+    alignItems: "flex-start",
     gap: 5,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "500",
   },
   location: {
@@ -37,10 +39,21 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   price: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "600",
   },
   upperPrice: {
-    fontSize: 16,
+    fontSize: 15,
+  },
+  expiredView: {
+    backgroundColor: BackGroundColor.NON_ACTIVE_BUTTON,
+    paddingVertical: 6,
+    paddingHorizontal: 6,
+    borderRadius: 5,
+  },
+  expiredText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#fff",
   },
 });

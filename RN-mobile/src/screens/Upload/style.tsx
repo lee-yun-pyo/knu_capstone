@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FontColor } from "constants/color";
+import { BackGroundColor, Border, FontColor } from "constants/color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,14 +18,17 @@ export const commonStyle = StyleSheet.create({
     fontWeight: "600",
   },
   textInput: {
-    padding: 15,
+    paddingVertical: 10,
     fontSize: 16,
-    backgroundColor: "white",
-    borderRadius: 8,
+    borderBottomColor: Border.BOX_BORDER,
+    borderBottomWidth: 1.4,
   },
   warningInput: {
-    borderColor: FontColor.WARNNING,
-    borderWidth: 1,
+    borderBottomColor: FontColor.WARNNING,
+    borderBottomWidth: 1.4,
+  },
+  isFocused: {
+    borderBottomColor: BackGroundColor.GREEN,
   },
   textArea: {
     height: 140,

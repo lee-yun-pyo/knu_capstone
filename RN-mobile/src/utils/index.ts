@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TIME_UNITS, WON_SYMBOL } from "constants";
+import { MINIMUM_PRICE_UNIT, TIME_UNITS, WON_SYMBOL } from "constants";
 import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {
@@ -104,7 +104,7 @@ export const isPermissionGranted = (status: string) => {
 };
 
 export const convertToLocaleStringFromInput = (text: string) => {
-  const newText = text.length === 1 ? text.trim() : text.slice(1).trim();
+  const newText = text.length === 1 ? text.trim() : text.slice(1).trim(); // ₩ 표시 및 쉼표 제거
   const result = newText.replace(/,/g, "");
   return result;
 };
@@ -113,4 +113,14 @@ export const formatCurrency = (input: string) => {
   return input !== ""
     ? `${WON_SYMBOL} ${parseInt(input).toLocaleString()}`
     : "";
+};
+
+export const isExpiredDate = (inputDate: string) => {
+  const targetDate = getTimeToNumber(inputDate);
+  const currentDate = new Date().getTime();
+  return currentDate > targetDate;
+};
+
+export const isFullfiledUnit = (value: number) => {
+  return value % MINIMUM_PRICE_UNIT === 0;
 };

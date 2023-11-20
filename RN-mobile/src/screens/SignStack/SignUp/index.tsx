@@ -11,6 +11,7 @@ import { NameInput } from "components/SignUp/NameInput";
 import { IdInput } from "components/SignUp/IdInput";
 import { EmailInput } from "components/SignUp/EmailInput";
 import { PasswordInput } from "components/SignUp/PasswordInput";
+import { PasswordConfirmInput } from "components/SignUp/PasswordConfirmInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { MapInput } from "components/SignUp/MapInput";
 
@@ -71,6 +72,7 @@ export function SignUp() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={styles.container}>
         <NameInput control={control} errors={errors} userType={type} />
@@ -87,6 +89,7 @@ export function SignUp() {
         <EmailInput control={control} errors={errors} />
         <IdInput control={control} errors={errors} />
         <PasswordInput control={control} errors={errors} />
+        <PasswordConfirmInput control={control} errors={errors} />
         <SubmitButton<SignUpData>
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}

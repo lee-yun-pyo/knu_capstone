@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, Image, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -5,7 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 import { DetailScreenProps } from "types";
-import { calculateDaysAgo } from "utils";
+import { calculateDaysAgo, isExpiredDate } from "utils";
 
 import { styles } from "./style";
 
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export function HomeItem({ props }: Props) {
+  const [isExpired, setIsExpired] = useState(false);
   const navigation = useNavigation<DetailScreenProps["navigation"]>();
   const {
     product_name,
@@ -37,6 +39,7 @@ export function HomeItem({ props }: Props) {
     current_price,
     upper_limit,
     product_image,
+    end_time,
   } = props;
 
   const daysAgo = calculateDaysAgo(start_time);
@@ -44,6 +47,11 @@ export function HomeItem({ props }: Props) {
   const handleItemPress = () => {
     navigation.navigate("Detail", { info: props });
   };
+
+  useEffect(() => {
+    setIsExpired(isExpiredDate(end_time));
+  }, [isExpiredDate]);
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -81,6 +89,11 @@ export function HomeItem({ props }: Props) {
               </Text>
             </View>
           </View>
+          {isExpired && (
+            <View style={styles.expiredView}>
+              <Text style={styles.expiredText}>마감</Text>
+            </View>
+          )}
         </View>
       </View>
     </Pressable>

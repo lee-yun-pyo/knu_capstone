@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { Controller } from "react-hook-form";
 
@@ -8,6 +9,16 @@ import { SignUpInputProps } from "types";
 import { commonStyle } from "screens/Upload/style";
 
 export function IdInput({ control, errors }: SignUpInputProps) {
+  const [isFoucsed, setIsFocused] = useState(false);
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
   return (
     <View style={commonStyle.container}>
       <Text style={commonStyle.label}>아이디</Text>
@@ -20,9 +31,11 @@ export function IdInput({ control, errors }: SignUpInputProps) {
             style={[
               commonStyle.textInput,
               errors.id && commonStyle.warningInput,
+              isFoucsed && commonStyle.isFocused,
             ]}
             onChangeText={onChange}
-            onBlur={onBlur}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
             value={value && value.trim()}
           />
         )}

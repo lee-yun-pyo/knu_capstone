@@ -1,5 +1,6 @@
 import { View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 import { getMapPreview } from "utils/location";
 import { MapScreenProps } from "types";
@@ -30,6 +31,10 @@ export function Location({ latitude, longitude, location, storeName }: Props) {
             style={styles.mapImage}
             source={{ uri: getMapPreview(latitude, longitude) }}
           />
+          <View style={styles.subTextView}>
+            <Text style={styles.subText}>지도 보기</Text>
+            <AntDesign name="arrowsalt" size={12} color="#FFF" />
+          </View>
         </Pressable>
       </View>
     </View>

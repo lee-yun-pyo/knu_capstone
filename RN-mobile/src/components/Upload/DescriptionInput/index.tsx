@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { Controller } from "react-hook-form";
 
@@ -8,13 +9,23 @@ import { UploadInputProps } from "types";
 import { commonStyle } from "screens/Upload/style";
 
 export function DescriptionInput({ control, errors }: UploadInputProps) {
+  const [isFoucsed, setIsFocused] = useState(false);
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
   return (
     <View style={commonStyle.container}>
       <Text style={commonStyle.label}>자세한 설명</Text>
       <Controller
         control={control}
         rules={{ required: "설명을 적어주세요" }}
-        render={({ field: { onChange, onBlur, value } }) => (
+        render={({ field: { onChange, value } }) => (
           <TextInput
             multiline={true}
             placeholder={
@@ -24,9 +35,11 @@ export function DescriptionInput({ control, errors }: UploadInputProps) {
               commonStyle.textInput,
               errors.description && commonStyle.warningInput,
               commonStyle.textArea,
+              isFoucsed && commonStyle.isFocused,
             ]}
             onChangeText={onChange}
-            onBlur={onBlur}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
             value={value}
           />
         )}

@@ -9,7 +9,7 @@ import { TextInputPrice } from "components/Bid/TextInputPrice";
 
 import { BidScreenProps } from "types";
 import { WARNNING_MESSAGE } from "constants";
-import { convertToLocaleStringFromInput } from "utils";
+import { convertToLocaleStringFromInput, isFullfiledUnit } from "utils";
 
 import { styles } from "./style";
 
@@ -39,6 +39,8 @@ export function Bid() {
       return { warning: WARNNING_MESSAGE.HIGH, bidOk: false };
     } else if (numericPrice < currentPrice) {
       return { warning: WARNNING_MESSAGE.LOW, bidOk: false };
+    } else if (!isFullfiledUnit(numericPrice)) {
+      return { warning: WARNNING_MESSAGE.UNFULLFILED_UNIT, bidOk: false };
     }
 
     return { warning: "", bidOk: true };

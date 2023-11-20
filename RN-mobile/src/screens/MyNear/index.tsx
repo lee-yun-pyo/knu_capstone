@@ -8,7 +8,6 @@ import { MyLocationButton } from "components/Common/MyLocationButon";
 
 import { RegionProps, LocationProps } from "types";
 import { INITIAL_LOCATION, INITIAL_REGION, INITIAL_DELTA } from "constants";
-import { BackGroundColor } from "constants/color";
 import {
   getLocationPermission,
   getObjAsyncStorage,
@@ -52,7 +51,7 @@ export function MyNear() {
         [
           { text: "취소", style: "cancel" },
           {
-            text: "설정으로 이동",
+            text: "설정",
             style: "destructive",
             onPress: linkToSettings,
           },
@@ -109,7 +108,7 @@ export function MyNear() {
 
   return loading ? (
     <View style={[styles.container, { justifyContent: "center" }]}>
-      <ActivityIndicator size="large" color={BackGroundColor.GREEN} />
+      <ActivityIndicator size="large" />
     </View>
   ) : (
     <MapView

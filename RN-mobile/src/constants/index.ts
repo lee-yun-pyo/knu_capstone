@@ -19,7 +19,8 @@ export const WON_SYMBOL = '\u20a9';
 
 export const WARNNING_MESSAGE= {
     HIGH: "상한가보다 높게 입찰하실 수 없습니다",
-    LOW:  "현재가/시작가보다 낮게 입찰하실 수 없습니다"
+    LOW:  "현재가/시작가보다 낮게 입찰하실 수 없습니다",
+    UNFULLFILED_UNIT: "100원(최소 단위) 단위로 입력해주세요"
 };
 
 export const PROFILE_MENU: profileMenuType[] = [
@@ -56,3 +57,5 @@ export const INITIAL_REGION = {
 };
 
 export const MAXIMUM_PICKED_NUMBER = 5;
+
+export const MINIMUM_PRICE_UNIT = 100;
