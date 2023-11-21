@@ -102,7 +102,7 @@ export interface SignUpData {
 }
 
 export interface SignInData {
-    id: string;
+    email: string;
     password: string;
 }
 

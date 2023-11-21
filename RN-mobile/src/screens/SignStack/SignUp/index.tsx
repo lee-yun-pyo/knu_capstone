@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import {
   ScrollView,
   KeyboardAvoidingView,
@@ -14,6 +15,7 @@ import { PasswordInput } from "components/SignUp/PasswordInput";
 import { PasswordConfirmInput } from "components/SignUp/PasswordConfirmInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { MapInput } from "components/SignUp/MapInput";
+import { LoadingOverlay } from "components/Common/LoadingOverlay";
 
 import {
   LocationType,
@@ -22,6 +24,10 @@ import {
   SignUpScreenProps,
   UserType,
 } from "types";
+import { SignProps } from "types/auth";
+import { createUser } from "utils/auth";
+
+import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
@@ -29,6 +35,7 @@ export function SignUp() {
   const route = useRoute<SignUpScreenProps["route"]>();
   const navigation = useNavigation<SignStackScreenProps["navigation"]>();
   const { type, pickedLocation } = route.params;
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     control,
     handleSubmit,
@@ -51,23 +58,30 @@ export function SignUp() {
     setValue("address", address);
   };
 
+  const signUpHandler = async ({ email, password }: SignProps) => {
+    setIsAuthenticating(true);
+
+    try {
+      await createUser({ email, password });
+      navigation.replace("SignIn");
+    } catch (error) {
+      Alert.alert("회원가입 에러", "이메일 또는 비밀번호를 확인해주세요");
+      setIsAuthenticating(false);
+    }
+  };
+
   const onSubmit = (data: SignUpData) => {
-    const {
-      id,
-      name,
-      email,
-      password,
-      passwordConfirm,
-      latitude,
-      longitude,
-      address,
-    } = data;
+    const { email, password, passwordConfirm } = data;
     if (password !== passwordConfirm) {
       Alert.alert("비밀번호 오류", "비밀번호가 일치하지 않습니다");
       return;
     }
-    navigation.navigate("SignIn"); // 📌 navigate가 아닌 다른 걸로 stack 안쌓이게
+    signUpHandler({ email, password });
   };
+
+  if (isAuthenticating) {
+    return <LoadingOverlay message="회원 등록 중..." />;
+  }
 
   return (
     <KeyboardAvoidingView
