@@ -1,7 +1,11 @@
+import { useContext, useState, useEffect, useCallback } from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Home } from "screens/Home";
 import { Detail } from "screens/Detail";
@@ -22,11 +26,12 @@ import { SignUpMap } from "screens/SignStack/SignUpMap";
 import { SignIn } from "screens/SignStack/SignIn";
 import { theme } from "style/theme";
 import { FontColor, TabColor } from "constants/color";
+import { AuthContext, AuthContextProvider } from "store/auth-context";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function SignNavigation() {
+function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerTintColor: FontColor.TINT }}>
       <Stack.Screen
@@ -131,51 +136,101 @@ function TabNavigation() {
   );
 }
 
-export default function App() {
+function Navigation() {
+  const authCtx = useContext(AuthContext);
+
   return (
     <NavigationContainer theme={theme}>
-      <StatusBar style="dark" />
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{ headerTintColor: FontColor.TINT }}
-      >
-        {/* <Stack.Screen
-          name="SignStack"
-          component={SignNavigation}
-          options={{ headerShown: false }}
-        /> */}
-        <Stack.Screen
-          name="Tab"
-          component={TabNavigation}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={Detail}
-          options={{ headerTitle: "" }}
-        />
-        <Stack.Screen
-          name="Map"
-          component={Map}
-          options={{ headerTitle: "" }}
-        />
-        <Stack.Screen
-          name="Bid"
-          component={Bid}
-          options={{ headerTitle: "입찰하기" }}
-        />
-        <Stack.Screen
-          name="Upload"
-          component={Upload}
-          options={{
-            headerTitle: "내 재고 팔기",
-            gestureDirection: "vertical",
-            headerBackTitleVisible: false,
-            gestureEnabled: false,
-            headerLeft: () => <BackButton />,
-          }}
-        />
-      </Stack.Navigator>
+      {!authCtx.isAuthenticated && <AuthStack />}
+      {authCtx.isAuthenticated && <TabNavigation />}
     </NavigationContainer>
+  );
+}
+SplashScreen.preventAutoHideAsync();
+
+function Root() {
+  const [appIsReady, setAppIsReady] = useState(false);
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem("token");
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken);
+      }
+
+      setAppIsReady(true);
+    }
+
+    fetchToken();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+  return (
+    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+      <Navigation />
+    </View>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <StatusBar style="dark" />
+      <AuthContextProvider>
+        <Root />
+      </AuthContextProvider>
+    </>
+    // <Stack.Navigator
+    //   initialRouteName="SignStack"
+    //   screenOptions={{ headerTintColor: FontColor.TINT }}
+    // >
+    //   <Stack.Screen
+    //     name="SignStack"
+    //     component={SignNavigation}
+    //     options={{ headerShown: false }}
+    //   />
+    //   <Stack.Screen
+    //     name="Tab"
+    //     component={TabNavigation}
+    //     options={{ headerShown: false }}
+    //   />
+    //   <Stack.Screen
+    //     name="Detail"
+    //     component={Detail}
+    //     options={{ headerTitle: "" }}
+    //   />
+    //   <Stack.Screen
+    //     name="Map"
+    //     component={Map}
+    //     options={{ headerTitle: "" }}
+    //   />
+    //   <Stack.Screen
+    //     name="Bid"
+    //     component={Bid}
+    //     options={{ headerTitle: "입찰하기" }}
+    //   />
+    //   <Stack.Screen
+    //     name="Upload"
+    //     component={Upload}
+    //     options={{
+    //       headerTitle: "내 재고 팔기",
+    //       gestureDirection: "vertical",
+    //       headerBackTitleVisible: false,
+    //       gestureEnabled: false,
+    //       headerLeft: () => <BackButton />,
+    //     }}
+    //   />
+    // </Stack.Navigator>
   );
 }
