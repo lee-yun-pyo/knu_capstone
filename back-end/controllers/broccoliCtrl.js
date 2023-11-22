@@ -156,12 +156,12 @@ const broccoliCtrl = {
 
     insertLog : async(req, res)=>{
         const {user, time, price, board_id} = req.body;
-        const profile = req.file ? req.file.filename : null;
+        const profile = req.file ? `'${req.file.filename}'` : 'DEFAULT';
         const sql = `INSERT INTO broccoli.auction_log
         VALUES(
             default,
             '${user}',
-            '${profile}',
+            ${profile},
             '${time}',
             ${price},
             ${board_id}
@@ -225,8 +225,13 @@ const broccoliCtrl = {
     
 
     insertUser : async(req, res)=>{
-        let {id, password, email, name, phone, latitude, longitude, role} = req.body;
-        const profile_image = req.file ? req.file.filename : null;
+        let {id, password, email, name, phone, latitude, longitude, role, address, idToken} = req.body;
+        const profile_image = req.file ? `'${req.file.filename}'` : 'DEFAULT';
+
+        //판매자 구매자 구분
+        let finalAddress = role === 'Buyer' ? 'DEFAULT' : `'${address}'`;
+        let finalLatitude = role === 'Buyer' ? 'DEFAULT' : latitude;
+        let finalLongitude = role === 'Buyer' ? 'DEFAULT' : longitude;
         
         // 비밀번호 해싱
         const saltRounds = 10;
@@ -239,10 +244,12 @@ const broccoliCtrl = {
                 '${email}',
                 '${name}',
                 '${phone}',
-                '${profile_image}',
-                ${latitude},
-                ${longitude},
-                '${role}'
+                ${profile_image},
+                ${finalLatitude},
+                ${finalLongitude},
+                '${role}',
+                ${finalAddress},
+                '${idToken}'
             );`
             connection.query( sql, (error, rows) =>{
                     if(error) return res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error });
