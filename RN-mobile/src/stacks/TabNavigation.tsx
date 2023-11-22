@@ -1,15 +1,34 @@
+import { useContext } from "react";
+import { Alert } from "react-native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { IconButton } from "components/Common/IconButton";
 import { Home } from "screens/Home";
 import { MyNear } from "screens/MyNear";
 import { ProfileStack } from "./ProfileStack";
+
+import { AuthContext } from "store/auth-context";
 
 import { TabColor } from "constants/color";
 
 const Tab = createBottomTabNavigator();
 
 export function TabNavigation() {
+  const authCtx = useContext(AuthContext);
+
+  const logout = () => {
+    Alert.alert("로그아웃", "로그아웃을 하시겠습니까?", [
+      { text: "취소", style: "cancel" },
+      {
+        text: "로그아웃",
+        style: "default",
+        onPress: () => {
+          authCtx.logout();
+        },
+      },
+    ]);
+  };
   return (
     <>
       <Tab.Navigator>
@@ -57,7 +76,14 @@ export function TabNavigation() {
                 color={focused ? TabColor.ACTIVE : TabColor.INACTIVE}
               />
             ),
-            headerTitle: "",
+            headerRight: () => (
+              <IconButton
+                name={"log-out"}
+                size={24}
+                color="#000"
+                onPress={logout}
+              />
+            ),
           }}
         />
       </Tab.Navigator>
