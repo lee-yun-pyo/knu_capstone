@@ -12,6 +12,7 @@ const broccoliCtrl = {
                     res.send({"statusCode" : 404, "message" : error})
                     return;
                 };
+                rows.forEach(row=> row.images = JSON.parse(row.images))
                 res.send({"statusCode" : 200, "data" : { "board" : rows }});
             })
         }
@@ -28,19 +29,25 @@ const broccoliCtrl = {
                     res.send({"statusCode" : 404, "message" : error})
                     return;
                 };
+                rows[0].images = JSON.parse(rows[0].images)
                 res.send({"statusCode" : 200, "data" : { "board" : rows[0]}});
             })
         }
     },
 
     insertBroccoli : async(req, res) => {
-        let {store_name, store_location, product_name, product_description,
-        current_price, upper_limit, lower_limit, start_time, end_time}
+        const {store_name, store_location, product_name, product_description,
+        current_price, upper_limit, lower_limit, start_time, end_time, latitude, longitude}
         = req.body;
-        const product_image = req.file ? req.file.filename : null;
-
+        const files = req.files ? req.files : null;
+        let images = new Array();
+        files.map(file => {
+            const cleaned_path = file.path.replace('uploads\\', '');
+            images.push(cleaned_path);
+        })
+        images = JSON.stringify(images)
+        console.log(images)
         let sql=``;
-        if(start_time == null) start_time = "default";
         sql = `INSERT INTO broccoli.board
         VALUES(
             default,
@@ -54,7 +61,9 @@ const broccoliCtrl = {
             default,
             '${start_time}',
             '${end_time}',
-            '${product_image}'
+            ${latitude},
+            ${longitude},
+            '${images}'
             );`
         
         connection.query(
@@ -131,12 +140,12 @@ const broccoliCtrl = {
                 res.send({"statusCode" : 400, "message" : "숫자만 입력가능"})
             }
             else{
-                connection.query(`SELECT user, profile, time, price, board_id FROM broccoli.auction_log where board_id = ${board_id};`, (error, rows)=>{
+                connection.query(`SELECT user, profile, time, price FROM broccoli.auction_log where board_id = ${board_id};`, (error, rows)=>{
                     if(error){
                         res.send({"statusCode":404, "message" : error});
                         return;
                     };
-                    res.send({"statusCode" : 200, "data" : {"log" : rows[0]}});
+                    res.send({"statusCode" : 200, "data" : {"log" : rows}});
             })
         }
 
@@ -146,14 +155,14 @@ const broccoliCtrl = {
     },
 
     insertLog : async(req, res)=>{
-        const {user, price, board_id} = req.body;
-        const profile = req.file ? req.file.filename : null;
+        const {user, time, price, board_id} = req.body;
+        const profile = req.file ? `'${req.file.filename}'` : 'DEFAULT';
         const sql = `INSERT INTO broccoli.auction_log
         VALUES(
             default,
             '${user}',
-            '${profile}',
-            default,
+            ${profile},
+            '${time}',
             ${price},
             ${board_id}
         );`
@@ -216,8 +225,13 @@ const broccoliCtrl = {
     
 
     insertUser : async(req, res)=>{
-        let {id, password, email, name, phone, latitude, longitude, role} = req.body;
-        const profile_image = req.file ? req.file.filename : null;
+        let {id, password, email, name, phone, latitude, longitude, role, address, idToken} = req.body;
+        const profile_image = req.file ? `'${req.file.filename}'` : 'DEFAULT';
+
+        //판매자 구매자 구분
+        let finalAddress = role === 'Buyer' ? 'DEFAULT' : `'${address}'`;
+        let finalLatitude = role === 'Buyer' ? 'DEFAULT' : latitude;
+        let finalLongitude = role === 'Buyer' ? 'DEFAULT' : longitude;
         
         // 비밀번호 해싱
         const saltRounds = 10;
@@ -230,10 +244,12 @@ const broccoliCtrl = {
                 '${email}',
                 '${name}',
                 '${phone}',
-                '${profile_image}',
-                ${latitude},
-                ${longitude},
-                '${role}'
+                ${profile_image},
+                ${finalLatitude},
+                ${finalLongitude},
+                '${role}',
+                ${finalAddress},
+                '${idToken}'
             );`
             connection.query( sql, (error, rows) =>{
                     if(error) return res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error });
