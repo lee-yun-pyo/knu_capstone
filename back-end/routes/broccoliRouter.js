@@ -15,7 +15,7 @@ const upload = multer({ storage: storage });
 
 router.route('/')
     .get(broccoliCtrl.getBroccoli)
-    .post(upload.single('product_image'), broccoliCtrl.insertBroccoli)
+    .post(upload.array('product_images', 10), broccoliCtrl.insertBroccoli)
 router.route('/:id')
     .delete(broccoliCtrl.deleteBroccoli)
 
