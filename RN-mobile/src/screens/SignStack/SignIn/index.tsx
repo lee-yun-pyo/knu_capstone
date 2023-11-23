@@ -12,10 +12,10 @@ import {
 import { PasswordInput } from "components/SignIn/PasswordInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { LoadingOverlay } from "components/Common/LoadingOverlay";
-import { EmailInput } from "components/SignIn/EmailInput";
+import { IdInput } from "components/SignIn/IdInput";
 
 import { SignInData } from "types";
-import { SignProps } from "types/auth";
+import { SignInProps } from "types/auth";
 import { loginUser } from "utils/auth";
 
 import { AuthContext } from "store/auth-context";
@@ -32,11 +32,11 @@ export function SignIn() {
 
   const authCtx = useContext(AuthContext);
 
-  const SignInHandler = async ({ email, password }: SignProps) => {
+  const SignInHandler = async ({ id, password }: SignInProps) => {
     setIsAuthenticating(true);
 
     try {
-      const token = await loginUser({ email, password });
+      const token = await loginUser({ id, password });
       authCtx.authenticate(token);
     } catch (error) {
       Alert.alert("로그인 에러", "이메일 또는 비밀번호를 확인해주세요");
@@ -45,8 +45,8 @@ export function SignIn() {
   };
 
   const onSubmit = (data: SignInData) => {
-    const { email, password } = data;
-    SignInHandler({ email, password });
+    const { id, password } = data;
+    SignInHandler({ id, password });
   };
 
   if (isAuthenticating) {
@@ -67,7 +67,7 @@ export function SignIn() {
           <Text style={styles.title}>브로콜리</Text>
         </View>
         <View>
-          <EmailInput control={control} errors={errors} />
+          <IdInput control={control} errors={errors} />
           <PasswordInput control={control} errors={errors} />
           <SubmitButton<SignInData>
             handleSubmit={handleSubmit}

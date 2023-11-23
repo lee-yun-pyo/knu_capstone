@@ -24,17 +24,15 @@ import {
   SignUpScreenProps,
   UserType,
 } from "types";
-import { SignProps } from "types/auth";
+import { SignUpProps } from "types/auth";
 import { createUser } from "utils/auth";
-
-import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
 export function SignUp() {
   const route = useRoute<SignUpScreenProps["route"]>();
   const navigation = useNavigation<SignStackScreenProps["navigation"]>();
-  const { type, pickedLocation } = route.params;
+  const { type: role, pickedLocation } = route.params;
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     control,
@@ -45,8 +43,8 @@ export function SignUp() {
     formState: { errors },
   } = useForm<SignUpData>();
 
-  const isSeller = (type: UserType) => {
-    return type === "Seller";
+  const isSeller = (role: UserType) => {
+    return role === "Seller";
   };
 
   const setCoordValue = (location: LocationType) => {
@@ -58,11 +56,11 @@ export function SignUp() {
     setValue("address", address);
   };
 
-  const signUpHandler = async ({ email, password }: SignProps) => {
+  const signUpHandler = async ({ role, userInfo }: SignUpProps) => {
     setIsAuthenticating(true);
 
     try {
-      await createUser({ email, password });
+      await createUser({ role, userInfo });
       navigation.replace("SignIn");
     } catch (error) {
       Alert.alert("회원가입 에러", "이메일 또는 비밀번호를 확인해주세요");
@@ -70,13 +68,13 @@ export function SignUp() {
     }
   };
 
-  const onSubmit = (data: SignUpData) => {
-    const { email, password, passwordConfirm } = data;
+  const onSubmit = (userInfo: SignUpData) => {
+    const { password, passwordConfirm } = userInfo;
     if (password !== passwordConfirm) {
       Alert.alert("비밀번호 오류", "비밀번호가 일치하지 않습니다");
       return;
     }
-    signUpHandler({ email, password });
+    signUpHandler({ role, userInfo });
   };
 
   if (isAuthenticating) {
@@ -89,8 +87,8 @@ export function SignUp() {
       style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <NameInput control={control} errors={errors} userType={type} />
-        {isSeller(type) && (
+        <NameInput control={control} errors={errors} userType={role} />
+        {isSeller(role) && (
           <MapInput
             pickedLocation={pickedLocation}
             setCoordValue={setCoordValue}

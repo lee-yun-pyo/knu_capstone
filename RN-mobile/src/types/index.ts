@@ -99,10 +99,13 @@ export interface SignUpData {
     latitude?: number;
     longitude?: number;
     address?: string;
+    idToken?: string;
+    profile_image?: string;
+    phone?: string;
 }
 
 export interface SignInData {
-    email: string;
+    id: string;
     password: string;
 }
 
