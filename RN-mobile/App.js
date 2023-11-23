@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Navigation } from "stacks/Navigation";
 import { AuthContext, AuthContextProvider } from "store/auth-context";
+import { getObjAsyncStorage } from "utils";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,9 +17,13 @@ function Root() {
   useEffect(() => {
     async function fetchToken() {
       const storedToken = await AsyncStorage.getItem("token");
+      const storedLoginUser = await getObjAsyncStorage("loginUser");
 
       if (storedToken) {
         authCtx.authenticate(storedToken);
+      }
+      if (storedLoginUser) {
+        authCtx.saveLoginUserInfo(storedLoginUser);
       }
 
       setAppIsReady(true);

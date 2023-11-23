@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SignUpData } from "types";
 
 import { SignUpProps, SignInProps } from "types/auth";
 
@@ -33,6 +34,18 @@ export async function loginUser({id, password}: SignInProps) {
 
     const response = await axios.get(url);
     const token = response.data.isAvailable;
-
+    if (!token) {
+        return response.data.message;
+    }
     return token;
+}
+
+export async function getUserInfoById(id:string) {
+    const url = `${API_URL}/users`;
+    
+    const response = await axios.get(url);
+    const users = response.data.data.board as SignUpData[];
+    const loginUserInfo = users.filter((user) => user.id === id)[0];
+
+    return loginUserInfo;
 }

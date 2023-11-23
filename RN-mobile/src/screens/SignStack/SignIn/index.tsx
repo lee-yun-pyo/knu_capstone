@@ -16,7 +16,7 @@ import { IdInput } from "components/SignIn/IdInput";
 
 import { SignInData } from "types";
 import { SignInProps } from "types/auth";
-import { loginUser } from "utils/auth";
+import { getUserInfoById, loginUser } from "utils/auth";
 
 import { AuthContext } from "store/auth-context";
 
@@ -35,13 +35,15 @@ export function SignIn() {
   const SignInHandler = async ({ id, password }: SignInProps) => {
     setIsAuthenticating(true);
 
-    try {
-      const token = await loginUser({ id, password });
-      authCtx.authenticate(token);
-    } catch (error) {
-      Alert.alert("로그인 에러", "이메일 또는 비밀번호를 확인해주세요");
+    const result = await loginUser({ id, password });
+    if (typeof result === "string") {
+      Alert.alert(result);
       setIsAuthenticating(false);
+      return;
     }
+    authCtx.authenticate(result);
+    const loginUserInfo = await getUserInfoById(id);
+    authCtx.saveLoginUserInfo(loginUserInfo);
   };
 
   const onSubmit = (data: SignInData) => {
