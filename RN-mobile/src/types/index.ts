@@ -16,7 +16,7 @@ export type RootStackParamList = {
             like_count: number;
             start_time: string;
             end_time: string;
-            product_image: string[];
+            images: string[];
             latitude: number,
             longitude: number,
         };
@@ -124,4 +124,35 @@ export interface SignInInputProps {
     errors: FieldErrors<SignInData>;
 }
 
-export type UserType = "Seller" | "Buyer"
+export type UserType = "Seller" | "Buyer";
+
+export interface ItemType {
+    board_id: number;
+    store_name: string;
+    store_location: string;
+    product_name: string;
+    product_description: string;
+    current_price: number;
+    upper_limit: number;
+    lower_limit: number;
+    like_count: number;
+    start_time: string;
+    end_time: string;
+    images: string[];
+    latitude: number;
+    longitude: number;
+  }
+  
+  export type userInfoType = {
+    id: string;
+    password: string;
+    email: string;
+    name: string;
+    phone: string;
+    profile_image: null;
+    latitude: number;
+    longitude: number;
+    role: string;
+    address: string;
+    idToken: string;
+}

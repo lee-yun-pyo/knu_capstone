@@ -1,9 +1,5 @@
-import {
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-} from "react-native";
+import { useContext } from "react";
+import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useForm } from "react-hook-form";
 
 import { TitleInput } from "components/Upload/TitleInput";
@@ -14,10 +10,14 @@ import { SubmitButton } from "components/Common/SubmitButton";
 import { ImagePicker } from "components/Upload/ImagePicker";
 
 import { FormData } from "types";
+import { uploadItem } from "utils/item";
+
+import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
 export function Upload() {
+  const authCtx = useContext(AuthContext);
   const {
     control,
     handleSubmit,
@@ -44,8 +44,8 @@ export function Upload() {
     setValue("endTime", value);
   };
 
-  const onSubmit = (data: FormData) => {
-    Alert.alert("data", JSON.stringify(data));
+  const onSubmit = async (data: FormData) => {
+    await uploadItem(authCtx.userInfo, data);
   };
 
   return (

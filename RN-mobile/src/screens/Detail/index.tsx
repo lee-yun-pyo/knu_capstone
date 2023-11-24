@@ -24,7 +24,7 @@ export function Detail() {
     lower_limit,
     start_time,
     end_time,
-    product_image,
+    images,
     latitude,
     longitude,
   } = route.params.info;
@@ -32,7 +32,7 @@ export function Detail() {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
-        <ItemImages imageArray={product_image} />
+        <ItemImages imageArray={images} />
         <Profile storeName={store_name} location={store_location} />
         <Description
           title={product_name}
