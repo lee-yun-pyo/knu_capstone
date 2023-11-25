@@ -145,7 +145,7 @@ export interface ItemType {
     longitude: number;
   }
   
-  export type userInfoType = {
+export type userInfoType = {
     id: string;
     password: string;
     email: string;
@@ -157,4 +157,12 @@ export interface ItemType {
     role: string;
     address: string;
     idToken: string;
+}
+
+export interface LogType {
+    user: string;
+    profile: null;
+    time: string;
+    price: number;
+    board_id: number;
 }

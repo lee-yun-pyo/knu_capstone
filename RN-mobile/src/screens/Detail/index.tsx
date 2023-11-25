@@ -28,6 +28,7 @@ export function Detail() {
     images,
     latitude,
     longitude,
+    board_id,
   } = route.params.info;
 
   return (
@@ -45,13 +46,7 @@ export function Detail() {
           upperPrice={upper_limit}
           deadLineTime={end_time}
         />
-        <BidLogs
-          bidders={[
-            { name: "이름", bidDate: "2023-04-31", bidPrice: 2000 },
-            { name: "이름2", bidDate: "2023-05-31", bidPrice: 4000 },
-            { name: "이름2", bidDate: "2023-06-31", bidPrice: 3000 },
-          ]}
-        />
+        <BidLogs boardId={board_id} />
         <Location
           latitude={latitude}
           longitude={longitude}

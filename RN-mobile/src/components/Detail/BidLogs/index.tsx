@@ -1,23 +1,32 @@
+import { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 
 import { Bidder } from "./Bidder";
 
+import { getBidLogs } from "utils/bidlog";
+import { LogType } from "types";
+
 import { styles } from "./style";
 
-interface BidderType {
-  name: string;
-  bidDate: string;
-  bidPrice: number;
-}
-
 interface Props {
-  bidders: BidderType[];
+  boardId: number;
 }
 
-export function BidLogs({ bidders }: Props) {
-  function biddersNotExist(bidders: BidderType[]): boolean {
+export function BidLogs({ boardId }: Props) {
+  const [bidders, setBidders] = useState<LogType[]>([]);
+
+  function biddersNotExist(bidders: LogType[]): boolean {
     return bidders.length === 0;
   }
+
+  const getBidLogsHandler = async (id: number) => {
+    const log = await getBidLogs(id);
+    setBidders(log);
+  };
+
+  useEffect(() => {
+    getBidLogsHandler(boardId);
+  });
 
   return (
     <View style={styles.container}>
@@ -33,9 +42,9 @@ export function BidLogs({ bidders }: Props) {
             {[...bidders].map((bidder, index) => (
               <Bidder
                 key={index}
-                name={bidder.name}
-                bidDate={bidder.bidDate}
-                bidPrice={bidder.bidPrice}
+                name={bidder.user}
+                bidDate={bidder.time}
+                bidPrice={bidder.price}
               />
             ))}
           </ScrollView>
