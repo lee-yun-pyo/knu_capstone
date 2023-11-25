@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
 
 import { TitleInput } from "components/Upload/TitleInput";
@@ -8,6 +9,7 @@ import { PriceInput } from "components/Upload/PriceInput";
 import { EndTimeInput } from "components/Upload/EndTimeInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { ImagePicker } from "components/Upload/ImagePicker";
+import { LoadingOverlay } from "components/Common/LoadingOverlay";
 
 import { HomeScreenProps, UploadFormData } from "types";
 import { uploadItem } from "utils/item";
@@ -15,8 +17,6 @@ import { uploadItem } from "utils/item";
 import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
-import { useNavigation } from "@react-navigation/native";
-import { LoadingOverlay } from "components/Common/LoadingOverlay";
 
 export function Upload() {
   const [isUploading, setIsUploading] = useState(false);
@@ -59,7 +59,7 @@ export function Upload() {
   };
 
   if (isUploading) {
-    return <LoadingOverlay message="로그인 중..." />;
+    return <LoadingOverlay message="업로드 중..." />;
   }
 
   return (
