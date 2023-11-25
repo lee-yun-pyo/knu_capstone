@@ -10,7 +10,7 @@ import { ProfileStack } from "./ProfileStack";
 
 import { AuthContext } from "store/auth-context";
 
-import { TabColor } from "constants/color";
+import { TabColor } from "constant/color";
 
 const Tab = createBottomTabNavigator();
 

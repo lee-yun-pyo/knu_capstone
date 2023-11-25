@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 
-import { BackGroundColor } from "constants/color";
+import { BackGroundColor } from "constant/color";
 
 import { styles } from "./style";
 

@@ -5,7 +5,7 @@ import * as picker from "expo-image-picker";
 import { PickerButton } from "./PickerButton";
 import { PreviewImage } from "./PreviewImage";
 
-import { MAXIMUM_PICKED_NUMBER } from "constants";
+import { MAXIMUM_PICKED_NUMBER } from "constant";
 
 import { styles } from "./style";
 

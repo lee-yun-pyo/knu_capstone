@@ -1,6 +1,6 @@
 import { View, Text, TextInput } from "react-native";
 
-import { WON_SYMBOL } from "constants";
+import { WON_SYMBOL } from "constant";
 
 import { styles } from "./style";
 

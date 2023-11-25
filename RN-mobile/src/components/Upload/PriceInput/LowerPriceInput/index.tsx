@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 import { ErrorMessage } from "components/Common/ErrorMessage";
 
 import { UploadInputProps } from "types";
-import { WARNNING_MESSAGE, WON_SYMBOL } from "constants";
+import { WARNNING_MESSAGE, WON_SYMBOL } from "constant";
 import {
   convertToLocaleStringFromInput,
   formatCurrency,

@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 
-import { THEME_PADDING, WINDOW_WIDTH } from "constants";
+import { THEME_PADDING, WINDOW_WIDTH } from "constant";
 
 import { styles } from "./style";
 

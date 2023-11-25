@@ -7,7 +7,7 @@ import { Map } from "screens/Map";
 import { BackButton } from "components/Common/BackButton";
 import { TabNavigation } from "./TabNavigation";
 
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 
 const Stack = createNativeStackNavigator();
 

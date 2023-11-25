@@ -1,4 +1,4 @@
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({

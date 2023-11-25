@@ -6,7 +6,7 @@ import { SignUp } from "screens/SignStack/SignUp";
 import { SignUpMap } from "screens/SignStack/SignUpMap";
 import { Start } from "screens/SignStack/Start";
 
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 
 const Stack = createNativeStackNavigator();
 

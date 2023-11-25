@@ -7,6 +7,7 @@ import { Price } from "components/Detail/Price";
 import { Description } from "components/Detail/Description";
 import { Location } from "components/Detail/Location";
 import { Footer } from "components/Detail/Footer";
+import { BidLogs } from "components/Detail/BidLogs";
 
 import { DetailScreenProps } from "types";
 
@@ -43,6 +44,13 @@ export function Detail() {
           startPrice={lower_limit}
           upperPrice={upper_limit}
           deadLineTime={end_time}
+        />
+        <BidLogs
+          bidders={[
+            { name: "이름", bidDate: "2023-04-31", bidPrice: 2000 },
+            { name: "이름2", bidDate: "2023-05-31", bidPrice: 4000 },
+            { name: "이름2", bidDate: "2023-06-31", bidPrice: 3000 },
+          ]}
         />
         <Location
           latitude={latitude}

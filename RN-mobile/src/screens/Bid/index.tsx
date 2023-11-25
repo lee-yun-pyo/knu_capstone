@@ -8,7 +8,7 @@ import { BidButton } from "components/Bid/BidButton";
 import { TextInputPrice } from "components/Bid/TextInputPrice";
 
 import { BidScreenProps } from "types";
-import { WARNNING_MESSAGE } from "constants";
+import { WARNNING_MESSAGE } from "constant";
 import { convertToLocaleStringFromInput, isFullfiledUnit } from "utils";
 
 import { styles } from "./style";

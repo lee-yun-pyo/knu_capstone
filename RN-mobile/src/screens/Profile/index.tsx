@@ -3,7 +3,7 @@ import { View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 
-import { PROFILE_MENU } from "constants";
+import { PROFILE_MENU } from "constant";
 import { ProfileStackScreenProps } from "types";
 
 import { AuthContext } from "store/auth-context";

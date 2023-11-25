@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { BottomButton } from "components/Common/BottomButton";
 
-import { BackGroundColor } from "constants/color";
+import { BackGroundColor } from "constant/color";
 import { SignStackScreenProps, UserType } from "types";
 
 import { styles } from "./style";

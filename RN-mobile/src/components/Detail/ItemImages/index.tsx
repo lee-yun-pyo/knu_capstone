@@ -9,7 +9,7 @@ import {
 
 import { ItemImage } from "./ItemImage";
 
-import { THEME_PADDING, WINDOW_WIDTH } from "constants";
+import { THEME_PADDING, WINDOW_WIDTH } from "constant";
 
 import { styles } from "./style";
 
