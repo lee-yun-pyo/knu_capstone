@@ -59,5 +59,3 @@ export const INITIAL_REGION = {
 export const MAXIMUM_PICKED_NUMBER = 5;
 
 export const MINIMUM_PRICE_UNIT = 100;
-
-export const SORT_TYPE = ['최신순', '가격순'];
