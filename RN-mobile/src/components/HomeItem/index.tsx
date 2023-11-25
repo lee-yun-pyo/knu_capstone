@@ -64,7 +64,7 @@ export function HomeItem({ props }: Props) {
       <View style={styles.container}>
         <Image
           source={{
-            uri: images[0],
+            uri: `http://3.34.126.72:27017/${images[0]}`,
           }}
           style={styles.image}
         />

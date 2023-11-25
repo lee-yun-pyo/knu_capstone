@@ -32,6 +32,7 @@ export type RootStackParamList = {
         upperPrice: number;
     },
     Upload: undefined;
+    Tab: undefined;
 };
 
 export type ProfileStackParamsList = {
@@ -53,6 +54,7 @@ export type SignStackParamsList = {
     };
 };
 
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Tab">;
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
@@ -81,7 +83,7 @@ export interface RegionProps extends LocationProps {
 
 export type LocationType = { lat: number, lng: number };
   
-export interface FormData {
+export interface UploadFormData {
     images: string[];
     title: string;
     description: string;
@@ -110,8 +112,8 @@ export interface SignInData {
 }
 
 export interface UploadInputProps {
-    control: Control<FormData>;
-    errors: FieldErrors<FormData>;
+    control: Control<UploadFormData>;
+    errors: FieldErrors<UploadFormData>;
 }
 
 export interface SignUpInputProps {

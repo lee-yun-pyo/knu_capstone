@@ -14,6 +14,11 @@ export function Home() {
 
   const getItemsHandler = async () => {
     const fetchedItmes = await getItmes();
+    fetchedItmes.sort(
+      (first, last) =>
+        new Date(last.start_time).getTime() -
+        new Date(first.start_time).getTime()
+    );
     setItems(fetchedItmes);
   };
 

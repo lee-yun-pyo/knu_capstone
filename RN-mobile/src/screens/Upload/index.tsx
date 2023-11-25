@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useForm } from "react-hook-form";
 
@@ -9,15 +9,20 @@ import { EndTimeInput } from "components/Upload/EndTimeInput";
 import { SubmitButton } from "components/Common/SubmitButton";
 import { ImagePicker } from "components/Upload/ImagePicker";
 
-import { FormData } from "types";
+import { HomeScreenProps, UploadFormData } from "types";
 import { uploadItem } from "utils/item";
 
 import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
+import { useNavigation } from "@react-navigation/native";
+import { LoadingOverlay } from "components/Common/LoadingOverlay";
 
 export function Upload() {
+  const [isUploading, setIsUploading] = useState(false);
+
   const authCtx = useContext(AuthContext);
+  const navigation = useNavigation<HomeScreenProps["navigation"]>();
   const {
     control,
     handleSubmit,
@@ -25,7 +30,7 @@ export function Upload() {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<UploadFormData>({
     defaultValues: {
       images: [],
       title: "",
@@ -44,9 +49,18 @@ export function Upload() {
     setValue("endTime", value);
   };
 
-  const onSubmit = async (data: FormData) => {
-    await uploadItem(authCtx.userInfo, data);
+  const onSubmit = async (data: UploadFormData) => {
+    setIsUploading(true);
+
+    const response = await uploadItem(authCtx.userInfo, data);
+    if (response.statusCode === 200) {
+      navigation.replace("Tab");
+    }
   };
+
+  if (isUploading) {
+    return <LoadingOverlay message="로그인 중..." />;
+  }
 
   return (
     <KeyboardAvoidingView
@@ -63,7 +77,7 @@ export function Upload() {
           setError={setError}
           clearErrors={clearErrors}
         />
-        <SubmitButton<FormData>
+        <SubmitButton<UploadFormData>
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           content="작성완료"

@@ -11,7 +11,7 @@ interface ItemImageProps {
 export function ItemImage({ imageUrl }: ItemImageProps) {
   return (
     <Image
-      source={{ uri: imageUrl }}
+      source={{ uri: `http://3.34.126.72:27017/${imageUrl}` }}
       style={[styles.itemImage, { width: WINDOW_WIDTH - THEME_PADDING * 2 }]}
     />
   );
