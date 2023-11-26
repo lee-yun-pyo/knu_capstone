@@ -3,8 +3,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Timer } from "../Timer";
 
-import { WON_SYMBOL } from "constants";
-import { FontColor } from "constants/color";
+import { WON_SYMBOL } from "constant";
+import { FontColor } from "constant/color";
 
 import { styles } from "./style";
 

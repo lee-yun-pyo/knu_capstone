@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MINIMUM_PRICE_UNIT, TIME_UNITS, WON_SYMBOL } from "constants";
+import { MINIMUM_PRICE_UNIT, TIME_UNITS, WON_SYMBOL } from "constant";
 import * as Location from "expo-location";
 
 export function calculateDaysAgo(inputDate: string) {

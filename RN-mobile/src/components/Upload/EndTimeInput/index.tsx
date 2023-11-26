@@ -11,16 +11,16 @@ import {
   UseFormClearErrors,
   UseFormSetError,
 } from "react-hook-form";
-import { FormData } from "types";
+import { UploadFormData } from "types";
 
 import { commonStyle } from "screens/Upload/style";
 import { styles } from "./style";
 
 interface Props {
   setValue: (value: string) => void;
-  errors: FieldErrors<FormData>;
-  setError: UseFormSetError<FormData>;
-  clearErrors: UseFormClearErrors<FormData>;
+  errors: FieldErrors<UploadFormData>;
+  setError: UseFormSetError<UploadFormData>;
+  clearErrors: UseFormClearErrors<UploadFormData>;
 }
 
 export function EndTimeInput({

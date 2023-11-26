@@ -1,14 +1,17 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 
-import { PROFILE_MENU } from "constants";
+import { PROFILE_MENU } from "constant";
 import { ProfileStackScreenProps } from "types";
+
+import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
 export function Profile() {
+  const authCtx = useContext(AuthContext);
   const navigation = useNavigation<ProfileStackScreenProps["navigation"]>();
 
   const navigateMenu = (listName: string) => {
@@ -36,7 +39,7 @@ export function Profile() {
           source={require("../../../assets/user2.png")}
           style={styles.profileImage}
         />
-        <Text style={styles.userName}>userName</Text>
+        <Text style={styles.userName}>{authCtx.userInfo.name}</Text>
       </View>
       <View style={styles.separator} />
       <Text style={styles.title}>나의 거래</Text>

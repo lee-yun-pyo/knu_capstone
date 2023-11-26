@@ -8,7 +8,7 @@ import { BidButton } from "components/Bid/BidButton";
 import { TextInputPrice } from "components/Bid/TextInputPrice";
 
 import { BidScreenProps } from "types";
-import { WARNNING_MESSAGE } from "constants";
+import { WARNNING_MESSAGE } from "constant";
 import { convertToLocaleStringFromInput, isFullfiledUnit } from "utils";
 
 import { styles } from "./style";
@@ -19,7 +19,7 @@ export function Bid() {
   const [warning, setWarning] = useState("");
 
   const route = useRoute<BidScreenProps["route"]>();
-  const { currentPrice, lowerPrice, upperPrice } = route.params;
+  const { currentPrice, lowerPrice, upperPrice, boardId } = route.params;
 
   const handleChangePrice = (text: string) => {
     const newBidPrice = convertToLocaleStringFromInput(text);
@@ -73,7 +73,12 @@ export function Bid() {
         bidPrice={bidPrice}
         onChangeText={handleChangePrice}
       />
-      <BidButton bidOk={bidOk} />
+      <BidButton
+        bidOk={bidOk}
+        boardId={boardId}
+        bidPrice={bidPrice}
+        upperPrice={upperPrice}
+      />
     </KeyboardAvoidingView>
   );
 }

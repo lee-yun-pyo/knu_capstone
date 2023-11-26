@@ -7,6 +7,7 @@ import { Price } from "components/Detail/Price";
 import { Description } from "components/Detail/Description";
 import { Location } from "components/Detail/Location";
 import { Footer } from "components/Detail/Footer";
+import { BidLogs } from "components/Detail/BidLogs";
 
 import { DetailScreenProps } from "types";
 
@@ -24,15 +25,16 @@ export function Detail() {
     lower_limit,
     start_time,
     end_time,
-    product_image,
+    images,
     latitude,
     longitude,
+    board_id,
   } = route.params.info;
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
-        <ItemImages imageArray={product_image} />
+        <ItemImages imageArray={images} />
         <Profile storeName={store_name} location={store_location} />
         <Description
           title={product_name}
@@ -44,6 +46,7 @@ export function Detail() {
           upperPrice={upper_limit}
           deadLineTime={end_time}
         />
+        <BidLogs boardId={board_id} />
         <Location
           latitude={latitude}
           longitude={longitude}
@@ -56,6 +59,7 @@ export function Detail() {
         upperPrice={upper_limit}
         lowerPrice={lower_limit}
         deadLineTime={end_time}
+        boardId={board_id}
       />
     </View>
   );

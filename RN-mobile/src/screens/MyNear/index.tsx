@@ -7,7 +7,7 @@ import { MyLocation } from "components/Common/MyLocation";
 import { MyLocationButton } from "components/Common/MyLocationButon";
 
 import { RegionProps, LocationProps } from "types";
-import { INITIAL_LOCATION, INITIAL_REGION, INITIAL_DELTA } from "constants";
+import { INITIAL_LOCATION, INITIAL_REGION, INITIAL_DELTA } from "constant";
 import {
   getLocationPermission,
   getObjAsyncStorage,

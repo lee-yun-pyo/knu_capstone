@@ -16,7 +16,7 @@ export type RootStackParamList = {
             like_count: number;
             start_time: string;
             end_time: string;
-            product_image: string[];
+            images: string[];
             latitude: number,
             longitude: number,
         };
@@ -30,8 +30,10 @@ export type RootStackParamList = {
         currentPrice: number;
         lowerPrice: number;
         upperPrice: number;
+        boardId: number;
     },
     Upload: undefined;
+    Tab: undefined;
 };
 
 export type ProfileStackParamsList = {
@@ -53,6 +55,7 @@ export type SignStackParamsList = {
     };
 };
 
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Tab">;
 export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 export type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
 export type BidScreenProps = NativeStackScreenProps<RootStackParamList, "Bid">;
@@ -81,7 +84,7 @@ export interface RegionProps extends LocationProps {
 
 export type LocationType = { lat: number, lng: number };
   
-export interface FormData {
+export interface UploadFormData {
     images: string[];
     title: string;
     description: string;
@@ -99,6 +102,9 @@ export interface SignUpData {
     latitude?: number;
     longitude?: number;
     address?: string;
+    idToken?: string;
+    profile_image?: string;
+    phone?: string;
 }
 
 export interface SignInData {
@@ -107,8 +113,8 @@ export interface SignInData {
 }
 
 export interface UploadInputProps {
-    control: Control<FormData>;
-    errors: FieldErrors<FormData>;
+    control: Control<UploadFormData>;
+    errors: FieldErrors<UploadFormData>;
 }
 
 export interface SignUpInputProps {
@@ -121,4 +127,51 @@ export interface SignInInputProps {
     errors: FieldErrors<SignInData>;
 }
 
-export type UserType = "Seller" | "Buyer"
+export type UserType = "Seller" | "Buyer";
+
+export interface ItemType {
+    board_id: number;
+    store_name: string;
+    store_location: string;
+    product_name: string;
+    product_description: string;
+    current_price: number;
+    upper_limit: number;
+    lower_limit: number;
+    like_count: number;
+    start_time: string;
+    end_time: string;
+    images: string[];
+    latitude: number;
+    longitude: number;
+  }
+  
+export type userInfoType = {
+    id: string;
+    password: string;
+    email: string;
+    name: string;
+    phone: string;
+    profile_image: null;
+    latitude: number;
+    longitude: number;
+    role: string;
+    address: string;
+    idToken: string;
+}
+
+export interface LogType {
+    user: string;
+    profile: null;
+    time: string;
+    price: number;
+    board_id: number;
+}
+
+export interface LogPostType {
+    user: string;
+    bidder_image: null;
+    time: string;
+    price: number;
+    board_id: number;
+}

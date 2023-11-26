@@ -23,7 +23,7 @@ interface Props {
     like_count: number;
     start_time: string;
     end_time: string;
-    product_image: string[];
+    images: string[];
     latitude: number;
     longitude: number;
   };
@@ -38,7 +38,7 @@ export function HomeItem({ props }: Props) {
     start_time,
     current_price,
     upper_limit,
-    product_image,
+    images,
     end_time,
   } = props;
 
@@ -64,7 +64,7 @@ export function HomeItem({ props }: Props) {
       <View style={styles.container}>
         <Image
           source={{
-            uri: product_image[0],
+            uri: `http://3.34.126.72:27017/${images[0]}`,
           }}
           style={styles.image}
         />
@@ -76,7 +76,9 @@ export function HomeItem({ props }: Props) {
           <View style={styles.priceBox}>
             <View style={styles.priceView}>
               <Ionicons name="pricetag-outline" size={17} color="#A4A5A1" />
-              <Text style={styles.price}>{current_price}원</Text>
+              <Text style={styles.price}>
+                {current_price.toLocaleString()}원
+              </Text>
             </View>
             <View style={styles.priceView}>
               <MaterialCommunityIcons
@@ -85,7 +87,7 @@ export function HomeItem({ props }: Props) {
                 color="#D04941"
               />
               <Text style={[styles.price, styles.upperPrice]}>
-                {upper_limit}원
+                {upper_limit.toLocaleString()}원
               </Text>
             </View>
           </View>

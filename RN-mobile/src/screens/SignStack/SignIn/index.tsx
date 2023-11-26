@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   View,
@@ -5,26 +6,54 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 
-import { IdInput } from "components/SignIn/IdInput";
 import { PasswordInput } from "components/SignIn/PasswordInput";
 import { SubmitButton } from "components/Common/SubmitButton";
+import { LoadingOverlay } from "components/Common/LoadingOverlay";
+import { IdInput } from "components/SignIn/IdInput";
 
 import { SignInData } from "types";
+import { SignInProps } from "types/auth";
+import { getUserInfoById, loginUser } from "utils/auth";
+
+import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
 export function SignIn() {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInData>();
 
+  const authCtx = useContext(AuthContext);
+
+  const SignInHandler = async ({ id, password }: SignInProps) => {
+    setIsAuthenticating(true);
+
+    const result = await loginUser({ id, password });
+    if (typeof result === "string") {
+      Alert.alert(result);
+      setIsAuthenticating(false);
+      return;
+    }
+    authCtx.authenticate(result);
+    const loginUserInfo = await getUserInfoById(id);
+    authCtx.saveLoginUserInfo(loginUserInfo);
+  };
+
   const onSubmit = (data: SignInData) => {
     const { id, password } = data;
+    SignInHandler({ id, password });
   };
+
+  if (isAuthenticating) {
+    return <LoadingOverlay message="로그인 중..." />;
+  }
 
   return (
     <KeyboardAvoidingView

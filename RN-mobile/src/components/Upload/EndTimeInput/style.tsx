@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Border, FontColor } from "constants/color";
+import { Border, FontColor } from "constant/color";
 
 export const styles = StyleSheet.create({
   buttonBox: {

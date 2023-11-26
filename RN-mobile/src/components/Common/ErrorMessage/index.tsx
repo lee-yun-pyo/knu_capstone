@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 
 import { styles } from "./style";
 

@@ -13,7 +13,7 @@ import { ErrorMessage } from "components/Common/ErrorMessage";
 
 import { LocationType, SignStackScreenProps, SignUpData } from "types";
 import { getMapPreview } from "utils/location";
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 
 import { commonStyle } from "screens/Upload/style";
 import { styles } from "./style";

@@ -1,4 +1,4 @@
-import { BackGroundColor } from "constants/color";
+import { BackGroundColor } from "constant/color";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({

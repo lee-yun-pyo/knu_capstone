@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { IconButton } from "components/Common/IconButton";
 
 import { LocationType, SignUpMapScreenProps, SignUpScreenProps } from "types";
-import { INITIAL_LOCATION, REGION_DELTA } from "constants";
+import { INITIAL_LOCATION, REGION_DELTA } from "constant";
 
 import { styles } from "./style";
 

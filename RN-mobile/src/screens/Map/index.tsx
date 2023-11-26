@@ -2,7 +2,7 @@ import MapView, { Marker } from "react-native-maps";
 import { useRoute } from "@react-navigation/native";
 
 import { MapScreenProps } from "types";
-import { REGION_DELTA } from "constants";
+import { REGION_DELTA } from "constant";
 
 import { styles } from "./style";
 

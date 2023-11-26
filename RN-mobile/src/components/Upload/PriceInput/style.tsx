@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FontColor } from "constants/color";
+import { FontColor } from "constant/color";
 
 export const styles = StyleSheet.create({
   priceLabelWrapper: {
