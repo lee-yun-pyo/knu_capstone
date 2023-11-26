@@ -26,7 +26,7 @@ export function BidLogs({ boardId }: Props) {
 
   useEffect(() => {
     getBidLogsHandler(boardId);
-  }, []);
+  }, [bidders]);
 
   return (
     <View style={styles.container}>

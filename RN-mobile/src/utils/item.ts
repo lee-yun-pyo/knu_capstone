@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ItemType, FormData, userInfoType } from "types";
+import { ItemType, UploadFormData, userInfoType } from "types";
 
 const API_URL = "http://3.34.126.72:27017/broccoli";
 
@@ -10,7 +10,7 @@ export async function getItmes() {
     return itmes;
 }
 
-export async function uploadItem(userInfo: userInfoType, uploadInfo: FormData) {
+export async function uploadItem(userInfo: userInfoType, uploadInfo: UploadFormData) {
     await axios.post(API_URL, {
         store_name: userInfo.name,
         store_location: userInfo.address,

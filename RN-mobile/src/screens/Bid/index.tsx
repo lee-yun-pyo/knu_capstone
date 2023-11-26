@@ -73,7 +73,12 @@ export function Bid() {
         bidPrice={bidPrice}
         onChangeText={handleChangePrice}
       />
-      <BidButton bidOk={bidOk} boardId={boardId} bidPrice={bidPrice} />
+      <BidButton
+        bidOk={bidOk}
+        boardId={boardId}
+        bidPrice={bidPrice}
+        upperPrice={upperPrice}
+      />
     </KeyboardAvoidingView>
   );
 }

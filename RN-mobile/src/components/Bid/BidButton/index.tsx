@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LoadingOverlay } from "components/Common/LoadingOverlay";
 
 import { BidScreenProps } from "types";
-import { postBidLogs } from "utils/bidlog";
+import { postBidEnd, postBidLogs } from "utils/bidlog";
 import { BackGroundColor } from "constant/color";
 
 import { AuthContext } from "store/auth-context";
@@ -16,12 +16,17 @@ interface Props {
   bidOk: boolean;
   boardId: number;
   bidPrice: string;
+  upperPrice: number;
 }
 
-export function BidButton({ bidOk, boardId, bidPrice }: Props) {
+export function BidButton({ bidOk, boardId, bidPrice, upperPrice }: Props) {
   const [isBidding, setIsBidding] = useState(false);
   const navigation = useNavigation<BidScreenProps["navigation"]>();
   const authCtx = useContext(AuthContext);
+
+  const isBidPriceEqualToUpperPrice = () => {
+    return parseInt(bidPrice) === upperPrice;
+  };
 
   const bidHandler = async () => {
     setIsBidding(true);
@@ -35,6 +40,10 @@ export function BidButton({ bidOk, boardId, bidPrice }: Props) {
     };
 
     const response = await postBidLogs(bidInfo);
+    if (isBidPriceEqualToUpperPrice()) {
+      const result = await postBidEnd(boardId);
+      // TO_DO: 푸쉬 설정
+    }
     if (response === 200) {
       navigation.goBack();
     }

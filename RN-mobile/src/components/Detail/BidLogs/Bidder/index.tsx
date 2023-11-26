@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 
 import { calculateDaysAgo } from "utils";
@@ -11,6 +12,12 @@ interface Props {
 }
 
 export function Bidder({ name, bidDate, bidPrice }: Props) {
+  const [daysAgo, setDaysAgo] = useState("");
+
+  useEffect(() => {
+    setDaysAgo(calculateDaysAgo(bidDate));
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.infoWrapper}>
@@ -20,7 +27,7 @@ export function Bidder({ name, bidDate, bidPrice }: Props) {
         />
         <View style={styles.infoTextBox}>
           <Text style={styles.userName}>{name}</Text>
-          <Text style={styles.bidDate}>{calculateDaysAgo(bidDate)}</Text>
+          <Text style={styles.bidDate}>{daysAgo}</Text>
         </View>
       </View>
       <Text style={styles.infoText}>
