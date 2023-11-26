@@ -21,12 +21,12 @@ export function BidLogs({ boardId }: Props) {
 
   const getBidLogsHandler = async (id: number) => {
     const log = await getBidLogs(id);
-    setBidders(log);
+    setBidders(log.reverse());
   };
 
   useEffect(() => {
     getBidLogsHandler(boardId);
-  });
+  }, []);
 
   return (
     <View style={styles.container}>

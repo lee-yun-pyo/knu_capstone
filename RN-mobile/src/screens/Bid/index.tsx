@@ -19,7 +19,7 @@ export function Bid() {
   const [warning, setWarning] = useState("");
 
   const route = useRoute<BidScreenProps["route"]>();
-  const { currentPrice, lowerPrice, upperPrice } = route.params;
+  const { currentPrice, lowerPrice, upperPrice, boardId } = route.params;
 
   const handleChangePrice = (text: string) => {
     const newBidPrice = convertToLocaleStringFromInput(text);
@@ -73,7 +73,7 @@ export function Bid() {
         bidPrice={bidPrice}
         onChangeText={handleChangePrice}
       />
-      <BidButton bidOk={bidOk} />
+      <BidButton bidOk={bidOk} boardId={boardId} bidPrice={bidPrice} />
     </KeyboardAvoidingView>
   );
 }

@@ -30,6 +30,7 @@ export type RootStackParamList = {
         currentPrice: number;
         lowerPrice: number;
         upperPrice: number;
+        boardId: number;
     },
     Upload: undefined;
     Tab: undefined;
@@ -162,6 +163,14 @@ export type userInfoType = {
 export interface LogType {
     user: string;
     profile: null;
+    time: string;
+    price: number;
+    board_id: number;
+}
+
+export interface LogPostType {
+    user: string;
+    bidder_image: null;
     time: string;
     price: number;
     board_id: number;
