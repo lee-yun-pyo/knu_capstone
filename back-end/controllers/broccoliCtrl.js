@@ -157,7 +157,7 @@ const broccoliCtrl = {
     insertLog : async(req, res)=>{
         const {user, time, price, board_id} = req.body;
         const profile = req.file ? `'${req.file.filename}'` : 'DEFAULT';
-        const sql = `INSERT INTO broccoli.auction_log
+        const sql1 = `INSERT INTO broccoli.auction_log
         VALUES(
             default,
             '${user}',
@@ -167,12 +167,23 @@ const broccoliCtrl = {
             ${board_id}
         );`
 
-        connection.query(
-            sql, (error, rows) =>{
-                if(error) res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error });
-                else res.send({"statusCode" : 200});
+        connection.query(sql1, (error, rows) =>{
+            if(error) {
+                res.send({"statusCode": 400, "message": "입력 규격이 맞지 않습니다." + error })
+                return;
             }
-        )
+
+            const sql2 = `UPDATE broccoli.board 
+                        SET current_price = ? 
+                        WHERE board_id = ?`;
+            connection.query(sql2, [price, board_id], (error, rows) => {
+                if (error) {
+                    res.send({"statusCode": 400, "message": "입찰가격을 업데이트할 수 없습니다." + error });
+                    return;
+                }
+                res.send({"statusCode" : 200});
+            }
+        )})
     },
 
 
@@ -193,10 +204,9 @@ const broccoliCtrl = {
             return;
         }
 
-        console.log(pw);
         //id만 입력이 들어온 경우
         if(pw == undefined){
-            connection.query(`SELECT * FROM broccoli.users where id = ${id};`, (error, rows)=>{
+            connection.query(`SELECT * FROM broccoli.users where id = '${id}';`, (error, rows)=>{
                 if(error){
                     res.send({"statusCode" : 404, "isAvailable" : false, "message" : error})
                     return;
@@ -212,7 +222,7 @@ const broccoliCtrl = {
             connection.query(`SELECT password FROM broccoli.users where id = '${id}';`, (error, result)=>{
                 if(error)   return res.send({"statusCode" : 400, "isAvailable" : false, "message" : error});
                 //해싱값과 비교하여 비밀번호가 일치하는지 확인
-                bcrypt.compare(pw, result[0].password, (err, isMatch) => {
+                bcrypt.compare(pw, result[0].password, (err, isMatch) => {                    
                     if(err)     return res.send({"statusCode" : 400, "isAvailable" : false, "message" : err});
                     if(!isMatch)return res.send({"statusCode" : 200, "isAvailable" : false, "message" : "ID 또는 Password가 일치하지 않습니다."});
                     
@@ -265,7 +275,9 @@ const broccoliCtrl = {
     deleteUser: async(req, res)=>{
         const id = req.params.id;
         const pw = req.params.pw;
-        connection.query(`SELECT password FROM broccoli.users where id = '${id}';`, (error, result)=>{
+
+        sql = `SELECT password FROM broccoli.users where id = '${id}';`
+        connection.query(sql, (error, result)=>{
             if(error)   return res.send({"statusCode" : 400, "isAvailable" : false, "message" : error});
             bcrypt.compare(pw, result[0].password, (err, isMatch) => {
                 if(err)     return res.send({"statusCode" : 400, "message" : err});
@@ -276,6 +288,35 @@ const broccoliCtrl = {
                 if(err)     return res.send({"statusCode" : 400, "isAvailable" : false, "message" : err});
                 else        return res.send({"statusCode" : 200, "isAvailable" : true, "message" : "회원탈퇴가 완료되었습니다."});
             })
+        })
+    },
+
+
+    endBoard : async(req, res) => {
+        const id = req.body.id;
+        sql = `UPDATE broccoli.board 
+                SET isExpired = 1 
+                WHERE board_id = ${id};`;
+        connection.query(sql, (error, rows) => {
+            if (error) {
+                res.send({"statusCode": 400, "message": "게시판을 종료할 수 없습니다." + error })
+                return;
+            }
+            res.send({"statusCode" : 200});
+        })
+    },
+    
+    checkBoard : async(req, res)=>{
+        const id = req.query.id;
+        sql = `SELECT isExpired
+                FROM broccoli.board
+                WHERE board_id=${id};`;
+        connection.query(sql, (error, rows) => {
+            if (error) {
+                res.send({"statusCode": 400, "message" : error});
+                return;
+            }
+            res.send({"statusCode" : 200, "isExpired" : rows[0].isExpired})
         })
     }
 
