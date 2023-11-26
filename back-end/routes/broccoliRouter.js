@@ -31,5 +31,9 @@ router.route('/users')
     .post(upload.single('profile_image'), broccoliCtrl.insertUser)
 router.route('/users/:id/:pw')
     .delete(broccoliCtrl.deleteUser)
+
+router.route('/end')
+    .get(broccoliCtrl.checkBoard)
+    .post(broccoliCtrl.endBoard)
     
 module.exports=router;
