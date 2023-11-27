@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { KeyboardAvoidingView, Platform, Alert, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { PriceInfo } from "components/Bid/PriceInfo";
@@ -99,25 +99,27 @@ export function Bid() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={styles.screen}
     >
-      <PriceInfo
-        currentPrice={currentPrice}
-        lowerPrice={lowerPrice}
-        upperPrice={upperPrice}
-      />
-      <RecommendPrice
-        currentPrice={currentPrice}
-        onPressPrice={selectBidPrice}
-        bidPrice={bidPrice}
-      />
-      <TextInputPrice
-        currentPrice={currentPrice}
-        warning={warning}
-        bidPrice={bidPrice}
-        onChangeText={handleChangePrice}
-      />
-      <BidButton bidOk={bidOk} onPressHandler={onPressHandler} />
+      <View style={styles.container}>
+        <PriceInfo
+          currentPrice={currentPrice}
+          lowerPrice={lowerPrice}
+          upperPrice={upperPrice}
+        />
+        <RecommendPrice
+          currentPrice={currentPrice}
+          onPressPrice={selectBidPrice}
+          bidPrice={bidPrice}
+        />
+        <TextInputPrice
+          currentPrice={currentPrice}
+          warning={warning}
+          bidPrice={bidPrice}
+          onChangeText={handleChangePrice}
+        />
+        <BidButton bidOk={bidOk} onPressHandler={onPressHandler} />
+      </View>
     </KeyboardAvoidingView>
   );
 }

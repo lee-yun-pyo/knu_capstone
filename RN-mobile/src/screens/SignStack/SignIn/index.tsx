@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  ScrollView,
 } from "react-native";
 
 import { PasswordInput } from "components/SignIn/PasswordInput";
@@ -41,7 +42,7 @@ export function SignIn() {
       setIsAuthenticating(false);
       return;
     }
-    authCtx.authenticate(result);
+    authCtx.authenticate(true);
     const loginUserInfo = await getUserInfoById(id);
     authCtx.saveLoginUserInfo(loginUserInfo);
   };
@@ -56,28 +57,30 @@ export function SignIn() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <View style={styles.container}>
-        <View style={styles.imageView}>
-          <Image
-            source={require("../../../../assets/logo.png")}
-            style={styles.image}
-          />
-          <Text style={styles.title}>브로콜리</Text>
+    <ScrollView contentContainerStyle={styles.screen}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.container}>
+          <View style={styles.imageView}>
+            <Image
+              source={require("../../../../assets/logo.png")}
+              style={styles.image}
+            />
+            <Text style={styles.title}>브로콜리</Text>
+          </View>
+          <View>
+            <IdInput control={control} errors={errors} />
+            <PasswordInput control={control} errors={errors} />
+            <SubmitButton<SignInData>
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              content="로그인"
+            />
+          </View>
         </View>
-        <View>
-          <IdInput control={control} errors={errors} />
-          <PasswordInput control={control} errors={errors} />
-          <SubmitButton<SignInData>
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-            content="로그인"
-          />
-        </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
