@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ItemType, UploadFormData, userInfoType } from "types";
+import { ItemType, SignUpData, UploadFormData } from "types";
 
 const API_URL = "http://3.34.126.72:27017/broccoli";
 
@@ -17,7 +17,7 @@ export async function getItemById(id:number): Promise<ItemType> {
     return itemInfo;
 }
 
-export async function uploadItem(userInfo: userInfoType, uploadInfo: UploadFormData) {
+export async function uploadItem(userInfo: SignUpData, uploadInfo: UploadFormData) {
     const response = await axios.post(API_URL, {
         store_name: userInfo.name,
         store_location: userInfo.address,

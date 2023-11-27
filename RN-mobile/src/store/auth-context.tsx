@@ -20,7 +20,7 @@ const INIT_USER_INFO = {
 };
 
 interface Props {
-  userInfo: SignUpData | null;
+  userInfo: SignUpData;
   isAuthenticated: boolean;
   authenticate: (isLogin: boolean) => Promise<void>;
   saveLoginUserInfo: (userInfo: SignUpData) => void;
@@ -41,7 +41,8 @@ export function AuthContextProvider({
   children: React.ReactNode;
 }) {
   const [authToken, setAuthToken] = useState(false);
-  const [loginUserInfo, setLoginUserInfo] = useState<SignUpData | null>(null);
+  const [loginUserInfo, setLoginUserInfo] =
+    useState<SignUpData>(INIT_USER_INFO);
 
   async function authenticate(isLogin: boolean) {
     setAuthToken(isLogin);

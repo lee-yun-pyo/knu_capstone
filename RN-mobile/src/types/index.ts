@@ -84,12 +84,12 @@ export interface SignUpData {
     id: string;
     password: string;
     passwordConfirm: string;
-    latitude?: number;
-    longitude?: number;
-    address?: string;
-    idToken?: string;
-    profile_image?: string;
-    phone?: string;
+    latitude: number;
+    longitude: number;
+    address: string;
+    idToken: string;
+    profile_image: string;
+    phone: string;
     role: string;
 }
 

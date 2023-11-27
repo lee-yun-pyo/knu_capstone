@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { View, Text, Pressable, Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
@@ -7,6 +7,8 @@ import * as Haptics from "expo-haptics";
 import { BackGroundColor, Etc } from "constant/color";
 import { BidScreenProps } from "types";
 import { isExpiredDate } from "utils";
+
+import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
@@ -47,6 +49,7 @@ export function Footer({
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
   const [isClosedByTime, setIsClosedByTime] = useState(false);
   const [isClosedByBid, setIsClosedByBid] = useState(false);
+  const authCtx = useContext(AuthContext);
 
   const handleClickLike = async () => {
     Haptics.selectionAsync();
@@ -134,30 +137,32 @@ export function Footer({
           <Text style={styles.price}>{currentPrice.toLocaleString()}원</Text>
         </View>
       </View>
-      <View
-        style={[
-          styles.bidButton,
-          {
-            backgroundColor:
-              isClosedByTime || isClosedByBid
-                ? BackGroundColor.NON_ACTIVE_BUTTON
-                : BackGroundColor.GREEN,
-          },
-        ]}
-      >
-        <Pressable
-          disabled={isClosedByTime || isClosedByBid}
-          onPress={handleBid}
+      {authCtx.userInfo.role === "Buyer" && (
+        <View
+          style={[
+            styles.bidButton,
+            {
+              backgroundColor:
+                isClosedByTime || isClosedByBid
+                  ? BackGroundColor.NON_ACTIVE_BUTTON
+                  : BackGroundColor.GREEN,
+            },
+          ]}
         >
-          <Text style={styles.buttonText}>
-            {isClosedByTime
-              ? "마감"
-              : isClosedByBid
-              ? "상한가 낙찰 완료"
-              : "입찰하기"}
-          </Text>
-        </Pressable>
-      </View>
+          <Pressable
+            disabled={isClosedByTime || isClosedByBid}
+            onPress={handleBid}
+          >
+            <Text style={styles.buttonText}>
+              {isClosedByTime
+                ? "마감"
+                : isClosedByBid
+                ? "상한가 낙찰 완료"
+                : "입찰하기"}
+            </Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
