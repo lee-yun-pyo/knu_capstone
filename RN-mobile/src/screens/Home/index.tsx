@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import { FlatList, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { HomeItem } from "components/HomeItem";
 import { UploadButton } from "components/Home/UploadButton";
@@ -14,6 +15,7 @@ export function Home() {
 
   const getItemsHandler = async () => {
     const fetchedItmes = await getItmes();
+    // 최신 순 정렬
     fetchedItmes.sort(
       (first, last) =>
         new Date(last.start_time).getTime() -
@@ -22,9 +24,11 @@ export function Home() {
     setItems(fetchedItmes);
   };
 
-  useEffect(() => {
-    getItemsHandler();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getItemsHandler();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>

@@ -10,74 +10,80 @@ import { Location } from "components/Detail/Location";
 import { Footer } from "components/Detail/Footer";
 import { BidLogs } from "components/Detail/BidLogs";
 
-import { DetailScreenProps } from "types";
-import { getPostEnd } from "utils/bidlog";
+import { DetailScreenProps, ItemType } from "types";
+import { getItemById } from "utils/item";
+import { isBiddingClosed } from "utils";
 
 import { styles } from "./style";
 
-export function Detail() {
-  const [isClosed, setIsClosed] = useState(false);
-  const route = useRoute<DetailScreenProps["route"]>();
-  const {
-    store_name,
-    store_location,
-    product_name,
-    product_description,
-    current_price,
-    upper_limit,
-    lower_limit,
-    start_time,
-    end_time,
-    images,
-    latitude,
-    longitude,
-    board_id,
-  } = route.params.info;
+const INITIAL_ITEM_INFO = {
+  board_id: 0,
+  store_name: "",
+  store_location: "",
+  product_name: "",
+  product_description: "",
+  current_price: 0,
+  upper_limit: 0,
+  lower_limit: 0,
+  like_count: 0,
+  start_time: "",
+  end_time: "",
+  latitude: -1,
+  longitude: -1,
+  images: [],
+  isExpired: 0,
+};
 
-  const checkItemIsExpired = async (id: number) => {
-    const isExpired = await getPostEnd(id);
-    if (isExpired === 1) {
-      setIsClosed(true);
-    }
+export function Detail() {
+  const [itemInfo, setItemInfo] = useState<ItemType>(INITIAL_ITEM_INFO);
+  const route = useRoute<DetailScreenProps["route"]>();
+  const { boardId } = route.params;
+
+  const getItemInfoById = async (id: number) => {
+    const item = await getItemById(id);
+    setItemInfo(item);
   };
 
   useFocusEffect(
     useCallback(() => {
-      checkItemIsExpired(board_id);
-    }, [board_id])
+      getItemInfoById(boardId);
+    }, [boardId])
   );
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
-        <ItemImages imageArray={images} />
-        <Profile storeName={store_name} location={store_location} />
+        <ItemImages imageArray={itemInfo.images} />
+        <Profile
+          storeName={itemInfo.store_name}
+          location={itemInfo.store_location}
+        />
         <Description
-          title={product_name}
-          registerDate={start_time}
-          description={product_description}
+          title={itemInfo.product_name}
+          registerDate={itemInfo.start_time}
+          description={itemInfo.product_description}
         />
         <Price
-          startPrice={lower_limit}
-          upperPrice={upper_limit}
-          deadLineTime={end_time}
-          isClosed={isClosed}
+          startPrice={itemInfo.lower_limit}
+          upperPrice={itemInfo.upper_limit}
+          deadLineTime={itemInfo.end_time}
+          isClosed={isBiddingClosed(itemInfo.isExpired)}
         />
-        <BidLogs boardId={board_id} />
+        <BidLogs boardId={boardId} />
         <Location
-          latitude={latitude}
-          longitude={longitude}
-          location={store_location}
-          storeName={store_name}
+          latitude={itemInfo.latitude}
+          longitude={itemInfo.longitude}
+          location={itemInfo.store_location}
+          storeName={itemInfo.store_name}
         />
       </ScrollView>
       <Footer
-        currentPrice={current_price}
-        upperPrice={upper_limit}
-        lowerPrice={lower_limit}
-        deadLineTime={end_time}
-        isClosed={isClosed}
-        boardId={board_id}
+        currentPrice={itemInfo.current_price}
+        upperPrice={itemInfo.upper_limit}
+        lowerPrice={itemInfo.lower_limit}
+        deadLineTime={itemInfo.end_time}
+        isClosed={isBiddingClosed(itemInfo.isExpired)}
+        boardId={boardId}
       />
     </View>
   );

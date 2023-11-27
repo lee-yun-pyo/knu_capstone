@@ -4,7 +4,7 @@ import { Control, FieldErrors } from "react-hook-form";
 export type RootStackParamList = {
     Home: undefined;
     Detail: {
-        info: ItemType;
+        boardId: number;
     };
     Map: {
         latitude: number;

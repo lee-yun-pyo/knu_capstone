@@ -3,11 +3,18 @@ import { ItemType, UploadFormData, userInfoType } from "types";
 
 const API_URL = "http://3.34.126.72:27017/broccoli";
 
-export async function getItmes() {
+export async function getItmes(): Promise<ItemType[]> {
     const response = await axios.get(API_URL);
     const itmes = response.data.data.board as ItemType[];
 
     return itmes;
+}
+
+export async function getItemById(id:number): Promise<ItemType> {
+    const response = await axios.get(`${API_URL}?id=${id}`);
+    const itemInfo = response.data.data.board as ItemType;
+
+    return itemInfo;
 }
 
 export async function uploadItem(userInfo: userInfoType, uploadInfo: UploadFormData) {

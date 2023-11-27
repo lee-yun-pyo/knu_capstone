@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { View, Image, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -6,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
 import { DetailScreenProps, ItemType } from "types";
-import { calculateDaysAgo, isExpiredDate } from "utils";
+import { calculateDaysAgo, isBiddingClosed, isExpiredDate } from "utils";
 
 import { styles } from "./style";
 
@@ -15,7 +14,6 @@ interface Props {
 }
 
 export function HomeItem({ props }: Props) {
-  const [isClosed, setIsClosed] = useState(false);
   const navigation = useNavigation<DetailScreenProps["navigation"]>();
   const {
     product_name,
@@ -29,14 +27,11 @@ export function HomeItem({ props }: Props) {
   } = props;
 
   const daysAgo = calculateDaysAgo(start_time);
+  const isClosed = isExpiredDate(end_time) || isBiddingClosed(isExpired);
 
   const handleItemPress = () => {
-    navigation.navigate("Detail", { info: props });
+    navigation.navigate("Detail", { boardId: props.board_id });
   };
-
-  useEffect(() => {
-    setIsClosed(isExpiredDate(end_time) || isExpired === 1);
-  }, [isExpiredDate]);
 
   return (
     <Pressable
