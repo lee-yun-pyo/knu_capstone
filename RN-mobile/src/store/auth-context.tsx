@@ -4,27 +4,35 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SignUpData } from "types";
 import { setObjAsyncStorage } from "utils";
 
-const initUserInfo = {
+const INIT_USER_INFO = {
+  name: "",
+  email: "",
   id: "",
   password: "",
-  email: "",
-  name: "",
-  phone: "",
-  profile_image: null,
+  passwordConfirm: "",
   latitude: 0,
   longitude: 0,
-  role: "Buyer",
   address: "",
   idToken: "",
+  profile_image: "",
+  phone: "",
+  role: "Buyer",
 };
 
-export const AuthContext = createContext({
-  token: "",
-  userInfo: initUserInfo,
+interface Props {
+  userInfo: SignUpData | null;
+  isAuthenticated: boolean;
+  authenticate: (isLogin: boolean) => Promise<void>;
+  saveLoginUserInfo: (userInfo: SignUpData) => void;
+  logout: () => Promise<void>;
+}
+
+export const AuthContext = createContext<Props>({
+  userInfo: INIT_USER_INFO,
   isAuthenticated: false,
-  authenticate: (isLogin: boolean) => {},
-  saveLoginUserInfo: (userInfo: SignUpData) => {},
-  logout: () => {},
+  authenticate: async (isLogin) => {},
+  saveLoginUserInfo: (userInfo) => {},
+  logout: async () => {},
 });
 
 export function AuthContextProvider({
@@ -52,7 +60,6 @@ export function AuthContextProvider({
   }
 
   const value = {
-    token: authToken,
     userInfo: loginUserInfo,
     isAuthenticated: authToken,
     authenticate,

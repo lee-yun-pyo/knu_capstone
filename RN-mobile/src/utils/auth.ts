@@ -40,7 +40,7 @@ export async function loginUser({id, password}: SignInProps) {
     return token;
 }
 
-export async function getUserInfoById(id:string) {
+export async function getUserInfoById(id:string): Promise<SignUpData>{
     const url = `${API_URL}/users`;
     
     const response = await axios.get(url);

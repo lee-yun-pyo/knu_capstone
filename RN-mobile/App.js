@@ -16,11 +16,11 @@ function Root() {
 
   useEffect(() => {
     async function fetchToken() {
-      const storedToken = await AsyncStorage.getItem("token");
+      const storedToken = await AsyncStorage.getItem("isLogin");
       const storedLoginUser = await getObjAsyncStorage("loginUser");
 
       if (storedToken) {
-        authCtx.authenticate(storedToken);
+        authCtx.authenticate(true);
       }
       if (storedLoginUser) {
         authCtx.saveLoginUserInfo(storedLoginUser);

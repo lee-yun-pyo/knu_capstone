@@ -90,6 +90,7 @@ export interface SignUpData {
     idToken?: string;
     profile_image?: string;
     phone?: string;
+    role: string;
 }
 
 export interface SignInData {
