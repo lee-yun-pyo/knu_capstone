@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { View, Text, Pressable, Alert, Platform } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
@@ -12,9 +12,6 @@ import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
-import * as Notifications from "expo-notifications";
-import Constants from "expo-constants";
-
 interface Props {
   currentPrice: number;
   upperPrice: number;
@@ -22,20 +19,8 @@ interface Props {
   deadLineTime: string;
   boardId: number;
   isClosed: boolean;
+  storeName: string;
 }
-
-import "react-native-get-random-values";
-import { v4 as uuidv4 } from "uuid";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    };
-  },
-});
 
 export function Footer({
   currentPrice,
@@ -44,6 +29,7 @@ export function Footer({
   deadLineTime,
   boardId,
   isClosed,
+  storeName,
 }: Props) {
   const navigation = useNavigation<BidScreenProps["navigation"]>();
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
@@ -53,45 +39,8 @@ export function Footer({
 
   const handleClickLike = async () => {
     Haptics.selectionAsync();
-    // setIconName("heart");
-    await getNotificationPermission();
-    await Notifications.scheduleNotificationAsync({
-      identifier: uuidv4(),
-      content: {
-        title: "알림 제목",
-        body: "알림 내용",
-        data: { data: "알림 데이타" },
-      },
-      trigger: { seconds: 1 },
-    });
+    setIconName("heart");
   };
-
-  async function getNotificationPermission() {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== "granted") {
-      Alert.alert("알림 권한 필요", "", [
-        { text: "취소", style: "cancel" },
-        { text: "설정", style: "default" },
-      ]);
-      return;
-    }
-
-    const pushTokenData = await Notifications.getExpoPushTokenAsync({
-      projectId: Constants.expoConfig.extra.eas.projectId,
-    });
-    if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.DEFAULT,
-      });
-    }
-  }
 
   const handleBid = () => {
     navigation.navigate("Bid", {
@@ -99,26 +48,9 @@ export function Footer({
       upperPrice,
       lowerPrice,
       boardId,
+      storeName,
     });
   };
-
-  async function sendPushNotificationHandler() {
-    await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to: "ExponentPushToken[K_Al-2FoQ8pdRg8R5Ts_EQ]",
-        title: "제목!",
-        body: "BODY",
-      }),
-    });
-  }
-
-  useEffect(() => {
-    getNotificationPermission();
-  }, []);
 
   useEffect(() => {
     setIsClosedByTime(isExpiredDate(deadLineTime));

@@ -16,6 +16,7 @@ export type RootStackParamList = {
         lowerPrice: number;
         upperPrice: number;
         boardId: number;
+        storeName: string;
     },
     Upload: undefined;
     Tab: undefined;

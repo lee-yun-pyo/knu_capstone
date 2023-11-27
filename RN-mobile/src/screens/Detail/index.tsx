@@ -84,6 +84,7 @@ export function Detail() {
         deadLineTime={itemInfo.end_time}
         isClosed={isBiddingClosed(itemInfo.isExpired)}
         boardId={boardId}
+        storeName={itemInfo.store_name}
       />
     </View>
   );

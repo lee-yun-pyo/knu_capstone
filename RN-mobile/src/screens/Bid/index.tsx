@@ -17,6 +17,20 @@ import { AuthContext } from "store/auth-context";
 
 import { styles } from "./style";
 
+import * as Notifications from "expo-notifications";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    };
+  },
+});
+
 export function Bid() {
   const [isBidding, setIsBidding] = useState(false);
   const [bidOk, setBidOk] = useState(false);
@@ -27,7 +41,8 @@ export function Bid() {
 
   const navigation = useNavigation<BidScreenProps["navigation"]>();
   const route = useRoute<BidScreenProps["route"]>();
-  const { currentPrice, lowerPrice, upperPrice, boardId } = route.params;
+  const { currentPrice, lowerPrice, upperPrice, boardId, storeName } =
+    route.params;
 
   const handleChangePrice = (text: string) => {
     const newBidPrice = convertToLocaleStringFromInput(text);
@@ -71,11 +86,46 @@ export function Bid() {
 
     const response = await postBidLogs(bidInfo);
     if (isBidPriceEqualToUpperPrice()) {
-      const result = await postBidEnd(boardId);
-      // TO_DO: 푸쉬 설정
+      await postBidEnd(boardId);
+      await showNotification(upperPrice, authCtx.userInfo.name, storeName);
     }
     if (response === 200) {
       navigation.goBack();
+    }
+  };
+
+  // 상한가 낙찰 알림
+  const showNotification = async (
+    upperPrice: number,
+    username: string,
+    storeName: string
+  ) => {
+    await getNotificationPermission();
+    await Notifications.scheduleNotificationAsync({
+      identifier: uuidv4(),
+      content: {
+        title: `${upperPrice}원 상한가 낙찰! `,
+        body: `${username}님 ${storeName}에 가셔서 상품을 수령하세요`,
+      },
+      trigger: { seconds: 1 },
+    });
+  };
+
+  // 알림 권한 허용 요청
+  const getNotificationPermission = async () => {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      Alert.alert("알림 권한 필요", "", [
+        { text: "취소", style: "cancel" },
+        { text: "설정", style: "default" },
+      ]);
+      return;
     }
   };
 
@@ -85,6 +135,10 @@ export function Bid() {
       { text: "입찰하기", style: "default", onPress: bidHandler },
     ]);
   };
+
+  useEffect(() => {
+    getNotificationPermission();
+  }, []);
 
   useEffect(() => {
     const { warning, bidOk } = validateBidPrice(bidPrice);
