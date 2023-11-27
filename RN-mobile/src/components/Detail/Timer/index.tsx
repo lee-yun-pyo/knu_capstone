@@ -10,14 +10,19 @@ import { styles } from "./style";
 
 interface Props {
   deadLineTime: string;
+  isExpired: boolean;
 }
 
-export function Timer({ deadLineTime }: Props) {
+export function Timer({ deadLineTime, isExpired }: Props) {
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
+  const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {
+    if (isExpired) {
+      setIsClosed(true);
+    }
     const targetTime = getTimeToNumber(deadLineTime);
     const timerInterval = setInterval(() => {
       const now = new Date().getTime();
@@ -35,13 +40,13 @@ export function Timer({ deadLineTime }: Props) {
     return () => {
       clearInterval(timerInterval);
     };
-  }, [deadLineTime]);
+  }, [isExpired, deadLineTime]);
 
   return (
     <View style={[styles.container, { flex: 1 }]}>
       <Feather name="clock" size={20} color="black" />
       {minutes !== "" ? (
-        parseInt(minutes) < 0 ? (
+        parseInt(minutes) < 0 || isClosed ? (
           <Text style={styles.subText}>마감</Text>
         ) : (
           hours !== "" && (

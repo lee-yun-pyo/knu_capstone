@@ -11,7 +11,7 @@ export async function getItmes() {
 }
 
 export async function uploadItem(userInfo: userInfoType, uploadInfo: UploadFormData) {
-    await axios.post(API_URL, {
+    const response = await axios.post(API_URL, {
         store_name: userInfo.name,
         store_location: userInfo.address,
         product_name: uploadInfo.title,
@@ -19,14 +19,16 @@ export async function uploadItem(userInfo: userInfoType, uploadInfo: UploadFormD
         current_price: uploadInfo.lowerLimit,
         upper_limit: uploadInfo.upperLimit,
         lower_limit: uploadInfo.lowerLimit,
-        start_time: new Date(),
+        start_time: new Date().toString(),
         end_time: uploadInfo.endTime,
         latitude: userInfo.latitude,
         longitude: userInfo.longitude,
-        images: uploadInfo.images
+        images: uploadInfo.images,
     }, {
         headers: { 
             "content-type" : "multipart/form-data"
         }
     });
+    
+    return response.data;
 }

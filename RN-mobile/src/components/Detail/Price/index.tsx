@@ -12,9 +12,15 @@ interface Props {
   startPrice: number;
   upperPrice: number;
   deadLineTime: string;
+  isClosed: boolean;
 }
 
-export function Price({ startPrice, upperPrice, deadLineTime }: Props) {
+export function Price({
+  startPrice,
+  upperPrice,
+  deadLineTime,
+  isClosed,
+}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -39,7 +45,7 @@ export function Price({ startPrice, upperPrice, deadLineTime }: Props) {
         </Text>
       </View>
       <View style={styles.separator} />
-      <Timer deadLineTime={deadLineTime} />
+      <Timer deadLineTime={deadLineTime} isExpired={isClosed} />
     </View>
   );
 }

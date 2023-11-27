@@ -19,6 +19,7 @@ interface Props {
   lowerPrice: number;
   deadLineTime: string;
   boardId: number;
+  isClosed: boolean;
 }
 
 import "react-native-get-random-values";
@@ -40,13 +41,15 @@ export function Footer({
   lowerPrice,
   deadLineTime,
   boardId,
+  isClosed,
 }: Props) {
   const navigation = useNavigation<BidScreenProps["navigation"]>();
   const [iconName, setIconName] = useState<"hearto" | "heart">("hearto");
-  const [isExpired, setIsExpired] = useState(false);
+  const [isClosedByTime, setIsClosedByTime] = useState(false);
+  const [isClosedByBid, setIsClosedByBid] = useState(false);
 
   const handleClickLike = async () => {
-    //Haptics.selectionAsync();
+    Haptics.selectionAsync();
     // setIconName("heart");
     await getNotificationPermission();
     await Notifications.scheduleNotificationAsync({
@@ -56,7 +59,7 @@ export function Footer({
         body: "알림 내용",
         data: { data: "알림 데이타" },
       },
-      trigger: { seconds: 3 },
+      trigger: { seconds: 1 },
     });
   };
 
@@ -115,28 +118,10 @@ export function Footer({
   }, []);
 
   useEffect(() => {
-    setIsExpired(isExpiredDate(deadLineTime));
-    const subscription1 = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log("알림 수신");
-        const data = notification.request.content.data;
-        console.log(data);
-      }
-    );
-
-    const subscription2 = Notifications.addNotificationResponseReceivedListener(
-      (res) => {
-        console.log("알림 응답");
-        console.log(res);
-      }
-    );
-
-    return () => {
-      subscription1.remove();
-      subscription2.remove();
-    };
+    setIsClosedByTime(isExpiredDate(deadLineTime));
+    setIsClosedByBid(isClosed);
     // TO DO: 렌더링 시 좋아요 색 결정
-  }, [isExpiredDate]);
+  }, [isExpiredDate, isClosed]);
 
   return (
     <View style={styles.container}>
@@ -153,15 +138,23 @@ export function Footer({
         style={[
           styles.bidButton,
           {
-            backgroundColor: isExpired
-              ? BackGroundColor.NON_ACTIVE_BUTTON
-              : BackGroundColor.GREEN,
+            backgroundColor:
+              isClosedByTime || isClosedByBid
+                ? BackGroundColor.NON_ACTIVE_BUTTON
+                : BackGroundColor.GREEN,
           },
         ]}
       >
-        <Pressable disabled={isExpired} onPress={handleBid}>
+        <Pressable
+          disabled={isClosedByTime || isClosedByBid}
+          onPress={handleBid}
+        >
           <Text style={styles.buttonText}>
-            {isExpired ? "마감" : "입찰하기"}
+            {isClosedByTime
+              ? "마감"
+              : isClosedByBid
+              ? "상한가 낙찰 완료"
+              : "입찰하기"}
           </Text>
         </Pressable>
       </View>

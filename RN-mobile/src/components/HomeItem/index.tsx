@@ -5,32 +5,17 @@ import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 
-import { DetailScreenProps } from "types";
+import { DetailScreenProps, ItemType } from "types";
 import { calculateDaysAgo, isExpiredDate } from "utils";
 
 import { styles } from "./style";
 
 interface Props {
-  props: {
-    board_id: number;
-    store_name: string;
-    store_location: string;
-    product_name: string;
-    product_description: string;
-    current_price: number;
-    upper_limit: number;
-    lower_limit: number;
-    like_count: number;
-    start_time: string;
-    end_time: string;
-    images: string[];
-    latitude: number;
-    longitude: number;
-  };
+  props: ItemType;
 }
 
 export function HomeItem({ props }: Props) {
-  const [isExpired, setIsExpired] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
   const navigation = useNavigation<DetailScreenProps["navigation"]>();
   const {
     product_name,
@@ -40,6 +25,7 @@ export function HomeItem({ props }: Props) {
     upper_limit,
     images,
     end_time,
+    isExpired,
   } = props;
 
   const daysAgo = calculateDaysAgo(start_time);
@@ -49,7 +35,7 @@ export function HomeItem({ props }: Props) {
   };
 
   useEffect(() => {
-    setIsExpired(isExpiredDate(end_time));
+    setIsClosed(isExpiredDate(end_time) || isExpired === 1);
   }, [isExpiredDate]);
 
   return (
@@ -91,7 +77,7 @@ export function HomeItem({ props }: Props) {
               </Text>
             </View>
           </View>
-          {isExpired && (
+          {isClosed && (
             <View style={styles.expiredView}>
               <Text style={styles.expiredText}>마감</Text>
             </View>

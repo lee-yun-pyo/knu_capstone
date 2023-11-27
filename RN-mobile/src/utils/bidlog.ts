@@ -34,3 +34,10 @@ export async function postBidEnd(board_id:number) {
     const result = response.data.statusCode;
     return result;
 }
+
+export async function getPostEnd(board_id:number): Promise<number> {
+    const response = await axios.get(`${API_URL}/end?id=${board_id}`);
+    const result = response.data.isExpired;
+
+    return result;
+}

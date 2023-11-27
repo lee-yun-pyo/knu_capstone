@@ -1,5 +1,6 @@
-import { ScrollView, View, Image } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useState, useCallback } from "react";
+import { ScrollView, View } from "react-native";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 
 import { ItemImages } from "components/Detail/ItemImages";
 import { Profile } from "components/Detail/Profile";
@@ -10,10 +11,12 @@ import { Footer } from "components/Detail/Footer";
 import { BidLogs } from "components/Detail/BidLogs";
 
 import { DetailScreenProps } from "types";
+import { getPostEnd } from "utils/bidlog";
 
 import { styles } from "./style";
 
 export function Detail() {
+  const [isClosed, setIsClosed] = useState(false);
   const route = useRoute<DetailScreenProps["route"]>();
   const {
     store_name,
@@ -31,6 +34,19 @@ export function Detail() {
     board_id,
   } = route.params.info;
 
+  const checkItemIsExpired = async (id: number) => {
+    const isExpired = await getPostEnd(id);
+    if (isExpired === 1) {
+      setIsClosed(true);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      checkItemIsExpired(board_id);
+    }, [board_id])
+  );
+
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -45,6 +61,7 @@ export function Detail() {
           startPrice={lower_limit}
           upperPrice={upper_limit}
           deadLineTime={end_time}
+          isClosed={isClosed}
         />
         <BidLogs boardId={board_id} />
         <Location
@@ -59,6 +76,7 @@ export function Detail() {
         upperPrice={upper_limit}
         lowerPrice={lower_limit}
         deadLineTime={end_time}
+        isClosed={isClosed}
         boardId={board_id}
       />
     </View>

@@ -124,3 +124,7 @@ export const isExpiredDate = (inputDate: string) => {
 export const isFullfiledUnit = (value: number) => {
   return value % MINIMUM_PRICE_UNIT === 0;
 };
+
+export const isBiddingClosed = (value: number) => {
+  return value === 1;
+}
