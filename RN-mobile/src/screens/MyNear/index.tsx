@@ -1,19 +1,23 @@
 import { useEffect, useState, useCallback } from "react";
 import { ActivityIndicator, View, Alert, Linking } from "react-native";
 import MapView, { Marker, MarkerPressEvent, Region } from "react-native-maps";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 
 import { MyLocation } from "components/Common/MyLocation";
 import { MyLocationButton } from "components/Common/MyLocationButon";
 
-import { RegionProps, LocationProps } from "types";
+import { RegionProps, LocationProps, ItemType, DetailScreenProps } from "types";
 import { INITIAL_LOCATION, INITIAL_REGION, INITIAL_DELTA } from "constant";
 import {
   getLocationPermission,
   getObjAsyncStorage,
+  isBiddingClosed,
+  isExpiredDate,
   isPermissionGranted,
   setObjAsyncStorage,
 } from "utils";
+import { getItmes } from "utils/item";
 
 import { styles } from "./style";
 
@@ -24,12 +28,14 @@ export function MyNear() {
   const [currentLocation, setCurrentLocation] =
     useState<RegionProps>(INITIAL_REGION);
 
-  const handlePressMarker = (event: MarkerPressEvent) => {
+  const navigation = useNavigation<DetailScreenProps["navigation"]>();
+
+  const handlePressMarker = (event: MarkerPressEvent, id: number) => {
     const { action } = event.nativeEvent;
     if (action === "marker-press") {
       return;
     }
-    // TO_DO: navigate 처리
+    navigation.navigate("Detail", { boardId: id });
   };
 
   const handleMapRegionChange = async (region: Region) => {
@@ -106,6 +112,18 @@ export function MyNear() {
     paintMap();
   }, [permissionStatus]);
 
+  const [stores, setStores] = useState<ItemType[]>([]);
+  const getItemsHandler = async () => {
+    const fetchedItmes = await getItmes();
+    setStores(fetchedItmes);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getItemsHandler();
+    }, [])
+  );
+
   return loading ? (
     <View style={[styles.container, { justifyContent: "center" }]}>
       <ActivityIndicator size="large" />
@@ -127,12 +145,20 @@ export function MyNear() {
           <MyLocation />
         </Marker>
       )}
-      <Marker
-        title={"1"}
-        coordinate={{ latitude: 36.322475, longitude: 127.403294 }}
-        image={require("../../../assets/location_red.png")}
-        onPress={handlePressMarker}
-      />
+
+      {stores.map((store) => (
+        <Marker
+          key={store.board_id}
+          title={store.product_name}
+          coordinate={{ latitude: store.latitude, longitude: store.longitude }}
+          image={
+            isBiddingClosed(store.isExpired) || isExpiredDate(store.end_time)
+              ? require("../../../assets/location_isExpired.png")
+              : require("../../../assets/location_red.png")
+          }
+          onPress={(event) => handlePressMarker(event, store.board_id)}
+        />
+      ))}
       <MyLocationButton
         onPress={handlePressMyLocationBtn}
         isPermitLocation={isPermissionGranted(permissionStatus)}
