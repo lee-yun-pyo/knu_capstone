@@ -104,7 +104,7 @@ export function Bid() {
     await Notifications.scheduleNotificationAsync({
       identifier: uuidv4(),
       content: {
-        title: `${upperPrice}원 상한가 낙찰! `,
+        title: `${upperPrice.toLocaleString()}원 상한가 낙찰! `,
         body: `${username}님 ${storeName}에 가셔서 상품을 수령하세요`,
       },
       trigger: { seconds: 1 },
