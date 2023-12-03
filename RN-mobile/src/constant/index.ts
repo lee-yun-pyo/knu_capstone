@@ -59,3 +59,12 @@ export const INITIAL_REGION = {
 export const MAXIMUM_PICKED_NUMBER = 5;
 
 export const MINIMUM_PRICE_UNIT = 100;
+
+export const API_URL = "http://3.34.126.72:27017";
+
+export const apiPath = {
+  base: () => '/broccoli',
+  item: (itemId: number) => `${apiPath.base()}?id=${itemId}`,
+  bidLog: (itemId: number) => `${apiPath.base()}/log?id=${itemId}`,
+  isEnd: (itemId: number) => `${apiPath.base()}/end?id=${itemId}`
+}

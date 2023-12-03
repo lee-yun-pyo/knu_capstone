@@ -4,7 +4,7 @@ import { View, Text, ScrollView } from "react-native";
 import { Bidder } from "./Bidder";
 
 import { getBidLogs } from "utils/bidlog";
-import { LogType } from "types";
+import { LogDataType } from "types";
 
 import { styles } from "./style";
 
@@ -13,9 +13,9 @@ interface Props {
 }
 
 export function BidLogs({ boardId }: Props) {
-  const [bidders, setBidders] = useState<LogType[]>([]);
+  const [bidders, setBidders] = useState<LogDataType[]>([]);
 
-  function biddersNotExist(bidders: LogType[]): boolean {
+  function biddersNotExist(bidders: LogDataType[]): boolean {
     return bidders.length === 0;
   }
 
