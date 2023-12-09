@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
+import { ImagePickerAsset } from "expo-image-picker";
 
 import { TitleInput } from "components/Upload/TitleInput";
 import { DescriptionInput } from "components/Upload/DescriptionInput";
@@ -41,7 +42,7 @@ export function Upload() {
     },
   });
 
-  const handleImagesValue = (value: string[]) => {
+  const handleImagesValue = (value: ImagePickerAsset[]) => {
     setValue("images", value);
   };
 

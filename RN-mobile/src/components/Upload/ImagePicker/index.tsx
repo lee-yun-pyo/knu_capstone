@@ -10,11 +10,13 @@ import { MAXIMUM_PICKED_NUMBER } from "constant";
 import { styles } from "./style";
 
 interface Props {
-  setValue: (value: string[]) => void;
+  setValue: (value: picker.ImagePickerAsset[]) => void;
 }
 
 export function ImagePicker({ setValue }: Props) {
-  const [pickedImages, setPickedImages] = useState<string[]>([]);
+  const [pickedImages, setPickedImages] = useState<picker.ImagePickerAsset[]>(
+    []
+  );
   const [cameraPermissionInfo, requestPermission] =
     picker.useCameraPermissions();
 
@@ -30,7 +32,7 @@ export function ImagePicker({ setValue }: Props) {
     await Linking.openSettings();
   }, []);
 
-  const addNewImage = (newImageUrl: string[]) => {
+  const addNewImage = (newImageUrl: picker.ImagePickerAsset[]) => {
     setPickedImages((prevImages) => [...newImageUrl, ...prevImages]);
   };
 
@@ -76,7 +78,7 @@ export function ImagePicker({ setValue }: Props) {
     const result = await launchFunction(options);
 
     if (!result.canceled) {
-      const newImages = result.assets.map((item: any) => item.uri);
+      const newImages = result.assets as picker.ImagePickerAsset[];
       addNewImage(newImages);
     }
   };
@@ -134,8 +136,8 @@ export function ImagePicker({ setValue }: Props) {
         {pickedImages.length !== 0 &&
           pickedImages.map((imageUrl, index) => (
             <PreviewImage
-              key={imageUrl}
-              source={imageUrl}
+              key={imageUrl.assetId}
+              source={imageUrl.uri}
               onPress={removeImageAtIndex}
               index={index}
             />

@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { DetailScreenProps, ItemType } from "types";
 import { calculateDaysAgo, isBiddingClosed, isExpiredDate } from "utils";
+import { API_URL, apiPath } from "constant";
 
 import { styles } from "./style";
 
@@ -45,7 +46,7 @@ export function HomeItem({ props }: Props) {
       <View style={styles.container}>
         <Image
           source={{
-            uri: `http://3.34.126.72:27017/${images[0]}`,
+            uri: `${API_URL}/${apiPath.imagePath(images[0])}`,
           }}
           style={styles.image}
         />

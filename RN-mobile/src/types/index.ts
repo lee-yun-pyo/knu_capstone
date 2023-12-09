@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Control, FieldErrors } from "react-hook-form";
+import { ImagePickerAsset } from "expo-image-picker";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -71,7 +72,7 @@ export interface RegionProps extends LocationProps {
 export type LocationType = { lat: number, lng: number };
   
 export interface UploadFormData {
-    images: string[];
+    images: ImagePickerAsset[];
     title: string;
     description: string;
     lowerLimit: string;
@@ -148,12 +149,15 @@ export type userInfoType = {
     idToken: string;
 }
 
-export interface LogType {
+export interface LogDataType {
     user: string;
     profile: null;
     time: string;
     price: number;
-    board_id: number;
+}
+
+export interface LogDataProps {
+    log: LogDataType[]
 }
 
 export interface LogPostType {

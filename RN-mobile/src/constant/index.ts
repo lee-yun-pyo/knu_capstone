@@ -66,5 +66,6 @@ export const apiPath = {
   base: () => '/broccoli',
   item: (itemId: number) => `${apiPath.base()}?id=${itemId}`,
   bidLog: (itemId: number) => `${apiPath.base()}/log?id=${itemId}`,
-  isEnd: (itemId: number) => `${apiPath.base()}/end?id=${itemId}`
+  isEnd: (itemId: number) => `${apiPath.base()}/end?id=${itemId}`,
+  imagePath: (imageUrl: string) => `uploads/${imageUrl}`
 }
